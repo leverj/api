@@ -2,13 +2,13 @@
 title: API Reference
 
 language_tabs:
-  - shell
-  - ruby
+  - curl
   - python
   - javascript
 
 toc_footers:
-  - <a href='#'>Sign Up for a Developer Key</a>
+  - Try our <a href='https://live.coinpit.me'>testnet site</a>.
+  - Trade now at <a href='https://live.coinpit.io'>live site</a>.
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -17,13 +17,70 @@ includes:
 search: true
 ---
 
-# Introduction
+### Benefits
+Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and XSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+## Scheme
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+### Overview
 
-This example API documentation page was created with [Slate](https://github.com/tripit/slate). Feel free to edit it and use it as a base for your own API's documentation.
+Loginless requires you to set the Authorization header in HTTP for protected endpoints:
+
+#### Authorization \<user_id\>:\<hmac\>
+
+```
+Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+Nonce 1478041315653
+```
+
+### Setup ECDH
+
+Getting the corresponding public address of the server for your personal public address:
+
+GET /api/v1/auth/:my_public_key
+
+```
+Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk
+
+GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+
+{
+"serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"
+"userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
+// other fields
+}
+```
+
+You also get the server clock in the Server-Time header. If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests.
+
+```javascript
+Server-Time 1478041315780
+```
+
+### Compute Shared Secret
+
+```javascript
+// Programming language specific
+sharedSecret = ECDH(myPrivateKey, serverPublicKey)
+```
+
+### Compute HMAC authorization for all subsequent requests
+
+```javascript
+ function getAuthorization(userId, secret, method, uri, body, nonce) {
+    if (!secret) return 'HMAC ' + userId
+    var message = JSON.stringify({ method: method, uri: uri, body: body, nonce: nonce })
+    var hmac    = crypto.createHmac('sha256', new Buffer(secret, 'hex'))
+    hmac.update(message)
+    return 'HMAC ' + userId + ":" + hmac.digest('hex')
+  }
+```
+
+### Send request using Authorization and nonce headers
+
+```curl
+curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTC1/order/open
+```
 
 # Authentication
 
@@ -186,4 +243,3 @@ This endpoint retrieves a specific kitten.
 Parameter | Description
 --------- | -----------
 ID | The ID of the kitten to retrieve
-
