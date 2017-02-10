@@ -84,6 +84,7 @@ html, body {
      position: relative;
      left: -47px;
      padding-top: 4px;
+     padding-bottom: 10px;
     &>img {
       display: block;
       margin: auto auto;
@@ -91,7 +92,7 @@ html, body {
     &>div {
       color: $nav-text;
       position: absolute;
-      bottom: -7px;
+      bottom: 2px;
       right: -22px;
       font-size: 27px;
     }
@@ -201,6 +202,13 @@ html, body {
       font-size: 12px;
     }
 
+    .tocify-subheader {
+      .tocify-item>a {
+        // Styling here for a level 2 nesting. For example ->
+        padding-left: $nav-padding + $nav-indent * 2;
+        font-size: 10px;
+      }
+    }
     // for embossed look:
     @include embossed-bg;
     &>li:last-child {
@@ -284,6 +292,7 @@ html, body {
   // I know, it's hackish, but it's the simplist way to make the left
   // half of the content always this background color.
   .dark-box {
+    display:none;
     width: $examples-width;
     background-color: $examples-bg;
     position: absolute;
@@ -459,7 +468,7 @@ html, body {
 
   p, li, dt, dd {
     line-height: 1.6;
-    margin-top: 0;
+    margin-top: 6px;
   }
 
   img {
@@ -537,7 +546,7 @@ html, body {
     background-color: $code-bg;
     color: #fff;
 
-    padding: 2em $main-padding;
+    padding: 1em $main-padding;
     margin: 0;
     width: $examples-width;
 
@@ -582,19 +591,19 @@ html, body {
 
 @media (max-width: $tablet-width) {
   .tocify-wrapper {
-    left: -$nav-width;
+    //left: -$nav-width;
 
     &.open {
-      left: 0;
+      //left: 0;
     }
   }
 
   .page-wrapper {
-    margin-left: 0;
+    //margin-left: 0;
   }
 
   #nav-button {
-    display: block;
+    //display: block;
   }
 
   .tocify-wrapper .tocify-item > a {
@@ -617,7 +626,23 @@ html, body {
   }
 
   .page-wrapper .lang-selector {
-    display: none;
+    //display: none;
+  }
+
+  .tocify-wrapper {
+    left: -$nav-width;
+
+    &.open {
+      left: 0;
+    }
+  }
+
+  .page-wrapper {
+    margin-left: 0;
+  }
+
+  #nav-button {
+    display: block;
   }
 
   %right-col {
@@ -629,6 +654,20 @@ html, body {
     margin-top: $main-padding;
   }
 }
+
+.tocify-wrapper .lang-selector {
+  display: block;
+}
+
+%right-col {
+  width: auto;
+  float: none;
+}
+
+%right-col + %left-col {
+  margin-top: $main-padding;
+}
+
 
 .highlight .c, .highlight .cm, .highlight .c1, .highlight .cs {
   color: #909090;

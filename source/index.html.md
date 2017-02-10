@@ -1,18 +1,20 @@
 ---
-title: API Reference
+title: Coinpit API
 
+<!--
 language_tabs:
   - curl
   - python
   - javascript
+ -->
 
 toc_footers:
   - Try our <a href='https://live.coinpit.me'>testnet site</a>.
   - Trade now at <a href='https://live.coinpit.io'>live site</a>.
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
-includes:
-  - errors
+<!-- includes: -->
+  <!-- - errors -->
 
 search: true
 ---
@@ -29,7 +31,7 @@ Zero knowledge Authentication avoids setting session cookies and eliminates the 
 
 Loginless requires you to set the Authorization header in HTTP for protected endpoints:
 
-#### Authorization \<user_id\>:\<hmac\>
+### Authorization \<user_id\>:\<hmac\>
 
 ```
 Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
@@ -56,13 +58,13 @@ GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df
 
 You also get the server clock in the Server-Time header. If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests.
 
-```javascript
+```
 Server-Time 1478041315780
 ```
 
 ### Compute Shared Secret
 
-```javascript
+```
 // Programming language specific
 sharedSecret = ECDH(myPrivateKey, serverPublicKey)
 ```
@@ -81,168 +83,86 @@ sharedSecret = ECDH(myPrivateKey, serverPublicKey)
 
 ### Send request using Authorization and nonce headers
 
-```curl
+```
 curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTC1/order/open
 ```
 
-# Authentication
+# API endpoints
 
-> To authorize, use this code:
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
+In the examples below parameters are preceded by colon(:) For example, GET /api/v1/contract/:symbol/order/:uuid would be accessed as
 ```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
+GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 ```
+## Unprotected REST API endpoints
 
-```shell
-# With shell, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: meowmeowmeow"
-```
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/all/info](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info)|Get Exchange information|
+|GET|[/api/v1/all/config](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#config)|General Exchange configuration|
+|GET|[/api/v1/all/spec](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec)|Get contract specs for all exchange traded instruments|
 
-```javascript
-const kittn = require('kittn');
+## Protected REST API endpoints
 
-let api = kittn.authorize('meowmeowmeow');
-```
+### Open Orders
 
-> Make sure to replace `meowmeowmeow` with your API key.
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/contract/BTC1/chart/5](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#chart)| Get chart info for instrument BTC1|
+|GET|[/api/v1/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order)|Get all my open orders|
+|GET|[/api/v1/contract/BTC1/order/:uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order)|Get a specific order|
+|POST|[/api/v1/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#createorder)|Create order|
+|PUT|[/api/v1/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#updateorder)|Update Order|
+|DELETE|[/api/v1/contract/BTC1/order/open/:uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#deleteorder)|Delete a specific order|
+|DELETE|[/api/v1/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelallorders)|Cancel all orders|
 
-Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our [developer portal](http://example.com/developers).
+### Closed Orders
 
-Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/contract/BTC1/order/closed?after=uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#closedorder)|Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned|
 
-`Authorization: meowmeowmeow`
+### Cancelled Orders
 
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/contract/BTC1/order/cancelled?after=uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelledorder)|Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned|
+### Order Book
 
-# Kittens
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/contract/BTC1/orderbook](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#orderbook) |Get order book|
 
-## Get All Kittens
+### Recent Trades
 
-```ruby
-require 'kittn'
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/contract/BTC1/trade](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#trade)|Get recent trades|
 
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get
-```
+### Margin, Position, P&L, open orders
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/account/userdetails](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#userdetails)|
 
-```python
-import kittn
+### Margin
 
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get()
-```
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/account/margin](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin)|Get balance in margin account|
+|POST|[/api/v1/account/margin](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin)|Move coins from multisig to Margin account|
+|DELETE|[/api/v1/account/margin/:amount](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin)|Move specified amount of coins from margin account to multisig account|
 
-```shell
-curl "http://example.com/api/kittens"
-  -H "Authorization: meowmeowmeow"
-```
+### Position
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/account/position](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#position)|Get all open positions|
 
-```javascript
-const kittn = require('kittn');
+### P&L
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/account/pnl](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#pnl)|Get My P&L info|
 
-let api = kittn.authorize('meowmeowmeow');
-let kittens = api.kittens.get();
-```
-
-> The above command returns JSON structured like this:
-
-```json
-[
-  {
-    "id": 1,
-    "name": "Fluffums",
-    "breed": "calico",
-    "fluffiness": 6,
-    "cuteness": 7
-  },
-  {
-    "id": 2,
-    "name": "Max",
-    "breed": "unknown",
-    "fluffiness": 5,
-    "cuteness": 10
-  }
-]
-```
-
-This endpoint retrieves all kittens.
-
-### HTTP Request
-
-`GET http://example.com/api/kittens`
-
-### Query Parameters
-
-Parameter | Default | Description
---------- | ------- | -----------
-include_cats | false | If set to true, the result will also include cats.
-available | true | If set to false, the result will include kittens that have already been adopted.
-
-<aside class="success">
-Remember — a happy kitten is an authenticated kitten!
-</aside>
-
-## Get a Specific Kitten
-
-```ruby
-require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```python
-import kittn
-
-api = kittn.authorize('meowmeowmeow')
-api.kittens.get(2)
-```
-
-```shell
-curl "http://example.com/api/kittens/2"
-  -H "Authorization: meowmeowmeow"
-```
-
-```javascript
-const kittn = require('kittn');
-
-let api = kittn.authorize('meowmeowmeow');
-let max = api.kittens.get(2);
-```
-
-> The above command returns JSON structured like this:
-
-```json
-{
-  "id": 2,
-  "name": "Max",
-  "breed": "unknown",
-  "fluffiness": 5,
-  "cuteness": 10
-}
-```
-
-This endpoint retrieves a specific kitten.
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-
-### HTTP Request
-
-`GET http://example.com/kittens/<ID>`
-
-### URL Parameters
-
-Parameter | Description
---------- | -----------
-ID | The ID of the kitten to retrieve
+### Multisig Account functions
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/account/withdrawtx](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#withdrawtx)||
+|GET|[/api/v1/account/recoverytx](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#recoverytx)|Get Server signed Multisig account Recovery TX|
