@@ -80,9 +80,21 @@ html, body {
   }
 
   // This is the logo at the top of the ToC
-  &>img {
-    display: block;
-    max-width: 100%;
+  &>div.logo {
+     position: relative;
+     left: -47px;
+     padding-top: 4px;
+    &>img {
+      display: block;
+      margin: auto auto;
+    }
+    &>div {
+      color: $nav-text;
+      position: absolute;
+      bottom: -7px;
+      right: -22px;
+      font-size: 27px;
+    }
   }
 
   &>.search {
