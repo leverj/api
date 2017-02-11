@@ -39,9 +39,9 @@ under the License.
     global.toc.calculateHeights();
 
     // scroll to the new location of the position
-    if ($(window.location.hash).get(0)) {
+   /* if ($(window.location.hash).get(0)) {
       $(window.location.hash).get(0).scrollIntoView(true);
-    }
+    }*/
   }
 
   // parseURL and stringifyURL are from https://github.com/sindresorhus/query-string
