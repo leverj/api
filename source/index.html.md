@@ -1,10 +1,10 @@
 ---
 title: Coinpit API
 
-#language_tabs:
-#  - curl
-#  - python
-#  - javascript
+language_tabs:
+  - shell: cURL
+  - python
+  - javascript
 
 toc_footers:
   - Try our <a href='https://live.coinpit.me'>testnet site</a>.
@@ -15,7 +15,8 @@ includes:
   - examples
 
 search: true
-------------
+---
+
 # Loginless Authentication
 
 Loginless Authentication is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
@@ -70,7 +71,7 @@ sharedSecret = ECDH(myPrivateKey, serverPublicKey)
 ### Compute HMAC authorization for all subsequent requests
 
 ```javascript
- function getAuthorization(userId, secret, method, uri, body, nonce) {
+  function getAuthorization(userId, secret, method, uri, body, nonce) {
     if (!secret) return 'HMAC ' + userId
     var message = JSON.stringify({ method: method, uri: uri, body: body, nonce: nonce })
     var hmac    = crypto.createHmac('sha256', new Buffer(secret, 'hex'))
@@ -78,6 +79,7 @@ sharedSecret = ECDH(myPrivateKey, serverPublicKey)
     return 'HMAC ' + userId + ":" + hmac.digest('hex')
   }
 ```
+
 
 ```python
  function getAuthorization(userId, secret, method, uri, body, nonce) {
@@ -89,16 +91,10 @@ sharedSecret = ECDH(myPrivateKey, serverPublicKey)
   }
 ```
 
-```curl
- function getAuthorization(userId, secret, method, uri, body, nonce) {
-    if (!secret) return 'HMAC ' + userId
-    var message = JSON.stringify({ method: method, uri: uri, body: body, nonce: nonce })
-    var hmac    = crypto.createHmac('sha256', new Buffer(secret, 'hex'))
-    hmac.update(message)
-    return 'HMAC ' + userId + ":" + hmac.digest('hex')
-  }
-```
 
+```shell
+N/A
+```
 
 
 ### Send request using Authorization and nonce headers
