@@ -1,23 +1,21 @@
 ---
 title: Coinpit API
 
-<!--
-language_tabs:
-  - curl
-  - python
-  - javascript
- -->
+#language_tabs:
+#  - curl
+#  - python
+#  - javascript
 
 toc_footers:
   - Try our <a href='https://live.coinpit.me'>testnet site</a>.
   - Trade now at <a href='https://live.coinpit.io'>live site</a>.
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
-<!-- includes: -->
-  <!-- - errors -->
+includes:
+  - examples
 
 search: true
----
+------------
 # Loginless Authentication
 
 Loginless Authentication is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
@@ -81,6 +79,28 @@ sharedSecret = ECDH(myPrivateKey, serverPublicKey)
   }
 ```
 
+```python
+ function getAuthorization(userId, secret, method, uri, body, nonce) {
+    if (!secret) return 'HMAC ' + userId
+    var message = JSON.stringify({ method: method, uri: uri, body: body, nonce: nonce })
+    var hmac    = crypto.createHmac('sha256', new Buffer(secret, 'hex'))
+    hmac.update(message)
+    return 'HMAC ' + userId + ":" + hmac.digest('hex')
+  }
+```
+
+```curl
+ function getAuthorization(userId, secret, method, uri, body, nonce) {
+    if (!secret) return 'HMAC ' + userId
+    var message = JSON.stringify({ method: method, uri: uri, body: body, nonce: nonce })
+    var hmac    = crypto.createHmac('sha256', new Buffer(secret, 'hex'))
+    hmac.update(message)
+    return 'HMAC ' + userId + ":" + hmac.digest('hex')
+  }
+```
+
+
+
 ### Send request using Authorization and nonce headers
 
 ```
@@ -98,10 +118,17 @@ GET /api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/api/v1/all/info](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info)|Get Exchange information|
-|GET|[/api/v1/all/config](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#config)|General Exchange configuration|
 |GET|[/api/v1/all/spec](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec)|Get contract specs for all exchange traded instruments|
+|GET|[/api/v1/all/config](#CONFIG)|General Exchange configuration|
+|GET|[/api/v1/all/bands](#BANDS)|GET external index prices for different instruments|
 
 ## Protected REST API endpoints
+
+### Executions
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/api/v1/all/executions](#BANDS)|GET recents executions |
+
 
 ### Open Orders
 
