@@ -19,6 +19,7 @@ search: true
 
 Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API
 
+<a name="sdk"></a>
 ## Language SDK/Libraries
 
 Currently we support the following SDK for programmatic access
@@ -31,8 +32,8 @@ Currently we support the following SDK for programmatic access
 
 The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML
 
+### In Browser
 ```html
- <!-- In browser -->
   <script src="jquery.min.js"></script>
   <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"></script>
   <script>
@@ -42,8 +43,8 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
           })
   </script>
 ```
+### In node.js
 ```coffeescript
-  // In node.js
   var restjs = require('rest.js')
   restjs.get("https://live.coinpit.io/api/v1/all/info")
         .then(function(result) {
@@ -58,14 +59,15 @@ REST URL = BASE_URL + ENDPOINT
 
 ### Base URL
 
-The base url for all REST API is https://live.coinpit.io/api/v1 . To request an endpoint, append it to the base url and make a request.
+The base url for all REST API is `https://live.coinpit.io/api/v1`. To request an endpoint, append it to the base url and make a request.
 
-For example to access the /all/info endpoint:
+For example to access the `/all/info` endpoint:
 
+### From the command line
 ```shell
 curl https://live.coinpit.io/api/v1/all/info
 ```
-
+### From your programming language
 ```python
 import requests
 print requests.get("https://live.bluelot.us/api/v1/all/info").text'
@@ -86,13 +88,16 @@ Url parameters are denoted by prepending a colon:
 /contract/:symbol/order/:orderid
 ```
 
-The parameters "symbol" and "orderid" need to be filled in when making a REST call to server.
-To get a specific order with id 123e4567-e89b-12d3-a456-426655440000 of contract BTC1, the actual url would be
+The parameters `:symbol` and `:orderid` need to be filled in when making a REST call to server.
+To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contract `BTC1`, the actual url would be
 
 ```
 https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 ```
+### HTTP headers
+HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.coinpit.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
 
+<a name="loginless"></a>
 # Loginless Authentication
 
 Loginless is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
@@ -102,9 +107,9 @@ Zero knowledge Authentication avoids setting session cookies and eliminates the 
 
 ## Overview
 
-Loginless requires you to set the Authorization header in HTTP for protected endpoints:
+Loginless requires you to set the Authorization header in HTTP for protected endpoints. This requires your public key and user id, which are in your json key file that you saved when you first visit the web site.
 
-## Authorization and Nonce headers
+### Authorization and Nonce headers
 
 ```
 Authorization HMAC <user_id>:<hmac_sha256>
@@ -116,16 +121,17 @@ Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805
 Nonce 1478041315653
 ```
 
-## Setup ECDH
+### Setup ECDH
 
 Getting the corresponding public address of the server for your personal public address:
-
-GET /api/v1/auth/:my_public_key
-
-```
-GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+`GET /api/v1/auth/:my_public_key`
+### Send your public key
+```http
+GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37 HTTP/1.1
 Accept: application/json
+Host: live.coinpit.io
 ```
+### Server returns it's public key
 ```json
 {
 "serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7",
@@ -169,7 +175,7 @@ self.shared_secret      = self.user.get_ecdh_key(uncompressed_server_key)
 
 ### Nonce
 To prevent replay attacks, all requests should include a nonce and the nonce is also used to compute HMAC. The server expects UNIX time as the nonce. This requires a reasonably accurate clock on your client machine.
-If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the Server-Time header in the HTTP responses. The node.js SDK does this automatically.
+If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the Server-Time header in the HTTP responses. The node.js [SDK](#sdk) does this automatically.
 
 ```
 Server-Time: 1478041315780
@@ -209,13 +215,10 @@ Server-Time: 1478041315780
 curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTC1/order/open
 ```
 
-# API endpoints
+# Coinpit REST API
 
-In the examples below parameters are preceded by colon(:) For example, GET /contract/:symbol/order/:uuid would be accessed as
-```
-GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
-```
 ## Unprotected REST API endpoints
+Unprotected endpoints do not require an `Authorization` header.
 
 ### Authentication
 |Method|Rest Endpoint|Description|
@@ -236,6 +239,7 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 
 
 ## Protected REST API endpoints
+All user specific endpoints require an `Authorization` and `Nonce` headers as described in the [Loginless](#loginless) section
 
 ### Open Orders
 

@@ -9,11 +9,14 @@ Examples are structured as follows:
 |Server Response|Including expected HTTP error code|
 
 <a name="auth"></a>
-## Loginless Auth
-### POST /api/v1/auth
-```
-GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+## Get Loginless Server pubkey
+If you have already registered your public key, for example by signing on via the trading site, you can use the public key from the json key file to get the server's public key. The server uses a different key for each user.
+### GET /api/v1/auth
+### 200 OK
+```http
+GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37 HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 ```
 ### 200 OK
 ```json
@@ -22,12 +25,33 @@ Accept: application/json
 "userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"
 }
 ```
+## Register Loginless User
+It is easiest to register on the trading site, but if you wish to programmatically register a user, you can do so by sending a signed message with your public key, country and IP of registration. During registration, your IP needs to match your country code. Our [SDK](#sdk) enables you to do the signatures easily.
+### POST /api/v1/auth
+```http
+POST /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37 HTTP/1.1
+Accept: application/json
+Host: live.coinpit.me
+```
+```json
+[
+  {
+    "message":"{\"publicKey\":\"039d43948b9ce88893f3f3cb61d1995142741418f86412f1d5fcc12a010a753ac8\",\"country\":\"DK\",\"timestamp\":1487534736607,\"ip\":\"127.0.0.1\",\"introducerid\":\"\"}",
+    "signature":"IF3239UZOPfdU3Ko8Wxf1Ohu5v0SF8TiXhdd66Nb2S4XXDyftF4r7ev1y/S/SGULLX9VxEMi4CJEmtiGzrHDCf0="
+  }
+]
+```
+### 200 OK
+```json
+ {"userid":"my7hu7RZDhRRBFRHXgqDMbbtCNX8rokGS9","serverPublicKey":"03cfa0eb0226f9c189967f048ba575b989bded84bebf4042e08571384f12252408"}
+```
 <a name="all-info"></a>
 ## Exchange Basic Info
 ### GET /api/v1/all/info
-```
-GET /api/v1/all/info
+```http
+GET /api/v1/all/info HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 ```
 ### 200 OK
 ```json
@@ -51,9 +75,10 @@ Accept: application/json
 <a name="all-band"></a>
 ## Anti-Manipulation bands
 ### GET /api/v1/all/band
-```
-GET /api/v1/all/band
+```http
+GET /api/v1/all/band HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 ```
 ### 200 OK
 ```json
@@ -94,9 +119,10 @@ Accept: application/json
 <a name="all-spec"></a>
 ## Contract Specs
 ### GET /api/v1/all/spec
-```
-GET /api/v1/all/spec
+```http
+GET /api/v1/all/spec HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 ```
 ### 200 OK
 ```json
@@ -153,9 +179,10 @@ Accept: application/json
 <a name="all-config"></a>
 ## Exchange/Contract Config
 ### GET /api/v1/all/config
-```
-GET /api/v1/all/config
+```http
+GET /api/v1/all/config HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 ```
 ### 200 OK
 ```json
@@ -227,9 +254,10 @@ Accept: application/json
 <a name="contract-chart"></a>
 ## Chart for contract
 ### /api/v1/contract/:symbol/chart/:timeframe
-```
-GET /api/v1/contract/BTC1/chart/5
+```http
+GET /api/v1/contract/BTC1/chart/5 HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
 Nonce: 1481655922696
 ```
@@ -261,9 +289,10 @@ Nonce: 1481655922696
 <a name="contract-order-all"></a>
 ## Get all orders
 ### GET /api/v1/contract/:symbol/order
-```
-GET /api/v1/contract/BTC1/order
+```http
+GET /api/v1/contract/BTC1/order HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```
@@ -327,9 +356,10 @@ Nonce: 1480957451447
 <a name="contract-order-id"></a>
 ## Get order by id
 ### GET /api/v1/contract/:symbol/order/:uuid
-```
-GET /api/v1/contract/BTC1/order/open/503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc
+```http
+GET /api/v1/contract/BTC1/order/open/503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1481655922696
 ```
@@ -370,9 +400,10 @@ Nonce: 1481655922696
 <a name="contract-create-order"></a>
 ## Create New Order
 ### POST /api/v1/contract/:symbol/order
-```
-POST /api/v1/contract/BTC1/order
+```http
+POST /api/v1/contract/BTC1/order HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1481655922696
 ```
@@ -426,9 +457,10 @@ Nonce: 1481655922696
 <a name="contract-update-order"></a>
 ## Update Orders
 ### PUT /api/v1/contract/:symbol/order/open
-```
-PUT /api/v1/contract/BTC1/order/open
+```http
+PUT /api/v1/contract/BTC1/order/open HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b
 Nonce: 1482348434637
 ```
@@ -477,9 +509,10 @@ Nonce: 1482348434637
 <a name="contract-cancel-order"></a>
 ## Cancel order by Id
 ### DELETE /api/v1/contract/:symbol/order/:uuid
-```
-DELETE /api/v1/contract/BTC1/order/adcb4c70-b72a-11e6-9b68-be1cfc0a27e0
+```http
+DELETE /api/v1/contract/BTC1/order/adcb4c70-b72a-11e6-9b68-be1cfc0a27e0 HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
 Nonce: 1482347623909
 ```
@@ -492,9 +525,10 @@ Nonce: 1482347623909
 <a name="contract-cancel-all"></a>
 ## Cancel All Orders
 ### DELETE /api/v1/contract/:symbol/order
-```
-DELETE /api/v1/contract/BTC1/order
+```http
+DELETE /api/v1/contract/BTC1/order HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
 Nonce: 1482347623909
 ```
@@ -514,9 +548,10 @@ Nonce: 1482347623909
 ## Combined create/update/cancel
 
 ### PATCH /contract/:symbol/order
-```
-PATCH /api/v1/contract/BTC1/order
+```http
+PATCH /api/v1/contract/BTC1/order HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1482349148300
 ```
@@ -640,9 +675,10 @@ Nonce: 1482349148300
 <a name="contract-order-closed"></a>
 ## Closed (filled) Orders
 ### GET /api/v1/contract/:symbol/order/closed
-```
-GET /api/v1/contract/BTC1/order/closed
+```http
+GET /api/v1/contract/BTC1/order/closed HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481651130426
 ```
@@ -724,9 +760,10 @@ Nonce: 1481651130426
 <a name="contract-order-cancelled"></a>
 ## Cancelled orders (with no fills)
 ### GET /api/v1/contract/:symbol/order/cancelled
-```
-GET /api/v1/contract/BTC1/order/cancelled
+```http
+GET /api/v1/contract/BTC1/order/cancelled HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481653294715
 ```
@@ -808,9 +845,10 @@ Nonce: 1481653294715
 <a name="contract-orderbook"></a>
 ## Order Book
 ### GET /api/v1/contract/:symbol/orderbook
-```
-GET /api/v1/contract/BTC1/orderbook
+```http
+GET /api/v1/contract/BTC1/orderbook HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480947259178
 ```
@@ -852,9 +890,10 @@ Nonce: 1480947259178
 <a name="contract-recent-trade"></a>
 ## Recent Trades
 ### GET /api/v1/contract/:symbol/trade
-```
-GET /api/v1/contract/BTC1/trade
+```http
+GET /api/v1/contract/BTC1/trade HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947260712
 ```
@@ -896,9 +935,10 @@ Nonce: 1480947260712
 <a name="account"></a>
 ## User account
 ### GET /api/v1/account
-```
-GET /api/v1/account
+```http
+GET /api/v1/account HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947266323
 ```
@@ -924,9 +964,10 @@ Nonce: 1480947266323
 <a name="account-execution"></a>
 ## User Executions
 ### GET /api/v1/account/execution
-```
-GET /api/v1/account/execution
+```http
+GET /api/v1/account/execution HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```
@@ -966,9 +1007,10 @@ Nonce: 1480957451447
 <a name="account-margin"></a>
 ## Margin account balance
 ### GET /api/v1/account/margin
-```
-GET /api/v1/account/margin
+```http
+GET /api/v1/account/margin HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```
@@ -980,11 +1022,12 @@ Nonce: 1480957451447
 ```
 <a name="account-margin-move"></a>
 ## Add Margin (Move from Multisig to Margin)
-Note this will change to return just txid
+Move specified amount of BTC from multisig account to margin account. Use this to ensure you have sufficient coins in your margin account to cover your positions and orders.
 ### POST /api/v1/account/margin
-```
-POST /api/v1/account/margin
+```http
+POST /api/v1/account/margin HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:cbe864dca0c4a39f4247d241840fa46cf2cbd948cdc46b51ac1ef0a6e249ce39
 Nonce: 1487489261278
 ```
@@ -993,28 +1036,30 @@ Nonce: 1487489261278
 ```
 ### 200 OK
 ```json
-{"signedTxs":["0100000002687c0cf9d5e0dec13dab256fad30672b34c65fdeddcf9662bec7a1d9274308fa01000000da00483045022100fa9be09ce1ed0bd5186c653df8b98af4ee20aa9583b7b36d85959271f87556e0022007cf59f239def0dc9e5513c2afe66a0f1cb5c499243bd6302acbfe3cb66cb6a701473044022031ecaf36aa52b438c9c335d066209408aa7cfbe82120746849fc9f4783f06f7a0220208bb556e0dfbd86818de3a5fb7acb7aba0efdd1dc11950bfbe28d32edc4c5690147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffffc2585bc27effc1cb58b957e4dc71681b6180a8457679533f0a3b0a21a09835bf01000000da00483045022100bf1b8c32d8e97f5101aa7c7477f10a81ca82f123e72522e852045d2e6442165d02202d00dd9c524c1cd3c3adae34b06f10a7da89a6a83fafad42e0e0edf8cf3b35c9014730440220277154208a1062408175682e8a640edbcb46ae0056b39aebda3e2ce00f05679202204e1b5b248f2b010c1ee72eb68ea811e1464f94a5bb07d328fa8ba6744422f23a0147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffff03b8ca0e00000000001976a914c2db9d057d9988d2a7ee8e4887f851fc874a647a88ac809698000000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d87541eaa010000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d8700000000"]}
+{"txids":["351f2dedb630ddd6b34182eb9ddd0a15df7b95165ca2148e95e4dbb63e19bcaf"]}
 ```
 <a name="account-margin-clear"></a>
 ## Clear Margin (Move to Multisig)
-Note: This returns server signed bitcoin transactions. This will change to return just the txid
+Move specified amount of BTC from margin account to multisig account. Coins in multisig account are provably safe from a possible server breach.
 ### /api/v1/account/margin/:amount
-```
-DELETE /api/v1/account/margin/10000000
+```http
+DELETE /api/v1/account/margin/10000000 HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:b7156a8863712494903e66170cba78a4ce9b7412b72b12c00903b4ba191cfa67
 Nonce: 1487490137968
 ```
 ### 200 OK
 ```json
-{"signedTxs":["010000000268fbf38cb0053da4f467c8f0ba8a344899b6117cf7476f6fb87909125a64075f020000006a4730440220762e217bc2db9ee00e7000d33e782659e41e23c10720fe2efb4ab89e3f4ac4ba022029a708e7be6179a766b6b05fb511a3dfd6dbdfe406a279a09a6dc1f1caa6d94d012103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7ffffffff13911223f5a8e66804ea30b563536334af26be167da226f34ecdc7174b37e7ef010000006b483045022100cbc696eea90853fcda9aa1100786bd2c077c9247e9286a7dedbbeb2f9227f7ea02200db3cd10012e2ae305046e1877ee400c1d18dce73ab4599bc835547d77e2c22e012103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7ffffffff02104d98000000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d87b546b000000000001976a914c2db9d057d9988d2a7ee8e4887f851fc874a647a88ac00000000"]}
+{"txids":["351f2dedb630ddd6b34182eb9ddd0a15df7b95165ca2148e95e4dbb63e19bcaf"]}
 ```
 <a name="account-position"></a>
 ## User positions
 ### GET /api/v1/position
-```
-GET /api/v1/account/position
+```http
+GET /api/v1/account/position HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480965622146
 ```
@@ -1034,9 +1079,10 @@ Nonce: 1480965622146
 <a name="account-pnl"></a>
 ## User P&L
 ### GET /api/v1/account/pnl
-```
-GET /api/v1/account/pnl
+```http
+GET /api/v1/account/pnl HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947263028
 ```
@@ -1055,9 +1101,10 @@ Nonce: 1480947263028
 <a name="account-withdrawtx"></a>
 ## Withdraw from Multisig
 ### POST /api/v1/account/withdrawtx
-```
-POST /api/withdrawtx
+```http
+POST /api/v1/account/withdrawtx HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization:HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:8da600485b53e5ce4dacc9e302c8950d09376a1bbf3f30bfef3f78fdd42b252e
 Nonce: 1487489119205
 ```
@@ -1074,9 +1121,10 @@ Nonce: 1487489119205
 <a name="account-recoverytx"></a>
 ## Recovery Transaction
 ### GET /api/v1/account/recoverytx
-```
-GET /api/v1/account/recoverytx
+```http
+GET /api/v1/account/recoverytx HTTP/1.1
 Accept: application/json
+Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947265266
 ```
