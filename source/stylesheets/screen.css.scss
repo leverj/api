@@ -311,7 +311,7 @@ html, body {
 
 .lang-selector {
   background-color : $lang-select-bg;
-  width            : 100%;
+  //width            : 100%;
   font-weight      : bold;
   a {
     display         : block;
@@ -625,11 +625,11 @@ html, body {
   }
 
   .tocify-wrapper .lang-selector {
-    display : block;
+    //display : block;
   }
 
   .page-wrapper .lang-selector {
-    display: none;
+    //display: none;
   }
 
   .tocify-wrapper {
@@ -664,6 +664,7 @@ html, body {
 .page-wrapper .lang-selector {
   display : block;
   top:0;
+  right:0;
 }
 
 %right-col {
