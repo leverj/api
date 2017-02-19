@@ -388,8 +388,7 @@ Nonce: 1481655922696
       "stopPrice":30.6,
       "crossMargin":false,
       "targetPrice":"NONE",
-      "postOnly":false,
-      "instrument":"BTC1"
+      "postOnly":false
    }
 ]
 ```
@@ -437,7 +436,6 @@ Nonce: 1482348434637
 [
     {
        "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-       "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
        "price":814.8
     }
 ]
@@ -447,32 +445,32 @@ Nonce: 1482348434637
 [
    {
       "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-      "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+      "userid":          "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
       "side":"sell",
-      "quantity":1,
-      "filled":0,
-      "cancelled":0,
+      "quantity":        1,
+      "filled":          0,
+      "cancelled":       0,
       "price":814.8,
-      "averagePrice":0,
+      "averagePrice":    0,
       "entryTime":1482348434328077,
       "eventTime":1482348364074468,
-      "status":"open",
+      "status":          "open",
       "entryOrder":{
          "50192f40-c7b3-11e6-ba51-b8bd8cf25f84":1
       },
       "orderType":"STP",
       "stopPrice":7.2,
-      "targetPrice":"NONE",
-      "instrument":"BTC1",
+      "targetPrice":     "NONE",
+      "instrument":      "BTC1",
       "oco":"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39",
       "maxStop":814,
       "entryPrice":822.3,
       "entryAmount":822.3,
       "commission":10000,
-      "reward":-2500,
-      "cushion":1,
-      "reservedTicks":2,
-      "crossMargin":false
+      "reward":          -2500,
+      "cushion":         1,
+      "reservedTicks":   2,
+      "crossMargin":     false
    }
 ]
 ```
@@ -514,6 +512,7 @@ Nonce: 1482347623909
 
 <a name="contract-patch-order"></a>
 ## Combined create/update/cancel
+
 ### PATCH /contract/:symbol/order
 ```
 PATCH /api/v1/contract/BTC1/order
@@ -530,6 +529,32 @@ Nonce: 1482349148300
    {
       "op":"remove",
       "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
+   },
+   {
+       "op":"replace",
+       "value":[
+           {
+               "uuid":"cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393",
+               "price":1046.9
+           }
+       ]
+   },
+   {
+       "op":    "add",
+       "value": [
+         {
+           "userid":      "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+           "side":        "buy",
+           "quantity":    1,
+           "price":       1035.3,
+           "orderType":   "LMT",
+           "clientid":    "b825ce03-fb16-4fd7-8fbe-e225803509a4",
+           "stopPrice":   4.2,
+           "crossMargin": false,
+           "targetPrice": "NONE",
+           "postOnly":    false
+         }
+       ]
    }
 ]
 ```
@@ -549,10 +574,69 @@ Nonce: 1482349148300
       "response":[
          "0d71f940-c7b5-11e6-9906-9cd1c95275e5"
       ]
-   }
+   },
+   {
+       "op":       "replace",
+       "response": [
+         {
+           "uuid":            "cb785b90-f6cd-11e6-88b2-f1d8ad444001",
+           "userid":          "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+           "side":            "buy",
+           "quantity":        1,
+           "filled":          0,
+           "cancelled":       0,
+           "price":           1048.7,
+           "normalizedPrice": 1048.7,
+           "averagePrice":    0,
+           "entryTime":       1487530149292084,
+           "eventTime":       1487527442377593,
+           "status":          "open",
+           "entryOrder":      {},
+           "orderType":       "LMT",
+           "stopPrice":       4.3,
+           "targetPrice":     "NONE",
+           "clientid":        "06b235a8-e9dd-4b25-a824-18f27d927402",
+           "instrument":      "BTC1",
+           "commission":      20000,
+           "reward":          -2500,
+           "cushion":         1,
+           "reservedTicks":   2,
+           "crossMargin":     false
+         }
+       ]
+     },
+     {
+         "op":       "add",
+         "response": [
+           {
+             "uuid":            "16f9fe70-f6d8-11e6-ad01-e5a16988c694",
+             "userid":          "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+             "side":            "buy",
+             "quantity":        1,
+             "filled":          0,
+             "cancelled":       0,
+             "price":           1035.3,
+             "normalizedPrice": 1035.3,
+             "averagePrice":    0,
+             "entryTime":       1487531864023840,
+             "eventTime":       1487531864023840,
+             "status":          "open",
+             "entryOrder":      {},
+             "orderType":       "LMT",
+             "stopPrice":       4.2,
+             "targetPrice":     "NONE",
+             "clientid":        "b825ce03-fb16-4fd7-8fbe-e225803509a4",
+             "instrument":      "BTC1",
+             "commission":      20000,
+             "reward":          -2500,
+             "cushion":         1,
+             "reservedTicks":   2,
+             "crossMargin":     false
+           }
+        ]
+     }
 ]
 ```
-
 <a name="contract-order-closed"></a>
 ## Closed (filled) Orders
 ### GET /api/v1/contract/:symbol/order/closed
