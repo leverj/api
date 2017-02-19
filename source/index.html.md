@@ -2,7 +2,7 @@
 title: Coinpit API
 
 language_tabs:
-  - shell: cURL
+  - shell
   - python
   - javascript
 
@@ -30,9 +30,9 @@ Currently we support the following SDK for programmatic access
 
 ## Unified javascript Rest library
 
-The library <a href="https://github.com/coinpit/REST">rest.js</a> enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML
+The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML
 
-```
+```html
  <!-- In browser -->
   <script src="jquery.min.js"></script>
   <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js">
@@ -94,19 +94,19 @@ https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-42665
 
 # Loginless Authentication
 
-Loginless Authentication is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
+Loginless is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
 
 ## Benefits
 Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and XSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug
 
-### Overview
+## Overview
 
 Loginless requires you to set the Authorization header in HTTP for protected endpoints:
 
-### Authorization and Nonce headers
+## Authorization and Nonce headers
 
 ```
-Authorization HMAC \<user_id\>:\<hmac_sha256\>
+Authorization HMAC <user_id>:<hmac_sha256>
 Nonce <unix_time>
 ```
 
@@ -115,26 +115,27 @@ Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805
 Nonce 1478041315653
 ```
 
-### Setup ECDH
+## Setup ECDH
 
 Getting the corresponding public address of the server for your personal public address:
 
-GET /auth/:my_public_key
+GET /api/v1/auth/:my_public_key
 
 ```
-GET /auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
-
+GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+Accept: application/json
+```
+```json
 {
-"serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7"
-"userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
-// other fields
+"serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7",
+"userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"
 }
 ```
 
 You also get the server clock in the Server-Time header. If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests.
 
 ```
-Server-Time 1478041315780
+Server-Time: 1478041315780
 ```
 
 ### Compute Shared Secret
@@ -184,81 +185,87 @@ GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 ```
 ## Unprotected REST API endpoints
 
+### General Exchange data
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/all/info](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#info)|Get Exchange information|
-|GET|[/all/spec](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#spec)|Get contract specs for all exchange traded instruments|
-|GET|[/all/config](#CONFIG)|General Exchange configuration|
-|GET|[/all/bands](#BANDS)|GET external index prices for different instruments|
+|GET|[/all/info](#all-info)|Last price, 24Hr volume, etc|
+|GET|[/all/band](#all-band)|GET external index prices for different instruments|
+
+### Exchange configuration
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/all/spec](#all-spec)|Get contract specs for all exchange traded instruments|
+|GET|[/all/config](#all-config)|General Exchange configuration|
+
 
 ## Protected REST API endpoints
-
-### Executions
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/all/executions](#BANDS)|GET recents executions |
-
 
 ### Open Orders
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/BTC1/chart/5](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#chart)| Get chart info for instrument BTC1|
-|GET|[/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order)|Get all my open orders|
-|GET|[/contract/BTC1/order/:uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#order)|Get a specific order|
-|POST|[/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#createorder)|Create order|
-|PUT|[/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#updateorder)|Update Order|
-|DELETE|[/contract/BTC1/order/open/:uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#deleteorder)|Delete a specific order|
-|DELETE|[/contract/BTC1/order/open](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelallorders)|Cancel all orders|
+|GET|[/contract/:symbol/chart/5](#contract-chart)| Get chart info for instrument :symbol|
+|GET|[/contract/:symbol/order/open](#contract-order-all)|Get all my open orders|
+|GET|[/contract/:symbol/order/:uuid](#contract-order-id)|Get a specific order|
+|POST|[/contract/:symbol/order/open](#contract-create-order)|Create order|
+|PUT|[/contract/:symbol/order/open](#contract-update-order)|Update Order|
+|DELETE|[/contract/:symbol/order/open/:uuid](#contract-cancel-order)|Delete a specific order|
+|DELETE|[/contract/:symbol/order/open](#contract-cancel-all)|Cancel all orders|
+|PATCH|[/contract/:symbol/order/open](#contract-patch-order)|Combined create/update/cancel|
 
 ### Closed Orders
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/BTC1/order/closed?after=uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#closedorder)|Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned|
+|GET|[/contract/:symbol/order/closed?after=uuid](#contract-order-closed)|Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned|
 
 ### Cancelled Orders
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/BTC1/order/cancelled?after=uuid](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#cancelledorder)|Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned|
+|GET|[/contract/:symbol/order/cancelled?after=uuid](#contract-order-cancelled)|Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned|
 ### Order Book
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/BTC1/orderbook](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#orderbook) |Get order book|
+|GET|[/contract/:symbol/orderbook](#contract-orderbook) |Get order book|
 
 ### Recent Trades
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/BTC1/trade](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#trade)|Get recent trades|
+|GET|[/contract/:symbol/trade](#contract-recent-trade)|Get recent trades|
+
+### User Executions
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/account/execution](#account-execution)|GET User's recent executions |
 
 ### Margin, Position, P&L, open orders
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/account](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#userdetails)|
+|GET|[/account](#account)|
 
 ### Margin
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/account/margin](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin)|Get balance in margin account|
-|POST|[/account/margin](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin)|Move coins from multisig to Margin account|
-|DELETE|[/account/margin/:amount](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#margin)|Move specified amount of coins from margin account to multisig account|
+|GET|[/account/margin](#account-margin)|Get balance in margin account|
+|POST|[/account/margin](#account-margin-move)|Move coins from multisig to Margin account|
+|DELETE|[/account/margin/:amount](#account-margin-clear)|Move specified amount of coins from margin account to multisig account|
 
 ### Position
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/account/position](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#position)|Get all open positions|
+|GET|[/account/position](#account-position)|Get all open positions|
 
 ### P&L
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/account/pnl](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#pnl)|Get My P&L info|
+|GET|[/account/pnl](#account-pnl)|Get My P&L info|
 
 ### Multisig Account functions
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/account/withdrawtx](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#withdrawtx)||
-|GET|[/account/recoverytx](https://github.com/coinpit/coinpit.io/wiki/Coinpit-API-Spec#recoverytx)|Get Server signed Multisig account Recovery TX|
+|GET|[/account/withdrawtx](#account-withdrawtx)||
+|GET|[/account/recoverytx](#account-recoverytx)|Get Server signed Multisig account Recovery TX|
