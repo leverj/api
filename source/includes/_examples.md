@@ -8,6 +8,20 @@ Examples are structured as follows:
 |HTTP Request|Abbreviated HTTP request|
 |Server Response|Including expected HTTP error code|
 
+<a name="auth"></a>
+## Loginless Auth
+### POST /api/v1/auth
+```
+GET api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37
+Accept: application/json
+```
+### 200 OK
+```json
+{
+"serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7",
+"userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"
+}
+```
 <a name="all-info"></a>
 ## Exchange Basic Info
 ### GET /api/v1/all/info
@@ -81,11 +95,8 @@ Accept: application/json
 ## Contract Specs
 ### GET /api/v1/all/spec
 ```
-{
-   "method":"GET",
-   "uri":"/api/spec",
-   "nonce":1480947264503
-}
+GET /api/v1/all/spec
+Accept: application/json
 ```
 ### 200 OK
 ```json
@@ -217,9 +228,10 @@ Accept: application/json
 ## Chart for contract
 ### /api/v1/contract/:symbol/chart/:timeframe
 ```
-  GET /api/v1/contract/BTC1/chart/5
-  Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
-  Nonce: 1481655922696
+GET /api/v1/contract/BTC1/chart/5
+Accept: application/json
+Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+Nonce: 1481655922696
 ```
 ### 200 OK
 ```json
@@ -251,6 +263,7 @@ Accept: application/json
 ### GET /api/v1/contract/:symbol/order
 ```
 GET /api/v1/contract/BTC1/order
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```
@@ -317,6 +330,8 @@ Nonce: 1480957451447
 ```
 GET /api/v1/contract/BTC1/order/open/503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc
 Accept: application/json
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1481655922696
 ```
 ### 200 OK
 ```json
@@ -359,6 +374,7 @@ Accept: application/json
 POST /api/v1/contract/BTC1/order
 Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
+Nonce: 1481655922696
 ```
 ```json
 [
@@ -380,39 +396,31 @@ Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6
 ### 200 OK
 ```json
 [
-   "order_add",
    {
-      "result":[
-         {
-            "uuid":"de730980-c616-11e6-948a-14e8eedc81d8",
-            "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-            "side":"sell",
-            "quantity":1,
-            "filled":0,
-            "cancelled":0,
-            "price":790,
-            "averagePrice":0,
-            "entryTime":1482171220504726,
-            "eventTime":1482171220504726,
-            "status":"open",
-            "entryOrder":{
+      "uuid":"de730980-c616-11e6-948a-14e8eedc81d8",
+      "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+      "side":"sell",
+      "quantity":1,
+      "filled":0,
+      "cancelled":0,
+      "price":790,
+      "averagePrice":0,
+      "entryTime":1482171220504726,
+      "eventTime":1482171220504726,
+      "status":"open",
+      "entryOrder":{
 
-            },
-            "orderType":"LMT",
-            "stopPrice":30.6,
-            "targetPrice":"NONE",
-            "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-            "instrument":"BTC1",
-            "commission":10000,
-            "reward":-2500,
-            "cushion":1,
-            "reservedTicks":2,
-            "crossMargin":false
-         }
-      ],
-      "methodName":"createOrders",
-      "requestid":"7ad8b572-0b4b-4ea2-a2fb-261130ec5b13",
-      "topic":"order_add"
+      },
+      "orderType":"LMT",
+      "stopPrice":30.6,
+      "targetPrice":"NONE",
+      "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
+      "instrument":"BTC1",
+      "commission":10000,
+      "reward":-2500,
+      "cushion":1,
+      "reservedTicks":2,
+      "crossMargin":false
    }
 ]
 ```
@@ -423,73 +431,48 @@ Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6
 PUT /api/v1/contract/BTC1/order/open
 Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b
+Nonce: 1482348434637
 ```
 ```json
 [
-   "PUT /order",
-   {
-      "headers":{
-         "requestid":"f91e424a-978f-4cd2-9f14-02e21d914908",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b"
-      },
-      "method":"PUT",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":{
-         "orders":[
-            {
-               "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-               "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-               "price":814.8
-            }
-         ]
-      },
-      "nonce":1482348434637,
-      "current":1482348433200
-   }
+    {
+       "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
+       "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+       "price":814.8
+    }
 ]
 ```
 ### 200 OK
 ```json
 [
-   "order_update",
    {
-      "result":[
-         {
-            "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-            "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-            "side":"sell",
-            "quantity":1,
-            "filled":0,
-            "cancelled":0,
-            "price":814.8,
-            "averagePrice":0,
-            "entryTime":1482348434328077,
-            "eventTime":1482348364074468,
-            "status":"open",
-            "entryOrder":{
-               "50192f40-c7b3-11e6-ba51-b8bd8cf25f84":1
-            },
-            "orderType":"STP",
-            "stopPrice":7.2,
-            "targetPrice":"NONE",
-            "instrument":"BTC1",
-            "oco":"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39",
-            "maxStop":814,
-            "entryPrice":822.3,
-            "entryAmount":822.3,
-            "commission":10000,
-            "reward":-2500,
-            "cushion":1,
-            "reservedTicks":2,
-            "crossMargin":false
-         }
-      ],
-      "methodName":"updateOrders",
-      "requestid":"f91e424a-978f-4cd2-9f14-02e21d914908",
-      "topic":"order_update"
+      "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
+      "userid":"mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
+      "side":"sell",
+      "quantity":1,
+      "filled":0,
+      "cancelled":0,
+      "price":814.8,
+      "averagePrice":0,
+      "entryTime":1482348434328077,
+      "eventTime":1482348364074468,
+      "status":"open",
+      "entryOrder":{
+         "50192f40-c7b3-11e6-ba51-b8bd8cf25f84":1
+      },
+      "orderType":"STP",
+      "stopPrice":7.2,
+      "targetPrice":"NONE",
+      "instrument":"BTC1",
+      "oco":"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39",
+      "maxStop":814,
+      "entryPrice":822.3,
+      "entryAmount":822.3,
+      "commission":10000,
+      "reward":-2500,
+      "cushion":1,
+      "reservedTicks":2,
+      "crossMargin":false
    }
 ]
 ```
@@ -498,29 +481,14 @@ Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5
 ### DELETE /api/v1/contract/:symbol/order/:uuid
 ```
 DELETE /api/v1/contract/BTC1/order/adcb4c70-b72a-11e6-9b68-be1cfc0a27e0
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
 Nonce: 1482347623909
 ```
 ### 200 OK
 ```json
 [
-   "DELETE /order",
-   {
-      "headers":{
-         "requestid":"12ddc14b-4515-4361-846e-8bfbdd0c4951",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4"
-      },
-      "method":"DELETE",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":[
-         "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
-      ],
-      "nonce":1482347623909,
-      "current":1482347622820
-   }
+   "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
 ]
 ```
 <a name="contract-cancel-all"></a>
@@ -528,42 +496,19 @@ Nonce: 1482347623909
 ### DELETE /api/v1/contract/:symbol/order
 ```
 DELETE /api/v1/contract/BTC1/order
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
 Nonce: 1482347623909
 ```
 ```json
 [
-   "DELETE /order",
-   {
-      "headers":{
-         "requestid":"12ddc14b-4515-4361-846e-8bfbdd0c4951",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4"
-      },
-      "method":"DELETE",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":[
-         "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
-      ],
-      "nonce":1482347623909,
-      "current":1482347622820
-   }
+   "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
 ]
 ```
 ### 200 OK
 ```json
 [
-   "order_del",
-   {
-      "result":[
-         "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
-      ],
-      "methodName":"cancelOrder",
-      "requestid":"12ddc14b-4515-4361-846e-8bfbdd0c4951",
-      "topic":"order_del"
-   }
+   "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0"
 ]
 ```
 
@@ -572,61 +517,38 @@ Nonce: 1482347623909
 ### PATCH /contract/:symbol/order
 ```
 PATCH /api/v1/contract/BTC1/order
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1482349148300
 ```
 ```json
 [
-   "PATCH /contract/BTC1/order",
    {
-      "headers":{
-         "requestid":"92569941-69d6-4c86-bafc-694558157a48",
-         "authorization":"HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69"
-      },
-      "method":"PATCH",
-      "uri":"/order",
-      "params":{
-         "instrument":"BTC1"
-      },
-      "body":[
-         {
-            "op":"remove",
-            "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55"
-         },
-         {
-            "op":"remove",
-            "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
-         }
-      ],
-      "nonce":1482349148300,
-      "current":1482349147200
+      "op":"remove",
+      "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55"
+   },
+   {
+      "op":"remove",
+      "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
    }
 ]
 ```
 ### 200 OK
 ```json
 [
-   "order_patch",
    {
-      "result":[
-         {
-            "op":"remove",
-            "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55",
-            "response":[
-               "19b3a371-c7b5-11e6-a305-6ee5416bea55"
-            ]
-         },
-         {
-            "op":"remove",
-            "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5",
-            "response":[
-               "0d71f940-c7b5-11e6-9906-9cd1c95275e5"
-            ]
-         }
-      ],
-      "methodName":"patchOrders",
-      "requestid":"92569941-69d6-4c86-bafc-694558157a48",
-      "topic":"order_patch"
+      "op":"remove",
+      "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55",
+      "response":[
+         "19b3a371-c7b5-11e6-a305-6ee5416bea55"
+      ]
+   },
+   {
+      "op":"remove",
+      "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5",
+      "response":[
+         "0d71f940-c7b5-11e6-9906-9cd1c95275e5"
+      ]
    }
 ]
 ```
@@ -636,6 +558,7 @@ Nonce: 1482349148300
 ### GET /api/v1/contract/:symbol/order/closed
 ```
 GET /api/v1/contract/BTC1/order/closed
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481651130426
 ```
@@ -719,6 +642,8 @@ Nonce: 1481651130426
 ### GET /api/v1/contract/:symbol/order/cancelled
 ```
 GET /api/v1/contract/BTC1/order/cancelled
+Accept: application/json
+Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481653294715
 ```
 ### 200 OK
@@ -801,6 +726,7 @@ Nonce: 1481653294715
 ### GET /api/v1/contract/:symbol/orderbook
 ```
 GET /api/v1/contract/BTC1/orderbook
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480947259178
 ```
@@ -844,6 +770,7 @@ Nonce: 1480947259178
 ### GET /api/v1/contract/:symbol/trade
 ```
 GET /api/v1/contract/BTC1/trade
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947260712
 ```
@@ -887,6 +814,7 @@ Nonce: 1480947260712
 ### GET /api/v1/account
 ```
 GET /api/v1/account
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947266323
 ```
@@ -914,14 +842,41 @@ Nonce: 1480947266323
 ### GET /api/v1/account/execution
 ```
 GET /api/v1/account/execution
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```
 ### 200 OK
 ```json
-[
-
-]
+[{
+  "userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
+  "executionid": "27a99cb0-f5bd-11e6-9bc0-ab69e5d88384",
+  "side": "sell",
+  "orderType": "MKT",
+  "orderid": "278ec1b0-f5bd-11e6-a389-363d200d248d",
+  "price": 1063.9,
+  "quantity": 1,
+  "liquidity": "commission",
+  "commission": 23498,
+  "eventTime": 1487410344443683,
+  "instrument": "BTCUSD7G24",
+  "entryAmount": -46952766,
+  "pnl": -44132
+}, {
+  "userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
+  "executionid": "1f0c9080-f5bd-11e6-8fe3-628ba4ed8f57",
+  "side": "buy",
+  "orderType": "MKT",
+  "orderid": "1ef6e5a0-f5bd-11e6-8279-f198eadae07e",
+  "price": 1064.9,
+  "quantity": 1,
+  "liquidity": "commission",
+  "commission": 23476,
+  "eventTime": 1487410329992901,
+  "instrument": "BTCUSD7G24",
+  "entryAmount": 0,
+  "pnl": 0
+}]
 ```
 
 <a name="account-margin"></a>
@@ -929,6 +884,7 @@ Nonce: 1480957451447
 ### GET /api/v1/account/margin
 ```
 GET /api/v1/account/margin
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```
@@ -940,17 +896,41 @@ Nonce: 1480957451447
 ```
 <a name="account-margin-move"></a>
 ## Add Margin (Move from Multisig to Margin)
-### Request - TBD
-### Response - TBD
+Note this will change to return just txid
+### POST /api/v1/account/margin
+```
+POST /api/v1/account/margin
+Accept: application/json
+Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:cbe864dca0c4a39f4247d241840fa46cf2cbd948cdc46b51ac1ef0a6e249ce39
+Nonce: 1487489261278
+```
+```json
+[{"txs":["0100000002687c0cf9d5e0dec13dab256fad30672b34c65fdeddcf9662bec7a1d9274308fa01000000920000473044022031ecaf36aa52b438c9c335d066209408aa7cfbe82120746849fc9f4783f06f7a0220208bb556e0dfbd86818de3a5fb7acb7aba0efdd1dc11950bfbe28d32edc4c5690147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffffc2585bc27effc1cb58b957e4dc71681b6180a8457679533f0a3b0a21a09835bf010000009200004730440220277154208a1062408175682e8a640edbcb46ae0056b39aebda3e2ce00f05679202204e1b5b248f2b010c1ee72eb68ea811e1464f94a5bb07d328fa8ba6744422f23a0147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffff03b8ca0e00000000001976a914c2db9d057d9988d2a7ee8e4887f851fc874a647a88ac809698000000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d87541eaa010000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d8700000000"]}]
+```
+### 200 OK
+```json
+{"signedTxs":["0100000002687c0cf9d5e0dec13dab256fad30672b34c65fdeddcf9662bec7a1d9274308fa01000000da00483045022100fa9be09ce1ed0bd5186c653df8b98af4ee20aa9583b7b36d85959271f87556e0022007cf59f239def0dc9e5513c2afe66a0f1cb5c499243bd6302acbfe3cb66cb6a701473044022031ecaf36aa52b438c9c335d066209408aa7cfbe82120746849fc9f4783f06f7a0220208bb556e0dfbd86818de3a5fb7acb7aba0efdd1dc11950bfbe28d32edc4c5690147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffffc2585bc27effc1cb58b957e4dc71681b6180a8457679533f0a3b0a21a09835bf01000000da00483045022100bf1b8c32d8e97f5101aa7c7477f10a81ca82f123e72522e852045d2e6442165d02202d00dd9c524c1cd3c3adae34b06f10a7da89a6a83fafad42e0e0edf8cf3b35c9014730440220277154208a1062408175682e8a640edbcb46ae0056b39aebda3e2ce00f05679202204e1b5b248f2b010c1ee72eb68ea811e1464f94a5bb07d328fa8ba6744422f23a0147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffff03b8ca0e00000000001976a914c2db9d057d9988d2a7ee8e4887f851fc874a647a88ac809698000000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d87541eaa010000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d8700000000"]}
+```
 <a name="account-margin-clear"></a>
 ## Clear Margin (Move to Multisig)
-### Request - TBD
-### Response - TBD
+Note: This returns server signed bitcoin transactions. This will change to return just the txid
+### /api/v1/account/margin/:amount
+```
+DELETE /api/v1/account/margin/10000000
+Accept: application/json
+Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:b7156a8863712494903e66170cba78a4ce9b7412b72b12c00903b4ba191cfa67
+Nonce: 1487490137968
+```
+### 200 OK
+```json
+{"signedTxs":["010000000268fbf38cb0053da4f467c8f0ba8a344899b6117cf7476f6fb87909125a64075f020000006a4730440220762e217bc2db9ee00e7000d33e782659e41e23c10720fe2efb4ab89e3f4ac4ba022029a708e7be6179a766b6b05fb511a3dfd6dbdfe406a279a09a6dc1f1caa6d94d012103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7ffffffff13911223f5a8e66804ea30b563536334af26be167da226f34ecdc7174b37e7ef010000006b483045022100cbc696eea90853fcda9aa1100786bd2c077c9247e9286a7dedbbeb2f9227f7ea02200db3cd10012e2ae305046e1877ee400c1d18dce73ab4599bc835547d77e2c22e012103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7ffffffff02104d98000000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d87b546b000000000001976a914c2db9d057d9988d2a7ee8e4887f851fc874a647a88ac00000000"]}
+```
 <a name="account-position"></a>
 ## User positions
 ### GET /api/v1/position
 ```
 GET /api/v1/account/position
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480965622146
 ```
@@ -972,6 +952,7 @@ Nonce: 1480965622146
 ### GET /api/v1/account/pnl
 ```
 GET /api/v1/account/pnl
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947263028
 ```
@@ -992,13 +973,17 @@ Nonce: 1480947263028
 ### POST /api/v1/account/withdrawtx
 ```
 POST /api/withdrawtx
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
-Nonce: 1481654361400
+Accept: application/json
+Authorization:HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:8da600485b53e5ce4dacc9e302c8950d09376a1bbf3f30bfef3f78fdd42b252e
+Nonce: 1487489119205
+```
+```json
+{"tx":"01000000013a0204fc74b9448b8138a0a4007c212dd9c94d3afefe6356a0a31f0173a3fe83030000009200004730440220626e7b4af2b692274d0f7710737e0283b7a0d8a45da232837feda72874e592cc02200b13651c9b631a12cfb9656d637af2e1f50ae6fe7fcb82a5d29f2ee413852f070147522103133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda721038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df3752aeffffffff0240420f000000000017a9146d8873aa9fd5426f4704906697f3591b27c7f46b879460b9010000000017a91427649de18dc419c47efdbfde57e0d0d12215f53d8700000000"}
 ```
 ### 200 OK
 ```json
 {
-  "txid": "67b69d42fd8f6c7e233513513642110e81a6fd4ae6f1b70f07f49d803cc2c274"
+  "txid": "bf3598a0210a3b0a3f53797645a880611b6871dce457b958cbc1ff7ec25b58c2"
 }
 ```
 
@@ -1007,6 +992,7 @@ Nonce: 1481654361400
 ### GET /api/v1/account/recoverytx
 ```
 GET /api/v1/account/recoverytx
+Accept: application/json
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947265266
 ```

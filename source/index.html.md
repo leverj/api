@@ -2,7 +2,6 @@
 title: Coinpit API
 
 language_tabs:
-  - shell
   - python
   - javascript
 
@@ -35,14 +34,15 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
 ```html
  <!-- In browser -->
   <script src="jquery.min.js"></script>
-  <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js">
+  <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"></script>
   <script>
     restjs.get("https://live.coinpit.io/api/v1/all/info")
           .then(function(result) {
             console.log(result)
           })
   </script>
-
+```
+```coffeescript
   // In node.js
   var restjs = require('rest.js')
   restjs.get("https://live.coinpit.io/api/v1/all/info")
@@ -86,7 +86,8 @@ Url parameters are denoted by prepending a colon:
 /contract/:symbol/order/:orderid
 ```
 
-A specific order with id 123e4567-e89b-12d3-a456-426655440000 of contract BTC1 would be accessed as the url
+The parameters "symbol" and "orderid" need to be filled in when making a REST call to server.
+To get a specific order with id 123e4567-e89b-12d3-a456-426655440000 of contract BTC1, the actual url would be
 
 ```
 https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
@@ -132,18 +133,48 @@ Accept: application/json
 }
 ```
 
-You also get the server clock in the Server-Time header. If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests.
+### Compute Shared Secret
+
+Compute the shared secret using your private key and the server's public key
+
+```javascript
+  var bitcoin      = require('bitcoinjs-lib')
+  var crypto       = require('crypto')
+  var myEcdhKey    = getEcdhKey(bitcoin.ECPair.fromWIF(myPrivateKeyWif, bitcoin.networks[network]))
+  var sharedSecret = myEcdhKey.computeSecret(serverPublicKeyHex, 'hex', 'hex')
+
+  function getEcdhKey(privateKey) {
+    var ecdhKey = crypto.createECDH('secp256k1')
+    ecdhKey.generateKeys()
+    ecdhKey.setPrivateKey(privateKey.d.toBuffer(32))
+    ecdhKey.setPublicKey(privateKey.getPublicKeyBuffer())
+    return ecdhKey
+  }
+```
+```python
+
+import binascii
+import pybitcointools
+import pyelliptic
+
+network_code = 111 # 111 for testnet; 0 for livenet
+
+pub_key_bytes           = binascii.unhexlify(self.server_pub_key)
+uncompressed_user_key   = binascii.unhexlify(pybitcointools.decompress(self.user_pub_key))
+uncompressed_server_key = binascii.unhexlify(pybitcointools.decompress(self.server_pub_key))
+user_priv_key_bin       = binascii.unhexlify(pybitcointools.encode_privkey(self.private_key, 'hex', network_code))
+self.user               = pyelliptic.ECC(privkey=user_priv_key_bin, pubkey=uncompressed_user_key, curve='secp256k1')
+self.shared_secret      = self.user.get_ecdh_key(uncompressed_server_key)
+```
+
+### Nonce
+To prevent replay attacks, all requests should include a nonce and the nonce is also used to compute HMAC. The server expects UNIX time as the nonce. This requires a reasonably accurate clock on your client machine.
+If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the Server-Time header in the HTTP responses. The node.js SDK does this automatically.
 
 ```
 Server-Time: 1478041315780
 ```
 
-### Compute Shared Secret
-
-```
-// Programming language specific
-sharedSecret = ECDH(myPrivateKey, serverPublicKey)
-```
 
 ### Compute HMAC authorization for all subsequent requests
 
@@ -159,15 +190,16 @@ sharedSecret = ECDH(myPrivateKey, serverPublicKey)
 
 
 ```python
-import pycoinpit
-coinpit_me = pycoinpit.Client(private_key)
-account = coinpit_me.get_account()
-```
-
-
-```shell
-PRIVATE_KEY_WIF="" # private_key in WIF format
-python -c "import pycoinpit; coinpit_me = pycoinpit.Client($PRIVATE_KEY_WIF); print coinpit_me.get_account()"
+    nonce = str(long(time.time() * 1000))
+    request_string = '{"method":"' + method + '","uri":"' + rest_url  + ('",' if(body == None) else '","body":' + body + ',') + '"nonce":' + nonce + '}'
+    mac = hmac.new(self.shared_secret, request_string,    hashlib.sha256)
+    sig = mac.hexdigest()
+    headers = {
+        'Authorization': 'HMAC ' + self.user_id + ':' + sig,
+        'Nonce': nonce,
+        'Accept': 'application/json'
+    }
+    return headers
 ```
 
 
@@ -184,6 +216,11 @@ In the examples below parameters are preceded by colon(:) For example, GET /cont
 GET /contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 ```
 ## Unprotected REST API endpoints
+
+### Authentication
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|POST|[/auth](#auth)|Get Server public key for loginless auth|
 
 ### General Exchange data
 |Method|Rest Endpoint|Description|
