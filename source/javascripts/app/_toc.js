@@ -35,6 +35,9 @@
 
     $(".page-wrapper").click(closeToc);
     $(".tocify-item").click(closeToc);
+    $(".tocify-wrapper > div.logo").click(function () {
+      document.location.href='http://coinpit.io'
+    })
   };
 
   // Hack to make already open sections to start opened,
@@ -53,5 +56,7 @@
       global.toc.calculateHeights();
     });
   });
+
+
 })(window);
 

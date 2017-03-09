@@ -82,17 +82,18 @@ html, body {
   & > div.logo {
     position       : relative;
     left           : -47px;
-    padding-top    : 4px;
+    padding-top    : 33px;
     padding-bottom : 10px;
+    cursor         : pointer;
     & > img {
       display : block;
       margin  : auto auto;
     }
     & > div {
       color     : $nav-text;
-      position  : absolute;
+      position  : relative;
       bottom    : 2px;
-      right     : -22px;
+      left      : 76px;
       font-size : 27px;
     }
   }
@@ -294,18 +295,18 @@ html, body {
   // half of the content always this background color.
   .dark-box {
     //display          : none;
-    width            : 100%;
+    width    : 100%;
     //background-color : $examples-bg;
-    position         : absolute;
-    right            : 0;
-    top              : 0;
-    bottom           : 0;
+    position : absolute;
+    right    : 0;
+    top      : 0;
+    bottom   : 0;
   }
 
   .lang-selector {
-    position: fixed;
-    z-index: 50;
-    border-bottom: 5px solid $lang-select-active-bg;
+    position      : fixed;
+    z-index       : 50;
+    border-bottom : 5px solid $lang-select-active-bg;
   }
 }
 
@@ -640,8 +641,8 @@ html, body {
     }
   }
 
-  .content h1{
-    padding-top      : 0.5em;
+  .content h1 {
+    padding-top : 0.5em;
   }
   .page-wrapper {
     margin-left : 0;
@@ -663,8 +664,8 @@ html, body {
 
 .page-wrapper .lang-selector {
   display : block;
-  top:0;
-  right:0;
+  top     : 0;
+  right   : 0;
 }
 
 %right-col {
