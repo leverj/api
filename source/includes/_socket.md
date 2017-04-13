@@ -222,15 +222,15 @@ loginless.socket.send({
 |advisory|General advisory regarding exchange
 |config|Configuration has changed.
 |readonly|Server is in read-only maintenance mode.
-|'server-time'|Unix timestamp on server. Useful for adjusting clock skew if needed.
+|server_time|Unix timestamp on server. Useful for adjusting clock skew if needed.
 |upgrade|App has upgraded
 |version|Version of the client code
 
 ### Instrument related events
 |Event|Meaning|
 -----|-----
-|'24hr_volume'|Volume over the last 24 hrs
-|deliveryPrice|Estimated delivery price
+|volume_24h|Volume over the last 24 hrs
+|delivery_price|Estimated delivery price
 |difforderbook|Quantity and size for changed prices only (real-time)
 |orderbook|Entire orderbook (every minute)
 |priceband|Trading Band where trades can take place
@@ -241,7 +241,6 @@ loginless.socket.send({
 ### Authentication and connection related events
 |Event|Meaning|
 -----|-----
-|auth_error|You are using the wrong key or your clock is off
 |connect_error|There was an error trying to connect
 |connect_timeout|Can't seem to reach server
 |reconnect|Attempting reconnect (usually after laptop is reopened)
@@ -251,6 +250,7 @@ loginless.socket.send({
 ### Account related events
 |Event|Meaning|
 -----|-----
+|auth_error|You are using the wrong key or your clock is off
 |account|Your account info with margin, P&L and orders
 |affiliate|Affiliate info
 |settlement|There has been an on-chain settlement
@@ -260,10 +260,12 @@ loginless.socket.send({
 -----|-----|----
 |order_add|create order request|POST
 |order_del|delete order request|DELETE
-|order_error|There was an error in your order|
-|orders_del|Deleting all orders|DELETE
+|order_del_all|Deleting all orders|DELETE
 |order_update|Update order request|PUT
 |order_patch|Multi-operation request|PATCH
 |order_closed|Order was filled completely|
 |order_cancelled|Order was cancelled|
-|user_execution|Order was filled partially or completely|
+|order_error|There was an error processing your order|
+|order_execution|Order was filled partially or completely|
+
+## Sitewide Events
