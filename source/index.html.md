@@ -12,14 +12,121 @@ toc_footers:
 
 includes:
   - examples
+  - socket
+  - errors
 
 search: true
 ---
 # Introduction
 
-Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API
+Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API.
 
+## Quickstart using Coinpit shell: coinpit.py
+
+The python package ```pycoinpit``` enables a shell like interaction with the coinpit.io API and enables you to enter rest commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or ```--verbose``` option in addition also dumps headers.
+
+```
+$ pip install pycoinpit
+
+$ coinpit.py -v -k mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
+
+Using keyfile:  mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
+
+Connected to  https://live.coinpit.me/api/v1
+Enter REST commands: METHOD path body. Enter quit to exit
+For more information: https://coinpit.io/api
+
+Examples:
+  GET /account
+  POST /contract/BTCUSD7J14/order/open [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT"}]
+  PUT /contract/BTCUSD7J14/order/open [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
+  GET /contract/BTCUSD7J14/order/open
+  DELETE /contract/BTCUSD7J14/order/open/b117ef30-1f50-11e7-b324-e2f410d2f5f7
+
+mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj>
+```
+
+REST commands may be entered at the prompt as HTTP method, url and optional body. The shell performs authenticated REST call and displays the result
+
+```
+mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj>get /account
+```
+```http
+GET https://live.coinpit.me/api/v1/account HTTP/1.0
+Nonce: 1492043473117
+Accept: application/json
+Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c61e8aba4c5d9fca1fe800fd3536caa22a3348fd
+```
+```
+===================================
+
+200
+===================================
+```
+```json
+{
+    "displayMargin":9414800,
+    "positions":{},
+    "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
+    "margin":9414800,
+    "orders":{
+        "BTCUSD7J14":{
+            "6feea600-1fa7-11e7-883c-2b1c532b3fc4":{
+                "marginPerQty":27815,
+                "stopPrice":2,
+                "eventTime":1492018965601165,
+                "uuid":"6feea600-1fa7-11e7-883c-2b1c532b3fc4",
+                "instrument":"BTCUSD7J14",
+                "orderType":"LMT",
+                "commission":0.0005,
+                "entryOrder":{},
+                "filled":0,
+                "status":"open",
+                "normalizedPrice":8325008,
+                "price":1201.2,
+                "entryTime":1492018965601165,
+                "cushion":2,
+                "targetPrice":3,
+                "reservedTicks":2,
+                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
+                "cancelled":0,
+                "reward":0,
+                "averagePrice":0,
+                "side":"buy",
+                "quantity":10
+            },
+            "6e2b84c0-1f50-11e7-92cc-28f73d89632f":{
+                "marginPerQty":27815,
+                "stopPrice":2,
+                "eventTime":1491981596429055,
+                "uuid":"6e2b84c0-1f50-11e7-92cc-28f73d89632f",
+                "instrument":"BTCUSD7J14",
+                "orderType":"LMT",
+                "commission":0.0005,
+                "entryOrder":{},
+                "filled":0,
+                "status":"open",
+                "normalizedPrice":8325008,
+                "price":1201.2,
+                "entryTime":1491981596429055,
+                "cushion":2,
+                "targetPrice":3,
+                "reservedTicks":2,
+                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
+                "cancelled":0,
+                "reward":0,
+                "averagePrice":0,
+                "side":"buy",
+                "quantity":10
+            }
+        },
+        "BTCUSD7J21":{}
+    },
+    "accountMargin":9971100
+}
+```
 <a name="sdk"></a>
+
 ## Language SDK/Libraries
 
 Currently we support the following SDK for programmatic access
@@ -30,7 +137,7 @@ Currently we support the following SDK for programmatic access
 
 ## Unified javascript Rest library
 
-The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a SCRIPT tag in HTML
+The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a `SCRIPT` tag in HTML
 
 ### In Browser
 ```html
@@ -94,6 +201,17 @@ To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contra
 ```
 https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
 ```
+
+### Pagination
+All resources have a Type 1 UUID that also represent creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter ```from``` to get data for the next page.
+
+Example: Get all executions AFTER 123e4567-e89b-12d3-a456-426655440000
+
+```
+
+https://live.coinpit.io/api/v1/contract/BTC1/executions?from=123e4567-e89b-12d3-a456-426655440000
+```
+
 ### HTTP headers
 HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.coinpit.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
 
@@ -107,18 +225,35 @@ Zero knowledge Authentication avoids setting session cookies and eliminates the 
 
 ## Overview
 
-Loginless requires you to set the Authorization header in HTTP for protected endpoints. This requires your public key and user id, which are in your json key file that you saved when you first visit the web site.
+Loginless requires you to set the Authorization header in HTTP for protected endpoints. This requires your public key and user id, which are in your JSON key file that you saved when you first visit the web site.
+
+### Loginless node module
+
+Loginless node module will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.
+
+```
+var Loginless = require('loginless')
+var loginless = Loginless(coinpitUrl, "/api/v1")
+
+loginless.getServerKey(key.privateKey).then(function (serverResponse) {
+  loginless.rest.post()
+  loginless.socket.register() // listen to socket messages
+
+  Object.keys(socketCallbacks).forEach(function(topic) {
+    loginless.socket.on(topic, socketCallbacks[topic])
+  })
+```
 
 ### Authorization and Nonce headers
 
 ```
-Authorization HMAC <user_id>:<hmac_sha256>
-Nonce <unix_time>
+Authorization: HMAC <user_id>:<hmac_sha256>
+Nonce: <unix_time>
 ```
 
 ```
-Authorization HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
-Nonce 1478041315653
+Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+Nonce: 1478041315653
 ```
 
 ### Setup ECDH
@@ -235,8 +370,6 @@ Unprotected endpoints do not require an `Authorization` header.
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/all/spec](#all-spec)|Get contract specs for all exchange traded instruments|
-|GET|[/all/config](#all-config)|General Exchange configuration|
-
 
 ## Protected REST API endpoints
 All user specific endpoints require an `Authorization` and `Nonce` headers as described in the [Loginless](#loginless) section
@@ -258,13 +391,13 @@ All user specific endpoints require an `Authorization` and `Nonce` headers as de
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/:symbol/order/closed?after=uuid](#contract-order-closed)|Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned|
+|GET|[/contract/:symbol/order/closed?from=uuid](#contract-order-closed)|Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned|
 
 ### Cancelled Orders
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/:symbol/order/cancelled?after=uuid](#contract-order-cancelled)|Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned|
+|GET|[/contract/:symbol/order/cancelled?from=uuid](#contract-order-cancelled)|Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned|
 ### Order Book
 
 |Method|Rest Endpoint|Description|
@@ -308,5 +441,5 @@ All user specific endpoints require an `Authorization` and `Nonce` headers as de
 ### Multisig Account functions
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/account/withdrawtx](#account-withdrawtx)||
-|GET|[/account/recoverytx](#account-recoverytx)|Get Server signed Multisig account Recovery TX|
+|POST|[/account/tx/withdraw](#account-withdrawtx)|Send user signed withdrawal tx for server signature|
+|GET|[/account/tx/recovery](#account-recoverytx)|Get Server signed Multisig account Recovery TX|

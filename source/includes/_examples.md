@@ -56,20 +56,50 @@ Host: live.coinpit.me
 ### 200 OK
 ```json
 {
-   "BTC1":{
-      "vol24H":{
-         "qty":152,
-         "btc":115.8483,
-         "instrument":"BTC1"
-      },
-      "openInterest":{
-         "qty":7,
-         "btc":5.261,
-         "instrument":"BTC1"
-      },
-      "lastPrice":751.7,
-      "indexPrice":748.6
-   }
+    "BTCUSD7J21":{
+        "lastPrice":1218.2,
+        "vol24H":{
+            "instrument":"BTCUSD7J21",
+            "btc":0,
+            "qty":0
+        },
+        "bid":1223,
+        "ask":1224.1,
+        "indexPrice":1217.3,
+        "openInterest":{
+            "instrument":"BTCUSD7J21",
+            "btc":3.35991635,
+            "qty":40
+        }
+    },
+    "BTCUSD7J14":{
+        "lastPrice":1216.9,
+        "vol24H":{
+            "instrument":"BTCUSD7J14",
+            "btc":2.95598808,
+            "qty":36
+        },
+        "bid":1217.2,
+        "ask":1217.9,
+        "indexPrice":1217.3,
+        "openInterest":{
+            "instrument":"BTCUSD7J14",
+            "btc":2.30003528,
+            "qty":28
+        }
+    },
+    "BTCUSD":{
+        "aggregate":true,
+        "vol24H":{
+            "btc":2.95598808,
+            "qty":36
+        },
+        "openInterest":{
+            "btc":5.65995163,
+            "qty":68
+        },
+        "indexPrice":1217.3
+    }
 }
 ```
 <a name="all-band"></a>
@@ -83,36 +113,18 @@ Host: live.coinpit.me
 ### 200 OK
 ```json
 {
-  "BTCUSD7G24": {
-    "price": 1057.1,
-    "min": 1047.1,
-    "max": 1067.1,
-    "instrument": "BTCUSD7G24"
-  },
-  "BTC1": {
-    "price": 1057.1,
-    "min": 1055.1,
-    "max": 1059.1,
-    "instrument": "BTC1"
-  },
-  "BTCUSD7H03": {
-    "price": 1057.1,
-    "min": 1047.1,
-    "max": 1067.1,
-    "instrument": "BTCUSD7H03"
-  },
-  "MBTCUSD7G190245": {
-    "price": 1057.1,
-    "min": 1047.1,
-    "max": 1067.1,
-    "instrument": "MBTCUSD7G190245"
-  },
-  "MBTCUSD7G190250": {
-    "price": 1057.1,
-    "min": 1047.1,
-    "max": 1067.1,
-    "instrument": "MBTCUSD7G190250"
-  }
+    "BTCUSD7J14":{
+        "max":1227.7,
+        "price":1217.7,
+        "instrument":"BTCUSD7J14",
+        "min":1207.7
+    },
+    "BTCUSD7J21":{
+        "max":1229.9,
+        "price":1217.7,
+        "instrument":"BTCUSD7J21",
+        "min":1205.5
+    }
 }
 
 ```
@@ -127,130 +139,73 @@ Host: live.coinpit.me
 ### 200 OK
 ```json
 {
-   "instruments":{
-      "all":{
-         "Trading Hours":"24x7x365",
-         "Listed Contracts":"Continuous",
-         "Settlement Method":"Financial",
-         "Termination of trading":"None, Automatic rollover",
-         "Settlement Procedure":"P&L Equivalent BTC credited/debited to account",
-         "Position Limits":"None at present. May be instituted as needed",
-         "Price Limit or circuit":"None at present. May be instituted as needed"
-      },
-      "BTC1":{
-         "Contract Unit":"BTC/USD",
-         "Minimum price fluctuation":"0.1 USD = 0.0001 BTC",
-         "Quote currency":"USD",
-         "Type":"Quanto",
-         "Margin & PNL currency":"BTC",
-         "BTC value of 1 contract":"Price &times; 0.001 BTC",
-         "USD value of 1 contract":"Price² &times; 0.001 BTC",
-         "BTC P&L of 1 contract":"(SellPrice - BuyPrice) &times; 0.001 BTC",
-         "Approx Leverage":"Price &times; 0.001 BTC / Margin<br> Example: 422 &times; 0.001 / (0.0001 &times; 20) = 211 <br>approx. Price &times; 10/(stop_ticks+10)",
-         "Spot Anchor Price":"Spot anchor price is median of OKCoin, BitFinex and Bitstamp BTC/USD real-time spot price"
-      }
-   },
-   "parameter":{
-      "BTC1":{
-         "symbol":"BTC1",
-         "commission":10000,
-         "reward":-2500,
-         "margin":2100000,
-         "stopcushion":1,
-         "stopprice":1,
-         "targetprice":2,
-         "crossMarginInitialStop":10,
-         "ticksize":1,
-         "ticksperpoint":10,
-         "tickvalue":10000,
-         "bandUpperLimit":2,
-         "bandLowerLimit":2,
-         "introducerReward":500,
-         "introducedReward":1000,
-         "rewardsCalculationInterval":1440,
-         "minMarketStop":1.6,
-         "minLimitStop":1.6,
-         "uplDecimalPlaces":4
-      }
-   }
+    "instruments":[
+        "BTCUSD7J14",
+        "BTCUSD7J21"
+    ],
+    "parameter":{
+        "BTCUSD7J14":{
+            "maxLeverage":50,
+            "expiryClass":"weekly",
+            "bandUpperLimit":10,
+            "minLimitStop":1.6,
+            "minMarketStop":1.6,
+            "bandLowerLimit":10,
+            "ticksize":1,
+            "uplDecimalPlaces":4,
+            "start":1490980500000,
+            "next":"BTCUSD7J21",
+            "commission":0.0005,
+            "template":"BTCUSD",
+            "crossMarginInitialStop":15,
+            "type":"inverse",
+            "introducerReward":0,
+            "status":"active",
+            "targetprice":3,
+            "symbol":"BTCUSD7J14",
+            "expiry":1492190100000,
+            "contractusdvalue":100,
+            "introducedReward":0,
+            "externalFeed":"coinpit-index#BTCUSD",
+            "stopcushion":2,
+            "ticksperpoint":10,
+            "stopprice":2,
+            "rewardsCalculationInterval":14400,
+            "reward":0
+        },
+        "BTCUSD7J21":{
+            "maxLeverage":50,
+            "expiryClass":"weekly",
+            "bandUpperLimit":0.01,
+            "minLimitStop":1.6,
+            "minMarketStop":1.6,
+            "bandLowerLimit":0.01,
+            "ticksize":1,
+            "uplDecimalPlaces":4,
+            "start":1491585300000,
+            "next":"BTCUSD7J28",
+            "commission":0.0005,
+            "template":"BTCUSD",
+            "crossMarginInitialStop":15,
+            "type":"inverse",
+            "introducerReward":0,
+            "status":"active",
+            "targetprice":3,
+            "symbol":"BTCUSD7J21",
+            "expiry":1492794900000,
+            "contractusdvalue":100,
+            "introducedReward":0,
+            "externalFeed":"coinpit-index#BTCUSD",
+            "stopcushion":2,
+            "ticksperpoint":10,
+            "stopprice":2,
+            "rewardsCalculationInterval":14400,
+            "reward":0
+        }
+    }
 }
 ```
 
-<a name="all-config"></a>
-## Exchange/Contract Config
-### GET /api/v1/all/config
-```http
-GET /api/v1/all/config HTTP/1.1
-Accept: application/json
-Host: live.coinpit.me
-```
-### 200 OK
-```json
-{
-   "instrument":{
-      "BTC1":{
-         "symbol":"BTC1",
-         "commission":10000,
-         "reward":-2500,
-         "margin":2100000,
-         "stopcushion":1,
-         "stopprice":1,
-         "targetprice":2,
-         "crossMarginInitialStop":10,
-         "ticksize":1,
-         "ticksperpoint":10,
-         "tickvalue":10000,
-         "bandUpperLimit":2,
-         "bandLowerLimit":2,
-         "introducerReward":500,
-         "introducedReward":1000,
-         "rewardsCalculationInterval":1440,
-         "minMarketStop":1.6,
-         "minLimitStop":1.6,
-         "uplDecimalPlaces":4
-      }
-   },
-   "default":{
-      "instrument":"BTC1"
-   },
-   "network":"testnet",
-   "maxInputs":50,
-   "sendFundsTXfee":50000,
-   "sendFundsMaxTXfee":1000000,
-   "recoveryFeePerKB":25000,
-   "minimumFee":50000,
-   "maximumFee":150000,
-   "feePerKB":50000,
-   "feeCheckInterval":3600000,
-   "feeChangeTolerance":0.05,
-   "marginFeeThreshold":0.9,
-   "sliceSize":10000000,
-   "bitcoinDust":5430,
-   "sliceThreshold":10,
-   "reservedTicks":2,
-   "maxOrdersCreateUpdate":100,
-   "maxPositionsMerge":40,
-   "blockchainapi":{
-      "provider":"insight",
-      "uri":"https://insight.coinpit.me/insight-api",
-      "socketuri":"https://insight.coinpit.me"
-   },
-   "links":{
-      "blockcypher":"https://live.blockcypher.com/btc-testnet",
-      "blockexplorer":"https://testnet.blockexplorer.com",
-      "blocktrail":"https://www.blocktrail.com/tBTC"
-   },
-   "geofence":{
-      "block":[
-         "UM"
-      ],
-      "valid":[
-
-      ]
-   },
-   "noSignup":false
-}
-```
 <a name="contract-chart"></a>
 ## Chart for contract
 ### /api/v1/contract/:symbol/chart/:timeframe
@@ -547,6 +502,16 @@ Nonce: 1482347623909
 <a name="contract-patch-order"></a>
 ## Combined create/update/cancel
 
+The PATCH method uses the syntax for [RFC6902](https://tools.ietf.org/html/rfc6902). In addition to the standard ops, we have added `merge` and `split` for position management
+
+|PATCH op|Order operation|
+|---|---|
+|add|Create new order|
+|remove|Delete order|
+|replace|Update order|
+|split|Split position|
+|merge|Merge positions
+
 ### PATCH /contract/:symbol/order
 ```http
 PATCH /api/v1/contract/BTC1/order HTTP/1.1
@@ -557,10 +522,6 @@ Nonce: 1482349148300
 ```
 ```json
 [
-   {
-      "op":"remove",
-      "path":"/19b3a371-c7b5-11e6-a305-6ee5416bea55"
-   },
    {
       "op":"remove",
       "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
@@ -945,20 +906,15 @@ Nonce: 1480947266323
 ### 200 OK
 ```json
 {
-   "orders":[
-
-   ],
-   "positions":{
-
-   },
-   "pnl":{
-      "userid":"mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-      "accountid":"2N8cxuZkeqMjufhP21M1hZexaPT2F8DZ87r",
-      "pnl":-18132500,
-      "commission":242500
-   },
-   "margin":67350920,
-   "displayMargin":67350920
+    "displayMargin":0,
+    "positions":{},
+    "userid":"mk1n8MGrgMEVRHuLarJ6W4MKuZG8CYfh8i",
+    "margin":0,
+    "orders":{
+        "BTCUSD7J14":{},
+        "BTCUSD7J21":{}
+    },
+    "accountMargin":0
 }
 ```
 <a name="account-execution"></a>
@@ -1100,9 +1056,9 @@ Nonce: 1480947263028
 
 <a name="account-withdrawtx"></a>
 ## Withdraw from Multisig
-### POST /api/v1/account/withdrawtx
+### POST /api/v1/account/tx/withdraw
 ```http
-POST /api/v1/account/withdrawtx HTTP/1.1
+POST /api/v1/account/tx/withdraw HTTP/1.1
 Accept: application/json
 Host: live.coinpit.me
 Authorization:HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:8da600485b53e5ce4dacc9e302c8950d09376a1bbf3f30bfef3f78fdd42b252e
@@ -1120,9 +1076,9 @@ Nonce: 1487489119205
 
 <a name="account-recoverytx"></a>
 ## Recovery Transaction
-### GET /api/v1/account/recoverytx
+### GET /api/v1/account/tx/recovery
 ```http
-GET /api/v1/account/recoverytx HTTP/1.1
+GET /api/v1/account/tx/recovery HTTP/1.1
 Accept: application/json
 Host: live.coinpit.me
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
