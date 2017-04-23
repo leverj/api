@@ -337,7 +337,7 @@ Nonce: 1481655922696
     "h": 779.5,
     "l": 779.4,
     "c": 779.5,
-    "instrument": "BTCUSDW"
+    "instrument": "BTCUSD7J28"
   },
   {
     "v": 0,
@@ -347,7 +347,7 @@ Nonce: 1481655922696
     "h": 779.6,
     "l": 779.5,
     "c": 779.6,
-    "instrument": "BTCUSDW"
+    "instrument": "BTCUSD7J28"
   }
 ]
 ```
