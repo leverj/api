@@ -19,13 +19,102 @@ search: true
 ---
 # Introduction
 
-Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API.
+Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API. The [live trading site](https://live.coinpit.io) is also build entirely on this API and should be seen as one of the possible platform implementations.
+
+<a name="sdk"></a>
+
+## Language SDK/Libraries
+
+Currently we support node.js and python SDK for programmatic access. Select your programming language on the top right of the page to select code examples appropriately.
+  <ul>
+  <li><a href="https://github.com/coinpit/coinpit-client">Node.js client</a>
+  <li><a href="https://github.com/coinpit/pycoinpit">Python client</a>
+  </ul>
+
+## Scheme
+
+```
+REST URL = BASE_URL + ENDPOINT
+```
+
+### Base URL
+
+The base url for all REST API is `https://live.coinpit.io/api/v1`. To request an endpoint, append it to the base url and make a request.
+
+For example to access the `/all/info` endpoint:
+
+### From the command line
+```shell
+curl https://live.coinpit.io/api/v1/all/info
+```
+### From your programming language
+```python
+import requests
+print requests.get("https://live.coinpit.io/api/v1/all/info").text'
+```
+
+```javascript
+restjs.get("https://live.coinpit.io/api/v1/all/info")
+ .then(function(info) {
+   console.log(info)
+  })
+```
+### Unified javascript Rest library
+
+The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a `SCRIPT` tag in HTML
+
+### In Browser
+```html
+  <script src="jquery.min.js"></script>
+  <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"></script>
+  <script>
+    restjs.get("https://live.coinpit.io/api/v1/all/info")
+          .then(function(result) {
+            console.log(result)
+          })
+  </script>
+```
+### In node.js
+```coffeescript
+  var restjs = require('rest.js')
+  restjs.get("https://live.coinpit.io/api/v1/all/info")
+        .then(function(result) {
+          console.log(result)
+        })
+```
+
+### URL parameters
+
+Url parameters are denoted by prepending a colon:
+
+```
+/contract/:symbol/order/:orderid
+```
+
+The parameters `:symbol` and `:orderid` need to be filled in when making a REST call to server.
+To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contract `BTCUSDW`, the actual url would be
+
+```
+https://live.coinpit.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-426655440000
+```
+
+### Pagination
+All resources have a Type-1 UUID that also represent creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter ```from``` to get data for the next page.
+
+Example: If the last accessed page had the final item with uuid `123e4567-e89b-12d3-a456-426655440000`, to get page with subsequent items:
+
+```
+https://live.coinpit.io/api/v1/contract/BTCUSDW/executions?from=123e4567-e89b-12d3-a456-426655440000
+```
+
+### HTTP headers
+HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.coinpit.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
 
 ## Quickstart using Coinpit shell: coinpit.py
 
-The python package ```pycoinpit``` enables a shell like interaction with the coinpit.io API and enables you to enter rest commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or ```--verbose``` option in addition also dumps headers.
+The python package [`pycoinpit`](https://pypi.python.org/pypi/pycoinpit) enables a shell like interaction with the coinpit.io API and enables you to enter REST commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or ```--verbose``` option in addition also dumps headers.
 
-```
+```shell
 $ pip install pycoinpit
 
 $ coinpit.py -v -k mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
@@ -38,10 +127,10 @@ For more information: https://coinpit.io/api
 
 Examples:
   GET /account
-  POST /contract/BTCUSD7J14/order/open [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT"}]
-  PUT /contract/BTCUSD7J14/order/open [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
-  GET /contract/BTCUSD7J14/order/open
-  DELETE /contract/BTCUSD7J14/order/open/b117ef30-1f50-11e7-b324-e2f410d2f5f7
+  POST /contract/BTCUSD7J14/order [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT"}]
+  PUT /contract/BTCUSD7J14/order [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
+  GET /contract/BTCUSD7J14/order
+  DELETE /contract/BTCUSD7J14/order/b117ef30-1f50-11e7-b324-e2f410d2f5f7
 
 mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj>
 ```
@@ -78,43 +167,13 @@ Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c
                 "uuid":"6feea600-1fa7-11e7-883c-2b1c532b3fc4",
                 "instrument":"BTCUSD7J14",
                 "orderType":"LMT",
-                "commission":0.0005,
-                "entryOrder":{},
                 "filled":0,
                 "status":"open",
                 "normalizedPrice":8325008,
                 "price":1201.2,
                 "entryTime":1492018965601165,
-                "cushion":2,
                 "targetPrice":3,
-                "reservedTicks":2,
-                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
                 "cancelled":0,
-                "reward":0,
-                "averagePrice":0,
-                "side":"buy",
-                "quantity":10
-            },
-            "6e2b84c0-1f50-11e7-92cc-28f73d89632f":{
-                "marginPerQty":27815,
-                "stopPrice":2,
-                "eventTime":1491981596429055,
-                "uuid":"6e2b84c0-1f50-11e7-92cc-28f73d89632f",
-                "instrument":"BTCUSD7J14",
-                "orderType":"LMT",
-                "commission":0.0005,
-                "entryOrder":{},
-                "filled":0,
-                "status":"open",
-                "normalizedPrice":8325008,
-                "price":1201.2,
-                "entryTime":1491981596429055,
-                "cushion":2,
-                "targetPrice":3,
-                "reservedTicks":2,
-                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                "cancelled":0,
-                "reward":0,
                 "averagePrice":0,
                 "side":"buy",
                 "quantity":10
@@ -125,113 +184,41 @@ Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c
     "accountMargin":9971100
 }
 ```
-<a name="sdk"></a>
-
-## Language SDK/Libraries
-
-Currently we support the following SDK for programmatic access
-  <ul>
-  <li><a href="https://github.com/coinpit/coinpit-client">Node.js Client</a>
-  <li><a href="https://github.com/coinpit/pycoinpit">Python client</a>
-  </ul>
-
-## Unified javascript Rest library
-
-The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a `SCRIPT` tag in HTML
-
-### In Browser
-```html
-  <script src="jquery.min.js"></script>
-  <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"></script>
-  <script>
-    restjs.get("https://live.coinpit.io/api/v1/all/info")
-          .then(function(result) {
-            console.log(result)
-          })
-  </script>
-```
-### In node.js
-```coffeescript
-  var restjs = require('rest.js')
-  restjs.get("https://live.coinpit.io/api/v1/all/info")
-        .then(function(result) {
-          console.log(result)
-        })
-```
-## Scheme
-
-```
-REST URL = BASE_URL + ENDPOINT
-```
-
-### Base URL
-
-The base url for all REST API is `https://live.coinpit.io/api/v1`. To request an endpoint, append it to the base url and make a request.
-
-For example to access the `/all/info` endpoint:
-
-### From the command line
-```shell
-curl https://live.coinpit.io/api/v1/all/info
-```
-### From your programming language
-```python
-import requests
-print requests.get("https://live.bluelot.us/api/v1/all/info").text'
-```
-
-```javascript
-restjs.get("https://live.bluelot.us/api/v1/all/info")
- .then(function(info) {
-   console.log(info)
-  })
-```
-
-### URL parameters
-
-Url parameters are denoted by prepending a colon:
-
-```
-/contract/:symbol/order/:orderid
-```
-
-The parameters `:symbol` and `:orderid` need to be filled in when making a REST call to server.
-To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contract `BTC1`, the actual url would be
-
-```
-https://live.coinpit.io/api/v1/contract/BTC1/order/123e4567-e89b-12d3-a456-426655440000
-```
-
-### Pagination
-All resources have a Type 1 UUID that also represent creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter ```from``` to get data for the next page.
-
-Example: Get all executions AFTER 123e4567-e89b-12d3-a456-426655440000
-
-```
-
-https://live.coinpit.io/api/v1/contract/BTC1/executions?from=123e4567-e89b-12d3-a456-426655440000
-```
-
-### HTTP headers
-HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.coinpit.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
-
 <a name="loginless"></a>
 # Loginless Authentication
 
 Loginless is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
 
-## Benefits
-Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and XSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug
+Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug
 
 ## Overview
 
-Loginless requires you to set the Authorization header in HTTP for protected endpoints. This requires your public key and user id, which are in your JSON key file that you saved when you first visit the web site.
+Loginless requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your public key and user id, which are in your JSON key file that you saved when you first visit the web site.
+
+### Authorization and Nonce headers
+
+The syntax for `Authorization` and `Nonce` headers is as below.
+
+```
+Authorization: HMAC <user_id>:<hmac_sha256>
+Nonce: <unix_time>
+```
+For example, to get account information:
+
+```http
+GET /api/v1/account HTTP/1.1
+Host: live.coinpit.io
+Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
+Nonce: 1478041315653
+```
+
+We support transparent authentication support for node.js and python and suggest you use them instead of rolling out your own
 
 ### Loginless node module
 
 Loginless node module will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.
 
-```
+```coffeescript
 var Loginless = require('loginless')
 var loginless = Loginless(coinpitUrl, "/api/v1")
 
@@ -244,17 +231,9 @@ loginless.getServerKey(key.privateKey).then(function (serverResponse) {
   })
 ```
 
-### Authorization and Nonce headers
+## Authentication with loginless server
 
-```
-Authorization: HMAC <user_id>:<hmac_sha256>
-Nonce: <unix_time>
-```
-
-```
-Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
-Nonce: 1478041315653
-```
+If you prefer a programming language that does not yet have loginless library, you can authenticate using the scheme below:
 
 ### Setup ECDH
 
@@ -266,7 +245,7 @@ GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7d
 Accept: application/json
 Host: live.coinpit.io
 ```
-### Server returns it's public key
+### Server returns the corresponding public key
 ```json
 {
 "serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7",
@@ -310,7 +289,12 @@ self.shared_secret      = self.user.get_ecdh_key(uncompressed_server_key)
 
 ### Nonce
 To prevent replay attacks, all requests should include a nonce and the nonce is also used to compute HMAC. The server expects UNIX time as the nonce. This requires a reasonably accurate clock on your client machine.
-If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the Server-Time header in the HTTP responses. The node.js [SDK](#sdk) does this automatically.
+
+```
+Nonce: 1478041310000
+```
+###  Clients with inaccurate clocks
+If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the `Server-Time` header in the HTTP responses. The node.js [SDK](#sdk) does skew adjustment automatically. The non-cacheable HTTP methods `PUT`, `POST`, `DELETE` and `OPTIONS` return a `Server-Time` header.
 
 ```
 Server-Time: 1478041315780
@@ -347,7 +331,7 @@ Server-Time: 1478041315780
 ### Send request using Authorization and nonce headers
 
 ```
-curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTC1/order/open
+curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTCUSDW/order
 ```
 
 # Coinpit REST API
@@ -358,7 +342,8 @@ Unprotected endpoints do not require an `Authorization` header.
 ### Authentication
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|POST|[/auth](#auth)|Get Server public key for loginless auth|
+|GET|[/auth](#auth)|Get Server public key for loginless auth|
+|POST|[/auth](#auth-register)|Register new user|
 
 ### General Exchange data
 |Method|Rest Endpoint|Description|
@@ -370,55 +355,53 @@ Unprotected endpoints do not require an `Authorization` header.
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/all/spec](#all-spec)|Get contract specs for all exchange traded instruments|
+|GET|[/all/config](#all-config)|Get various exchange configuration parameters|
 
 ## Protected REST API endpoints
 All user specific endpoints require an `Authorization` and `Nonce` headers as described in the [Loginless](#loginless) section
+
+### Market Data
+
+|Method|Rest Endpoint|Description|
+|---|---|---|
+|GET|[/contract/:symbol/chart/:timeframe](#contract-chart)| Get chart info for instrument :symbol|
+
 
 ### Open Orders
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/:symbol/chart/5](#contract-chart)| Get chart info for instrument :symbol|
-|GET|[/contract/:symbol/order/open](#contract-order-all)|Get all my open orders|
-|GET|[/contract/:symbol/order/:uuid](#contract-order-id)|Get a specific order|
-|POST|[/contract/:symbol/order/open](#contract-create-order)|Create order|
-|PUT|[/contract/:symbol/order/open](#contract-update-order)|Update Order|
-|DELETE|[/contract/:symbol/order/open/:uuid](#contract-cancel-order)|Delete a specific order|
-|DELETE|[/contract/:symbol/order/open](#contract-cancel-all)|Cancel all orders|
-|PATCH|[/contract/:symbol/order/open](#contract-patch-order)|Combined create/update/cancel|
+|GET|[/order](#open-order-all)|Get all open orders|
+|GET|[/order/:uuid](#open-order-id)|Get a specific open order|
+|POST|[/order](#open-create-order)|Create orders|
+|PUT|[/order](#open-update-order)|Update Orders|
+|DELETE|[/order/:uuids](#open-cancel-order)|Delete specified orders|
+|PATCH|[/order](#open-patch-order)|Combined create/update/cancel|
 
-### Closed Orders
+### Orders by contract and status
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/:symbol/order/closed?from=uuid](#contract-order-closed)|Get my closed orders after a particular uuid. if uuid not provided, latest set of orders are returned|
+|GET|[/contract/:symbol/order/:uuid](#contract-order-id)|Get specific order for a particular contract|
+|GET|[/contract/:symbol/order/open](#contract-order-open)|Get all open orders for a specific contract|
+|GET|[/contract/:symbol/order/closed?from=uuid](#contract-order-closed)|Get closed orders. Use uuid of last item to fetch next page|
+|GET|[/contract/:symbol/order/cancelled?from=uuid](#contract-order-cancelled)|Get closed orders. Use uuid of last item to fetch next page|
 
-### Cancelled Orders
-
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/contract/:symbol/order/cancelled?from=uuid](#contract-order-cancelled)|Get my cancelled orders after a particular uuid. if uuid not provided, latest set of orders are returned|
 ### Order Book
-
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/contract/:symbol/orderbook](#contract-orderbook) |Get order book|
 
 ### Recent Trades
-
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/contract/:symbol/trade](#contract-recent-trade)|Get recent trades|
 
-### User Executions
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/account/execution](#account-execution)|GET User's recent executions |
-
-### Margin, Position, P&L, open orders
+### Get account information: Margin, Position, P&L, open orders
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/account](#account)|
+|GET|[/account/execution](#account-execution)|GET User's recent executions |
 
 ### Margin
 
@@ -427,16 +410,6 @@ All user specific endpoints require an `Authorization` and `Nonce` headers as de
 |GET|[/account/margin](#account-margin)|Get balance in margin account|
 |POST|[/account/margin](#account-margin-move)|Move coins from multisig to Margin account|
 |DELETE|[/account/margin/:amount](#account-margin-clear)|Move specified amount of coins from margin account to multisig account|
-
-### Position
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/account/position](#account-position)|Get all open positions|
-
-### P&L
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/account/pnl](#account-pnl)|Get My P&L info|
 
 ### Multisig Account functions
 |Method|Rest Endpoint|Description|

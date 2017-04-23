@@ -269,3 +269,19 @@ loginless.socket.send({
 |order_execution|Order was filled partially or completely|
 
 ## Sitewide Events
+
+      <!-- response: {
+        requestid  : requestid
+        error      : error,
+      }
+
+      response: {
+        requestid : request.requestid,
+        result    : result,
+        userDetails: {}
+        }
+      }
+
+      response: {
+        userDetails: { pnl: { "BTCUSD7J14": 12}},
+      }  -->
