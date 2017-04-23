@@ -172,6 +172,7 @@ loginless.socket.send({
 ```
 
 ### Merge multiple positions
+
 ```coffeescript
 loginless.socket.send({
   "method": "PATCH",
@@ -185,6 +186,7 @@ loginless.socket.send({
 ```
 
 ### Split positions
+To split a 5 quantity position into 3 and 2:
 
 ```coffeescript
 loginless.socket.send({
@@ -194,7 +196,7 @@ loginless.socket.send({
   "body": [{
     "op": "split",
     "from": "cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393",
-    "quantity": 3
+    "value": 3
   }]
 })
 ```

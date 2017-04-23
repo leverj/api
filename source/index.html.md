@@ -19,7 +19,7 @@ search: true
 ---
 # Introduction
 
-Coinpit REST and Websocket API enable access to all features of the platform. Trading platforms, Trading bots, market makers can create a complete platform on top of the Coinpit API. The [live trading site](https://live.coinpit.io) is also build entirely on this API and should be seen as one of the possible platform implementations.
+Coinpit REST and Websocket API enable access to all features of the platform. A complete and comprehensive platform on top of the Coinpit API comprising of Trading clients, Trading bots, etc. can be built on top of it. The [live trading site](https://live.coinpit.io) is also built entirely using this API and should be seen as one of the many possible platform implementations.
 
 <a name="sdk"></a>
 
@@ -39,7 +39,8 @@ REST URL = BASE_URL + ENDPOINT
 
 ### Base URL
 
-The base url for all REST API is `https://live.coinpit.io/api/v1`. To request an endpoint, append it to the base url and make a request.
+The base url for all REST API for the live site is `https://live.coinpit.io/api/v1`. For testnet use `https://live.coinpit.me`.
+To request an endpoint, append it to the base url and make a request.
 
 For example to access the `/all/info` endpoint:
 
@@ -88,10 +89,10 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
 Url parameters are denoted by prepending a colon:
 
 ```
-/contract/:symbol/order/:orderid
+/contract/:symbol/order/:uuid
 ```
 
-The parameters `:symbol` and `:orderid` need to be filled in when making a REST call to server.
+The parameters `:symbol` and `:uuid` need to be filled in when making a REST call to server.
 To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contract `BTCUSDW`, the actual url would be
 
 ```
@@ -99,7 +100,7 @@ https://live.coinpit.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-42
 ```
 
 ### Pagination
-All resources have a Type-1 UUID that also represent creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter ```from``` to get data for the next page.
+All resource objects have a Type-1 UUID that also represents creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter ```from``` to get data for the next page.
 
 Example: If the last accessed page had the final item with uuid `123e4567-e89b-12d3-a456-426655440000`, to get page with subsequent items:
 
@@ -112,7 +113,7 @@ HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host
 
 ## Quickstart using Coinpit shell: coinpit.py
 
-The python package [`pycoinpit`](https://pypi.python.org/pypi/pycoinpit) enables a shell like interaction with the coinpit.io API and enables you to enter REST commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or ```--verbose``` option in addition also dumps headers.
+The python package [`pycoinpit`](https://pypi.python.org/pypi/pycoinpit) enables a shell like interaction with the coinpit.io API and enables you to enter REST commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or `--verbose` option in addition also dumps headers.
 
 ```shell
 $ pip install pycoinpit
@@ -223,7 +224,7 @@ var Loginless = require('loginless')
 var loginless = Loginless(coinpitUrl, "/api/v1")
 
 loginless.getServerKey(key.privateKey).then(function (serverResponse) {
-  loginless.rest.post()
+  loginless.rest.get("/aacount")
   loginless.socket.register() // listen to socket messages
 
   Object.keys(socketCallbacks).forEach(function(topic) {
