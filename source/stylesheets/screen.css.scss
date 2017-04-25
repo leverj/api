@@ -80,9 +80,7 @@ html, body {
 
   // This is the logo at the top of the ToC
   & > div.logo {
-    position       : relative;
-    left           : -47px;
-    padding-top    : 33px;
+    padding-top    : 16px;
     padding-bottom : 10px;
     cursor         : pointer;
     & > img {
@@ -91,10 +89,8 @@ html, body {
     }
     & > div {
       color     : $nav-text;
-      position  : relative;
-      bottom    : 2px;
-      left      : 76px;
-      font-size : 27px;
+      font-size: 27px;
+      text-align: center;
     }
   }
 
