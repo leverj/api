@@ -172,7 +172,6 @@ loginless.socket.send({
 ```
 
 ### Merge multiple positions
-
 ```coffeescript
 loginless.socket.send({
   "method": "PATCH",
@@ -180,7 +179,7 @@ loginless.socket.send({
   "headers": { "requestid": "bcda323b-c2a7-4359-ab35-4a6a1f1de7ea" },
   "body": [{
     "op": "merge",
-    "from": ["0d71f940-c7b5-11e6-9906-9cd1c95275e5", "cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393"]
+    "value": ["241dbf90-293e-11e7-9093-9cf21d0dd434", "8bb29550-293d-11e7-b2cd-49c1c6dde9fb"]
   }]
 })
 ```
@@ -195,8 +194,8 @@ loginless.socket.send({
   "headers": { "requestid": "faaa323b-c2a7-4359-ab35-4a6a1f1de7ea" },
   "body": [{
     "op": "split",
-    "from": "cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393",
-    "value": 3
+    "value": ["785e0bf0-293e-11e7-b3a6-bfced17d398c"],
+    "quantity": 10
   }]
 })
 ```
