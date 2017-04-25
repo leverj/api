@@ -130,10 +130,10 @@ For more information: https://coinpit.io/api
 
 Examples:
   GET /account
-  POST /contract/BTCUSD7J14/order [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT"}]
-  PUT /contract/BTCUSD7J14/order [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
-  GET /contract/BTCUSD7J14/order
-  DELETE /contract/BTCUSD7J14/order/b117ef30-1f50-11e7-b324-e2f410d2f5f7
+  POST /order [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT","instrument":"BTCUSDW"}]
+  PUT /order [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
+  GET /order
+  DELETE /order/b117ef30-1f50-11e7-b324-e2f410d2f5f7
 
 mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj>
 ```
