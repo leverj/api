@@ -21,6 +21,8 @@ search: true
 
 Coinpit REST and Websocket API enable access to all features of the platform. A complete and comprehensive platform on top of the Coinpit API comprising of Trading clients, Trading bots, etc. can be built on top of it. The [live trading site](https://live.coinpit.io) is also built entirely using this API and should be seen as one of the many possible platform implementations.
 
+Please refer to [JSON field definitions](https://coinpit.io/docs/definitions.html) for more information.
+
 <a name="sdk"></a>
 
 ## Language SDK/Libraries
