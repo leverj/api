@@ -37,7 +37,7 @@ configure :build do
   activate :minify_css
   activate :minify_javascript
   # activate :relative_assets
-  # activate :asset_hash
+  activate :asset_hash, :ignore => [/.woff2/]
   # activate :gzip
 end
 
