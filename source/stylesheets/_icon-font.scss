@@ -20,13 +20,6 @@
   line-height: 1;
 }
 
-@font-face {
-  font-family: 'lato';
-  src:font-url('Lato-Regular.ttf?-syv14m') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
 %icon-exclamation-sign {
   @extend %icon;
   content: "\e600";
