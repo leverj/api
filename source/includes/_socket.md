@@ -14,11 +14,9 @@ The Socket API uses the same request response format of the REST API but adds so
   },
   "method": "POST",
   "uri": "/order",
-  "params": {
-    "instrument": "BTCUSD7J07"
-  },
   "body": [{
     "userid": "mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2",
+    "instrument": "BTCUSDW",
     "side": "buy",
     "quantity": 1,
     "price": 1103,
@@ -100,6 +98,7 @@ loginless.socket.send({
   headers: { "requestid": "13ca323b-c2a7-4359-ab35-4a6a1f1de7ea" },
   body: [{
     "userid": "mjNCXZT2k8oYRRu4mrRwFfcFWZoF6J5hi2",
+    "instrument": "BTCUSDW",
     "side": "buy",
     "quantity": 1,
     "price": 1103,
@@ -141,33 +140,38 @@ loginless.socket.send({
   "method": "PATCH",
   "uri": "/order",
   "headers": { "requestid": "f4ca323b-c2a7-4359-ab35-4a6a1f1de7ea" },
-  "body": [{
+  "body": [
+     {
         "op":"remove",
-        "path":"/0d71f940-c7b5-11e6-9906-9cd1c95275e5"
+        "value": ["0d71f940-c7b5-11e6-9906-9cd1c95275e5"]
      },
      {
          "op":"replace",
-         "value":[{
-                 "uuid":"cbf3a610-f6cd-11e6-bc1d-6c1a7dacf393",
-                 "price":1046.9
-             }]
+         "value":[
+             {
+                 "uuid":"76d015e0-27b2-11e7-8df2-8467e413f756",
+                 "price":1100
+             }
+         ]
      },
-      {
-          "op":    "add",
-          "value": [{
-              "userid":      "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-              "side":        "buy",
-              "quantity":    1,
-              "price":       1035.3,
-              "orderType":   "LMT",
-              "clientid":    "b825ce03-fb16-4fd7-8fbe-e225803509a4",
-              "stopPrice":   4.2,
-              "crossMargin": false,
-              "targetPrice": "NONE",
-              "postOnly":    false
-            }]
-      }
-    ]
+     {
+         "op":    "add",
+         "value": [
+           {
+             "instrument": "BTCUSDW",
+             "side":        "buy",
+             "quantity":    1,
+             "price":       1035.3,
+             "orderType":   "LMT",
+             "clientid":    "b825ce03-fb16-4fd7-8fbe-e225803509a4",
+             "stopPrice":   4.2,
+             "crossMargin": false,
+             "targetPrice": "NONE",
+             "postOnly":    false
+           }
+         ]
+     }
+]
 })
 ```
 
