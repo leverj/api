@@ -36,7 +36,7 @@
     $(".page-wrapper").click(closeToc);
     $(".tocify-item").click(closeToc);
     $(".tocify-wrapper > div.logo").click(function () {
-      document.location.href='http://coinpit.io'
+      document.location.href='http://leverj.io'
     })
   };
 

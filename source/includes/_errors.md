@@ -2,7 +2,7 @@
 
 <aside class="notice">Always check error codes of HTTP requests. Do not assume success.</aside>
 
-## The Coinpit API uses the standard HTTP error codes:
+## The Leverj API uses the standard HTTP error codes:
 
 Error Code | Meaning
 ---------- | -------
