@@ -1,13 +1,12 @@
 ---
-title: Coinpit API
+title: Leverj API
 
 language_tabs:
   - python
   - javascript
 
 toc_footers:
-  - Try our <a href='https://live.coinpit.me'>testnet site</a>.
-  - Trade now at <a href='https://live.coinpit.io'>live site</a>.
+  - Try our <a href='https://test.leverj.io/'>testnet site</a>.
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
@@ -19,9 +18,9 @@ search: true
 ---
 # Introduction
 
-Coinpit REST and Websocket API enable access to all features of the platform. A complete and comprehensive platform on top of the Coinpit API comprising of Trading clients, Trading bots, etc. can be built on top of it. The [live trading site](https://live.coinpit.io) is also built entirely using this API and should be seen as one of the many possible platform implementations.
+Leverj REST and Websocket API enable access to all features of the platform. The [testnet](https://test.leverj.io/) and [live]((https://live.leverj.io/)) sites are built entirely using this API and should be seen as one of the many possible platform implementations. The API could be leveraged to power a comprehesive set of tools and utilities, including automated trading clients and bots.
 
-Please refer to [JSON field definitions](https://coinpit.io/docs/definitions.html) for more information.
+Please refer to [JSON field definitions](https://leverj.io/docs/definitions.html) for more information.
 
 <a name="sdk"></a>
 
@@ -41,23 +40,23 @@ REST URL = BASE_URL + ENDPOINT
 
 ### Base URL
 
-The base url for all REST API for the live site is `https://live.coinpit.io/api/v1`. For testnet use `https://live.coinpit.me`.
+The base url for all REST API for the live site is `https://live.leverj.io/api/v1`. For testnet use `https://test.leverj.io/api/v1`.
 To request an endpoint, append it to the base url and make a request.
 
 For example to access the `/all/info` endpoint:
 
 ### From the command line
 ```shell
-curl https://live.coinpit.io/api/v1/all/info
+curl https://live.leverj.io/api/v1/all/info
 ```
 ### From your programming language
 ```python
 import requests
-print requests.get("https://live.coinpit.io/api/v1/all/info").text'
+print requests.get("https://live.leverj.io/api/v1/all/info").text'
 ```
 
 ```javascript
-restjs.get("https://live.coinpit.io/api/v1/all/info")
+restjs.get("https://live.leverj.io/api/v1/all/info")
  .then(function(info) {
    console.log(info)
   })
@@ -71,7 +70,7 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
   <script src="jquery.min.js"></script>
   <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"></script>
   <script>
-    restjs.get("https://live.coinpit.io/api/v1/all/info")
+    restjs.get("https://live.leverj.io/api/v1/all/info")
           .then(function(result) {
             console.log(result)
           })
@@ -80,7 +79,7 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
 ### In node.js
 ```coffeescript
   var restjs = require('rest.js')
-  restjs.get("https://live.coinpit.io/api/v1/all/info")
+  restjs.get("https://live.leverj.io/api/v1/all/info")
         .then(function(result) {
           console.log(result)
         })
@@ -98,7 +97,7 @@ The parameters `:symbol` and `:uuid` need to be filled in when making a REST cal
 To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contract `BTCUSDW`, the actual url would be
 
 ```
-https://live.coinpit.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-426655440000
+https://live.leverj.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-426655440000
 ```
 
 ### Pagination
@@ -107,15 +106,15 @@ All resource objects have a Type-1 UUID that also represents creation time. Requ
 Example: If the last accessed page had the final item with uuid `123e4567-e89b-12d3-a456-426655440000`, to get page with subsequent items:
 
 ```
-https://live.coinpit.io/api/v1/contract/BTCUSDW/executions?from=123e4567-e89b-12d3-a456-426655440000
+https://live.leverj.io/api/v1/contract/BTCUSDW/executions?from=123e4567-e89b-12d3-a456-426655440000
 ```
 
 ### HTTP headers
-HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.coinpit.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
+HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.leverj.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
 
 ## Quickstart using Coinpit shell: coinpit.py
 
-The python package [`pycoinpit`](https://pypi.python.org/pypi/pycoinpit) enables a shell like interaction with the coinpit.io API and enables you to enter REST commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or `--verbose` option in addition also dumps headers.
+The python package [`pycoinpit`](https://pypi.python.org/pypi/pycoinpit) enables a shell like interaction with the leverj.io API and enables you to enter REST commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or `--verbose` option in addition also dumps headers.
 
 ```shell
 $ pip install pycoinpit
@@ -126,7 +125,7 @@ Using keyfile:  mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
 
 Connected to  https://live.coinpit.me/api/v1
 Enter REST commands: METHOD path body. Enter quit to exit
-For more information: https://coinpit.io/api
+For more information: https://leverj.io/api
 
 Examples:
   GET /account
@@ -210,7 +209,7 @@ For example, to get account information:
 
 ```http
 GET /api/v1/account HTTP/1.1
-Host: live.coinpit.io
+Host: live.leverj.io
 Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
 Nonce: 1478041315653
 ```
@@ -246,7 +245,7 @@ Getting the corresponding public address of the server for your personal public 
 ```http
 GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37 HTTP/1.1
 Accept: application/json
-Host: live.coinpit.io
+Host: live.leverj.io
 ```
 ### Server returns the corresponding public key
 ```json
