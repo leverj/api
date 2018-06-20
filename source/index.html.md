@@ -187,24 +187,27 @@ Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c
 }
 ```
 <a name="loginless"></a>
-# Loginless or Zero-Knowledge Authentication
+# Loginless or ZKA
 
-Leverj's loginless authentication is a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about an account's private key or secret. The loginless system relies on ECDSA. The scheme involves arriving at a shared secret using your identity (account private key and the public key of the peer. Every request is authenticated using this shared secret.
+Leverj's loginless authentication is a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account's private key or secret. The loginless system relies on ECDSA. The scheme involves signing message payload using an apikey's secret and subsequently using the elliptic curve signature to derive or recover the apikey. This pair of signing and recovery establishes trust and facilitates authentication. Every request is authenticated using this mechanism.
+
+You need to register online with the exchange to setup and download an apikey and its corresponding secret. An account can have multiple pairs of apikeys and their corresponding secrets.
 
 Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.
 
 ## Overview
 
-Loginless requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your public key and user id, which are in your JSON key file that you saved when you first visit the web site.
+Loginless requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your account id, apikey and secret, which are in your JSON key file that you saved when you registered with the exchange and setup your apikey.
 
 ### Authorization and Nonce headers
 
 The syntax for `Authorization` and `Nonce` headers is as below.
 
 ```
-Authorization: HMAC <user_id>:<hmac_sha256>
+Authorization: SIGN <account_id>.<apiKey>.<v>.<r>.<s>
 Nonce: <unix_time>
 ```
+
 For example, to get account information:
 
 ```http
