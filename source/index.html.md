@@ -18,7 +18,7 @@ search: true
 ---
 # Introduction
 
-Leverj REST and Websocket API enable access to all features of the platform. The [testnet](https://test.leverj.io/) and [live]((https://live.leverj.io/)) sites are built entirely using this API and should be seen as one of the many possible platform implementations. The API could be leveraged to power a comprehesive set of tools and utilities, including automated trading clients and bots.
+Leverj REST and Websocket API enable access to all features of the platform. The [testnet](https://test.leverj.io/) and [live](https://live.leverj.io/) sites are built entirely using this API and should be seen as one of the many possible platform implementations. The API could be leveraged to power a comprehesive set of tools and utilities, including automated trading clients and bots.
 
 Please refer to [JSON field definitions](https://leverj.io/docs/definitions.html) for more information.
 
@@ -26,10 +26,10 @@ Please refer to [JSON field definitions](https://leverj.io/docs/definitions.html
 
 ## Language SDK/Libraries
 
-Currently we support node.js and python SDK for programmatic access. Select your programming language on the top right of the page to select code examples appropriately.
+Currently we support node.js and python for programmatic access. Select your programming language on the top right of the page to select code examples appropriately. Python code examples and the client library is compatible with Python3.
   <ul>
-  <li><a href="https://github.com/coinpit/coinpit-client">Node.js client</a>
-  <li><a href="https://github.com/coinpit/pycoinpit">Python client</a>
+  <li><a href="https://github.com/leverj/leverj-client">Node.js client</a>
+  <li><a href="https://github.com/leverj/pyleverj">Python client</a>
   </ul>
 
 ## Scheme
@@ -52,7 +52,7 @@ curl https://live.leverj.io/api/v1/all/info
 ### From your programming language
 ```python
 import requests
-print requests.get("https://live.leverj.io/api/v1/all/info").text'
+print(requests.get("https://live.leverj.io/api/v1/all/info").text)
 ```
 
 ```javascript
@@ -77,7 +77,7 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
   </script>
 ```
 ### In node.js
-```coffeescript
+```javascript
   var restjs = require('rest.js')
   restjs.get("https://live.leverj.io/api/v1/all/info")
         .then(function(result) {
@@ -94,7 +94,7 @@ Url parameters are denoted by prepending a colon:
 ```
 
 The parameters `:symbol` and `:uuid` need to be filled in when making a REST call to server.
-To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of contract `BTCUSDW`, the actual url would be
+To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of instrument `LEVETH`, the actual url would be
 
 ```
 https://live.leverj.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-426655440000
@@ -187,11 +187,11 @@ Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c
 }
 ```
 <a name="loginless"></a>
-# Loginless Authentication
+# Loginless or Zero-Knowledge Authentication
 
-Loginless is a zero-knowledge authentication system, which relies on ECDSA. The scheme involves arriving at a shared secret using your private key and the public key of the peer. Every request is HMAC authenticated using this shared secret.
+Leverj's loginless authentication is a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about an account's private key or secret. The loginless system relies on ECDSA. The scheme involves arriving at a shared secret using your identity (account private key and the public key of the peer. Every request is authenticated using this shared secret.
 
-Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as Heartbleed bug
+Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.
 
 ## Overview
 
