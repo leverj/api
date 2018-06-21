@@ -189,11 +189,11 @@ Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c
 <a name="loginless"></a>
 # Loginless or ZKA
 
-Leverj's loginless authentication is a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account's private key or secret. The loginless system relies on ECDSA. The scheme involves signing message payload using an apikey's secret and subsequently using the elliptic curve signature to derive or recover the apikey. This pair of signing and recovery establishes trust and facilitates authentication. Every request is authenticated using this mechanism.
+Leverj's loginless authentication is a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account's private key. The apikey's secret is used to sign and confirm your identity but is not transfered over to the server either. The loginless system relies on ECDSA (Elliptic Curve Digital Signature Algorithm). The scheme involves signing message payload using an apikey's secret and subsequently using the elliptic curve signature elements to derive or recover the apikey. The recovered apikey is matched against the registered apikey. This pair of actions involving signing and recovery establishes trust and identity to facilitate authentication. Every request is authenticated using this mechanism.
 
 You need to register online with the exchange to setup and download an apikey and its corresponding secret. An account can have multiple pairs of apikeys and their corresponding secrets.
 
-Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: Session Hijacking, Some kinds of replay attacks, Cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.
+Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: session hijacking, some kinds of replay attacks, cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.
 
 ## Overview
 
@@ -208,32 +208,27 @@ Authorization: SIGN <account_id>.<apiKey>.<v>.<r>.<s>
 Nonce: <unix_time>
 ```
 
+**v**, **r**, and **s** are ECDSA related elements. **r** and **s** are normal outputs of an ECDSA signature and **v** is the extra byte or header byte that helps in public key recovery.
+
+
 For example, to get account information:
 
 ```http
 GET /api/v1/account HTTP/1.1
 Host: live.leverj.io
-Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
-Nonce: 1478041315653
+Authorization: 'SIGN 0x175692523CC570fB0E1856BFa190c7a89777347d.0x5fB9c0E7d496C89792f0F5C7d3b0337C0Bba7C3a.28.0x711802f48404ef5abbc0962370b750f4d6ef71a4336e8a691b4b42953022465a.0x23c14435d18e972b19119791ec5f9f120b24ed26fef4feda4b8efc74d8297a41'
+Nonce: 1529543915691
 ```
 
 We support transparent authentication support for node.js and python and suggest you use them instead of rolling out your own
 
-### Loginless node module
+### zka node module
 
-Loginless node module will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.
+The zka node module will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.
 
 ```coffeescript
-var Loginless = require('loginless')
-var loginless = Loginless(coinpitUrl, "/api/v1")
-
-loginless.getServerKey(key.privateKey).then(function (serverResponse) {
-  loginless.rest.get("/aacount")
-  loginless.socket.register() // listen to socket messages
-
-  Object.keys(socketCallbacks).forEach(function(topic) {
-    loginless.socket.on(topic, socketCallbacks[topic])
-  })
+const zka    = require("zka")(baseUrl, "/api/v1")
+zka.init(accountId, apiKey, secret)
 ```
 
 ## Authentication with loginless server
