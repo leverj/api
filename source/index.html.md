@@ -334,38 +334,31 @@ Server-Time: 1478041315780
 curl -H 'Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3' -H 'Nonce 1478041315653' https://live.coinpit.me/api/v1/contract/BTCUSDW/order
 ```
 
-# Coinpit REST API
+# Leverj REST API
 
-## Unprotected REST API endpoints
+## Unprotected REST API Endpoints
 Unprotected endpoints do not require an `Authorization` header.
 
-### Authentication
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/auth](#auth)|Get Server public key for loginless auth|
-|POST|[/auth](#auth-register)|Register new user|
-
-### General Exchange data
+### General Exchange Data
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/all/info](#all-info)|Last price, 24Hr volume, etc|
-|GET|[/all/band](#all-band)|GET external index prices for different instruments|
 
-### Exchange configuration
+### Exchange Configuration
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/all/spec](#all-spec)|Get contract specs for all exchange traded instruments|
-|GET|[/all/config](#all-config)|Get various exchange configuration parameters|
-
-## Protected REST API endpoints
-All user specific endpoints require an `Authorization` and `Nonce` headers as described in the [Loginless](#loginless) section
+|GET|[/all/spec](#all-spec)|Get specs for all exchange traded instruments|
+|GET|[/all/config](#all-config)|Get exchange configuration parameters|
 
 ### Market Data
-
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/:symbol/chart/:timeframe](#contract-chart)| Get chart info for instrument :symbol|
+|GET|[/instrument/:symbol/trade](#instrument-recent-trade)|Get recent trade data|
+|GET|[/instrument/:symbol/chart/:timeframe](#instrument-chart)|Get chart data for instrument|
+|GET|[/instrument/:symbol/orderbook](#instrument-orderbook)|Get order book for the instrument|
 
+## Protected REST API endpoints
+All user specific endpoints require `Authorization` and `Nonce` headers as described in the [Loginless or ZKA](#loginless) section
 
 ### Open Orders
 

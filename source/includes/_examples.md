@@ -52,7 +52,7 @@ Host: live.coinpit.me
 ```http
 GET /api/v1/all/info HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 ```
 ### 200 OK
 ```json
@@ -103,105 +103,55 @@ Host: live.coinpit.me
     }
 }
 ```
-<a name="all-band"></a>
-## Anti-Manipulation bands
-### GET /all/band
-```http
-GET /api/v1/all/band HTTP/1.1
-Accept: application/json
-Host: live.coinpit.me
-```
-### 200 OK
-```json
-{
-    "BTCUSD7J14":{
-        "max":1227.7,
-        "price":1217.7,
-        "instrument":"BTCUSD7J14",
-        "min":1207.7
-    },
-    "BTCUSD7J21":{
-        "max":1229.9,
-        "price":1217.7,
-        "instrument":"BTCUSD7J21",
-        "min":1205.5
-    }
-}
-
-```
 <a name="all-spec"></a>
-## Contract Specs
+## Instrument Specs
 ### GET /all/spec
 ```http
 GET /api/v1/all/spec HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 ```
 ### 200 OK
 ```json
 {
-    "instruments":[
-        "BTCUSD7J14",
-        "BTCUSD7J21"
+    "instruments": [
+        "FEEETH",
+        "LEVETH"
     ],
-    "parameter":{
-        "BTCUSD7J14":{
-            "maxLeverage":50,
-            "expiryClass":"weekly",
-            "bandUpperLimit":10,
-            "minLimitStop":1.6,
-            "minMarketStop":1.6,
-            "bandLowerLimit":10,
-            "ticksize":1,
-            "uplDecimalPlaces":4,
-            "start":1490980500000,
-            "next":"BTCUSD7J21",
-            "commission":0.0005,
-            "template":"BTCUSD",
-            "crossMarginInitialStop":15,
-            "type":"inverse",
-            "introducerReward":0,
-            "status":"active",
-            "targetprice":3,
-            "symbol":"BTCUSD7J14",
-            "expiry":1492190100000,
-            "contractusdvalue":100,
-            "introducedReward":0,
-            "externalFeed":"coinpit-index#BTCUSD",
-            "stopcushion":2,
-            "ticksperpoint":10,
-            "stopprice":2,
-            "rewardsCalculationInterval":14400,
-            "reward":0
+    "parameter": {
+        "FEEETH": {
+            "symbol": "FEEETH",
+            "address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
+            "name": "FEE/ETH",
+            "decimals": 9,
+            "reward": -2500,
+            "commission": 10000,
+            "instrument_status": "active",
+            "ticksize": 6,
+            "ticksperpoint": 1000000,
+            "significantEtherDigits": 6,
+            "significantTokenDigits": 1,
+            "quoted_asset": "LEV",
+            "quoted_asset_address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
+            "base_asset": "ETH",
+            "base_asset_address": "0x0000000000000000000000000000000000000000"
         },
-        "BTCUSD7J21":{
-            "maxLeverage":50,
-            "expiryClass":"weekly",
-            "bandUpperLimit":0.01,
-            "minLimitStop":1.6,
-            "minMarketStop":1.6,
-            "bandLowerLimit":0.01,
-            "ticksize":1,
-            "uplDecimalPlaces":4,
-            "start":1491585300000,
-            "next":"BTCUSD7J28",
-            "commission":0.0005,
-            "template":"BTCUSD",
-            "crossMarginInitialStop":15,
-            "type":"inverse",
-            "introducerReward":0,
-            "status":"active",
-            "targetprice":3,
-            "symbol":"BTCUSD7J21",
-            "expiry":1492794900000,
-            "contractusdvalue":100,
-            "introducedReward":0,
-            "externalFeed":"coinpit-index#BTCUSD",
-            "stopcushion":2,
-            "ticksperpoint":10,
-            "stopprice":2,
-            "rewardsCalculationInterval":14400,
-            "reward":0
+        "LEVETH": {
+            "symbol": "LEVETH",
+            "address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
+            "name": "LEV/ETH",
+            "decimals": 9,
+            "reward": -2500,
+            "commission": 10000,
+            "instrument_status": "active",
+            "ticksize": 6,
+            "ticksperpoint": 1000000,
+            "significantEtherDigits": 6,
+            "significantTokenDigits": 1,
+            "quoted_asset": "LEV",
+            "quoted_asset_address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
+            "base_asset": "ETH",
+            "base_asset_address": "0x0000000000000000000000000000000000000000"
         }
     }
 }
@@ -212,145 +162,1467 @@ Host: live.coinpit.me
 ```http
 GET /api/v1/all/config HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 ```
 ### 200 OK
 ```json
 {
-    "instruments":{
-        "BTCUSD7J28":{
-            "maxLeverage":100,
-            "expiryClass":"weekly",
-            "bandUpperLimit":0.01,
-            "minLimitStop":1.6,
-            "minMarketStop":1.6,
-            "bandLowerLimit":0.01,
-            "ticksize":1,
-            "uplDecimalPlaces":8,
-            "start":1492190100000,
-            "next":"BTCUSD7K05",
-            "commission":0.0005,
-            "template":"BTCUSD",
-            "crossMarginInitialStop":15,
-            "type":"inverse",
-            "introducerReward":0,
-            "status":"active",
-            "targetprice":3,
-            "symbol":"BTCUSD7J28",
-            "expiry":1493399700000,
-            "contractusdvalue":100,
-            "introducedReward":0,
-            "externalFeed":"coinpit-index#BTCUSD",
-            "stopcushion":2,
-            "ticksperpoint":10,
-            "stopprice":2,
-            "rewardsCalculationInterval":14400,
-            "reward":0
+    "config": {
+        "maxInputs": 50,
+        "maxOrdersCreateUpdate": 100,
+        "fee": {
+            "maker": 1,
+            "taker": 5,
+            "factor": 10000,
+            "weiPerFee": 1000000
         },
-        "BTCUSD7K05":{
-            "maxLeverage":100,
-            "expiryClass":"weekly",
-            "bandUpperLimit":0.01,
-            "minLimitStop":1.6,
-            "minMarketStop":1.6,
-            "bandLowerLimit":0.01,
-            "ticksize":1,
-            "uplDecimalPlaces":8,
-            "start":1492794900000,
-            "next":"BTCUSD7K12",
-            "commission":0.0005,
-            "template":"BTCUSD",
-            "crossMarginInitialStop":15,
-            "type":"inverse",
-            "introducerReward":0,
-            "status":"active",
-            "targetprice":3,
-            "symbol":"BTCUSD7K05",
-            "expiry":1494004500000,
-            "contractusdvalue":100,
-            "introducedReward":0,
-            "externalFeed":"coinpit-index#BTCUSD",
-            "stopcushion":2,
-            "ticksperpoint":10,
-            "stopprice":2,
-            "rewardsCalculationInterval":14400,
-            "reward":0
-        }
-    },
-    "config":{
-        "sliceSize":10000000,
-        "maxLeverage":50,
-        "links":{
-            "blockcypher":"https://live.blockcypher.com/btc-testnet",
-            "blocktrail":"https://www.blocktrail.com/tBTC",
-            "blockexplorer":"https://testnet.blockexplorer.com"
+        "minimumNumberOfConfirmations": 12,
+        "network": {
+            "provider": "ropsten",
+            "uri": "https://ropsten.infura.io",
+            "etherscan": "https://ropsten.etherscan.io",
+            "socket": "wss://ropsten.infura.io:443/ws",
+            "id": 3,
+            "registry": "0x835F739f3844590eec22ed1abBF768Bc69e529ce",
+            "custodian": "0x31A5796d71c1f55cfed362faF1B60452bdbfc0Cc",
+            "staking": "0xd36029d76af6fE4A356528e4Dc66B2C18123597D"
         },
-        "maximumFee":150000,
-        "minimumFee":50000,
-        "sliceThreshold":10,
-        "geofence":{
-            "block":[
-                "UM"
+        "geofence": {
+            "block": [
+                "US"
             ]
         },
-        "bitcoinDust":10000,
-        "network":"testnet",
-        "maxInputs":50,
-        "feePerKB":50510,
-        "recoveryFeePerKB":25000,
-        "maxPositionsMerge":20,
-        "blockchainapi":{
-            "socketuri":"https://insight.coinpit.me",
-            "uri":"https://insight.coinpit.me/insight-api",
-            "provider":"insight"
+        "noSignup": false
+    },
+    "instruments": {
+        "FEEETH": {
+            "symbol": "FEEETH",
+            "address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
+            "name": "FEE/ETH",
+            "decimals": 9,
+            "reward": -2500,
+            "commission": 10000,
+            "instrument_status": "active",
+            "ticksize": 6,
+            "ticksperpoint": 1000000,
+            "significantEtherDigits": 6,
+            "significantTokenDigits": 1,
+            "quoted_asset": "LEV",
+            "quoted_asset_address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
+            "base_asset": "ETH",
+            "base_asset_address": "0x0000000000000000000000000000000000000000"
         },
-        "maxOrdersCreateUpdate":100,
-        "marginFeeThreshold":0.9,
-        "sendFundsMaxTXfee":1000000,
-        "noSignup":false,
-        "feeCheckInterval":3600000,
-        "feeChangeTolerance":0.05,
-        "reservedTicks":2,
-        "sendFundsTXfee":50000
+        "LEVETH": {
+            "symbol": "LEVETH",
+            "address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
+            "name": "LEV/ETH",
+            "decimals": 9,
+            "reward": -2500,
+            "commission": 10000,
+            "instrument_status": "active",
+            "ticksize": 6,
+            "ticksperpoint": 1000000,
+            "significantEtherDigits": 6,
+            "significantTokenDigits": 1,
+            "quoted_asset": "LEV",
+            "quoted_asset_address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
+            "base_asset": "ETH",
+            "base_asset_address": "0x0000000000000000000000000000000000000000"
+        }
+    },
+    "assets": {
+        "ETH": {
+            "name": "ETHEREUM",
+            "address": "0x0000000000000000000000000000000000000000",
+            "symbol": "ETH",
+            "decimals": 18,
+            "asset_status": "active"
+        },
+        "FEE": {
+            "name": "FEE",
+            "address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
+            "symbol": "FEE",
+            "decimals": 9,
+            "asset_status": "active"
+        },
+        "LEV": {
+            "name": "LEVERJ",
+            "address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
+            "symbol": "LEV",
+            "decimals": 9,
+            "asset_status": "active"
+        }
     }
 }
 ```
-
-<a name="contract-chart"></a>
-## Chart for contract
-### GET /contract/:symbol/chart/:timeframe
+<a name="instrument-recent-trade"></a>
+## Recent trade data for an instrument (e.g. LEVETH)
+### GET /instrument/:symbol/trade
 ```http
-GET /api/v1/contract/BTCUSDW/chart/5 HTTP/1.1
+GET /api/v1/instrument/LEVETH/trade HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
-Authorization: HMAC mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk:0a9448430e631022ca75425805072ce7bad9d1f8229373fe64a479ab98a50ab3
-Nonce: 1481655922696
+Host: test.leverj.io
 ```
 ### 200 OK
 ```json
 [
-  {
-    "v": 0,
-    "s": 0,
-    "t": 1481655900,
-    "o": 779.4,
-    "h": 779.5,
-    "l": 779.4,
-    "c": 779.5,
-    "instrument": "BTCUSD7J28"
-  },
-  {
-    "v": 0,
-    "s": 0,
-    "t": 1481655600,
-    "o": 779.6,
-    "h": 779.6,
-    "l": 779.5,
-    "c": 779.6,
-    "instrument": "BTCUSD7J28"
-  }
+    {
+        "date": 1529697648,
+        "price": 0.000143,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697618,
+        "price": 0.000143,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697593,
+        "price": 0.000145,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697498,
+        "price": 0.000138,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697413,
+        "price": 0.00016,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697408,
+        "price": 0.000166,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697383,
+        "price": 0.000157,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697383,
+        "price": 0.000148,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697378,
+        "price": 0.000124,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697318,
+        "price": 0.000124,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697293,
+        "price": 0.000178,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697258,
+        "price": 0.000141,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697168,
+        "price": 0.000141,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697108,
+        "price": 0.000158,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529697083,
+        "price": 0.000157,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696993,
+        "price": 0.000152,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696903,
+        "price": 0.000159,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696903,
+        "price": 0.000168,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696903,
+        "price": 0.000171,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696838,
+        "price": 0.000159,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696778,
+        "price": 0.000156,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696748,
+        "price": 0.000156,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696718,
+        "price": 0.000156,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696688,
+        "price": 0.000162,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696658,
+        "price": 0.000162,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696628,
+        "price": 0.000164,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696598,
+        "price": 0.000164,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696568,
+        "price": 0.000164,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696508,
+        "price": 0.000162,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696478,
+        "price": 0.000177,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696448,
+        "price": 0.000177,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696418,
+        "price": 0.00018,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696388,
+        "price": 0.00018,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696358,
+        "price": 0.00018,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696238,
+        "price": 0.000177,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696208,
+        "price": 0.000176,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696118,
+        "price": 0.000142,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529696034,
+        "price": 0.000157,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695998,
+        "price": 0.000147,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695973,
+        "price": 0.000152,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695973,
+        "price": 0.000161,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695968,
+        "price": 0.000161,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695938,
+        "price": 0.000157,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695908,
+        "price": 0.000157,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695818,
+        "price": 0.000157,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695788,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695763,
+        "price": 0.000172,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695728,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695668,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695608,
+        "price": 0.000147,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695553,
+        "price": 0.000143,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695523,
+        "price": 0.000123,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695463,
+        "price": 0.000169,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695428,
+        "price": 0.00013,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695368,
+        "price": 0.00013,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695343,
+        "price": 0.000158,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695313,
+        "price": 0.000139,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695313,
+        "price": 0.000141,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695283,
+        "price": 0.000175,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695283,
+        "price": 0.000173,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695283,
+        "price": 0.000172,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695278,
+        "price": 0.000147,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695253,
+        "price": 0.000139,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695253,
+        "price": 0.000133,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529695008,
+        "price": 0.000103,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694888,
+        "price": 0.000124,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694858,
+        "price": 0.000119,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694798,
+        "price": 0.000119,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694768,
+        "price": 0.000114,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694738,
+        "price": 0.000119,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694498,
+        "price": 0.00015,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694408,
+        "price": 0.00015,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694378,
+        "price": 0.000158,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694318,
+        "price": 0.000158,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694288,
+        "price": 0.000158,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694263,
+        "price": 0.000171,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694258,
+        "price": 0.000172,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694228,
+        "price": 0.000172,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694198,
+        "price": 0.000172,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694138,
+        "price": 0.000176,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694083,
+        "price": 0.000107,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694083,
+        "price": 0.000149,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529694018,
+        "price": 0.000176,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693963,
+        "price": 0.000143,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693963,
+        "price": 0.000166,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693958,
+        "price": 0.000166,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693933,
+        "price": 0.000174,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693808,
+        "price": 0.000166,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693778,
+        "price": 0.000166,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693753,
+        "price": 0.000175,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693718,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693663,
+        "price": 0.000126,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693663,
+        "price": 0.000113,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693598,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693568,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693538,
+        "price": 0.000165,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693508,
+        "price": 0.000111,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693453,
+        "price": 0.000126,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693453,
+        "price": 0.000135,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    },
+    {
+        "date": 1529693418,
+        "price": 0.000158,
+        "volume": 0.1,
+        "instrument": "LEVETH"
+    }
 ]
 ```
+
+<a name="instrument-chart"></a>
+## Chart for instrument
+### GET /instrument/:symbol/chart/:timeframe
+```http
+GET /api/v1/instrument/LEVETH/chart/5 HTTP/1.1
+Accept: application/json
+Host: test.leverj.io
+```
+### 200 OK
+```json
+[
+    {
+        "v": 0.2,
+        "s": 0.0000231,
+        "t": 1529704500,
+        "o": 0.000131,
+        "h": 0.000131,
+        "l": 0.0001,
+        "c": 0.0001,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7000000000000001,
+        "s": 0.0000917,
+        "t": 1529704200,
+        "o": 0.000102,
+        "h": 0.00015,
+        "l": 0.000102,
+        "c": 0.00012,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.4,
+        "s": 0.000042600000000000005,
+        "t": 1529703900,
+        "o": 0.000108,
+        "h": 0.00011,
+        "l": 0.0001,
+        "c": 0.00011,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001308,
+        "t": 1529703600,
+        "o": 0.000169,
+        "h": 0.000169,
+        "l": 0.000149,
+        "c": 0.000149,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.6000000000000001,
+        "s": 0.0000843,
+        "t": 1529703300,
+        "o": 0.000158,
+        "h": 0.000162,
+        "l": 0.000118,
+        "c": 0.000162,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001239,
+        "t": 1529703000,
+        "o": 0.00016,
+        "h": 0.000181,
+        "l": 0.000134,
+        "c": 0.000134,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.9,
+        "s": 0.00013240000000000002,
+        "t": 1529702700,
+        "o": 0.000108,
+        "h": 0.000177,
+        "l": 0.0001,
+        "c": 0.00016,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7000000000000001,
+        "s": 0.0000823,
+        "t": 1529702400,
+        "o": 0.000128,
+        "h": 0.000143,
+        "l": 0.0001,
+        "c": 0.000111,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.4,
+        "s": 0.0000473,
+        "t": 1529702100,
+        "o": 0.000125,
+        "h": 0.000134,
+        "l": 0.000101,
+        "c": 0.000113,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8999999999999999,
+        "s": 0.0001377,
+        "t": 1529701800,
+        "o": 0.00018,
+        "h": 0.00018,
+        "l": 0.000136,
+        "c": 0.000136,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.5,
+        "s": 0.00006620000000000001,
+        "t": 1529701500,
+        "o": 0.000107,
+        "h": 0.000172,
+        "l": 0.000104,
+        "c": 0.000172,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.6,
+        "s": 0.0000652,
+        "t": 1529701200,
+        "o": 0.000103,
+        "h": 0.000118,
+        "l": 0.000103,
+        "c": 0.000107,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7000000000000001,
+        "s": 0.0000871,
+        "t": 1529700900,
+        "o": 0.000127,
+        "h": 0.00013,
+        "l": 0.000107,
+        "c": 0.000125,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001051,
+        "t": 1529700600,
+        "o": 0.000181,
+        "h": 0.000181,
+        "l": 0.000107,
+        "c": 0.000107,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7000000000000001,
+        "s": 0.00012330000000000002,
+        "t": 1529700300,
+        "o": 0.000183,
+        "h": 0.000184,
+        "l": 0.000163,
+        "c": 0.000181,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001155,
+        "t": 1529700000,
+        "o": 0.000119,
+        "h": 0.000184,
+        "l": 0.000103,
+        "c": 0.000183,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.30000000000000004,
+        "s": 0.0000343,
+        "t": 1529699700,
+        "o": 0.000103,
+        "h": 0.00012,
+        "l": 0.000103,
+        "c": 0.00012,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7,
+        "s": 0.0001077,
+        "t": 1529699400,
+        "o": 0.000153,
+        "h": 0.00017,
+        "l": 0.000141,
+        "c": 0.00017,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.5,
+        "s": 0.0000725,
+        "t": 1529699100,
+        "o": 0.000133,
+        "h": 0.000179,
+        "l": 0.000133,
+        "c": 0.000139,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 1.1,
+        "s": 0.000167,
+        "t": 1529698800,
+        "o": 0.000143,
+        "h": 0.000176,
+        "l": 0.000118,
+        "c": 0.000133,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.4,
+        "s": 0.0000644,
+        "t": 1529698500,
+        "o": 0.000176,
+        "h": 0.000176,
+        "l": 0.000156,
+        "c": 0.000156,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.00013739999999999998,
+        "t": 1529698200,
+        "o": 0.000149,
+        "h": 0.000181,
+        "l": 0.000149,
+        "c": 0.000163,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.4,
+        "s": 0.000058399999999999997,
+        "t": 1529697900,
+        "o": 0.000143,
+        "h": 0.000149,
+        "l": 0.000143,
+        "c": 0.000149,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7999999999999999,
+        "s": 0.00011619999999999999,
+        "t": 1529697600,
+        "o": 0.000124,
+        "h": 0.000166,
+        "l": 0.000124,
+        "c": 0.000145,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.5,
+        "s": 0.0000775,
+        "t": 1529697300,
+        "o": 0.000152,
+        "h": 0.000178,
+        "l": 0.000141,
+        "c": 0.000178,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001277,
+        "t": 1529697000,
+        "o": 0.000156,
+        "h": 0.000171,
+        "l": 0.000152,
+        "c": 0.000152,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8999999999999999,
+        "s": 0.0001512,
+        "t": 1529696700,
+        "o": 0.00018,
+        "h": 0.00018,
+        "l": 0.000162,
+        "c": 0.000162,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.5,
+        "s": 0.00008549999999999999,
+        "t": 1529696400,
+        "o": 0.000142,
+        "h": 0.00018,
+        "l": 0.000142,
+        "c": 0.00018,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001249,
+        "t": 1529696100,
+        "o": 0.000157,
+        "h": 0.000161,
+        "l": 0.000147,
+        "c": 0.000157,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7,
+        "s": 0.00010800000000000001,
+        "t": 1529695800,
+        "o": 0.000123,
+        "h": 0.000172,
+        "l": 0.000123,
+        "c": 0.000165,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 1.2000000000000002,
+        "s": 0.0001806,
+        "t": 1529695500,
+        "o": 0.000133,
+        "h": 0.000175,
+        "l": 0.00013,
+        "c": 0.000169,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.1,
+        "s": 0.0000103,
+        "t": 1529695200,
+        "o": 0.000124,
+        "h": 0.000124,
+        "l": 0.000103,
+        "c": 0.000103,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.5,
+        "s": 0.000059499999999999996,
+        "t": 1529694900,
+        "o": 0.00015,
+        "h": 0.00015,
+        "l": 0.000114,
+        "c": 0.000124,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.4,
+        "s": 0.0000616,
+        "t": 1529694600,
+        "o": 0.000158,
+        "h": 0.000158,
+        "l": 0.00015,
+        "c": 0.00015,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.9000000000000001,
+        "s": 0.0001453,
+        "t": 1529694300,
+        "o": 0.000176,
+        "h": 0.000176,
+        "l": 0.000107,
+        "c": 0.000158,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.8,
+        "s": 0.0001321,
+        "t": 1529694000,
+        "o": 0.000165,
+        "h": 0.000175,
+        "l": 0.000143,
+        "c": 0.000143,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.9000000000000001,
+        "s": 0.00012639999999999998,
+        "t": 1529693700,
+        "o": 0.000158,
+        "h": 0.000165,
+        "l": 0.000111,
+        "c": 0.000126,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.6000000000000001,
+        "s": 0.000079,
+        "t": 1529693400,
+        "o": 0.000148,
+        "h": 0.000148,
+        "l": 0.000116,
+        "c": 0.000116,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7000000000000001,
+        "s": 0.0000983,
+        "t": 1529693100,
+        "o": 0.000111,
+        "h": 0.000158,
+        "l": 0.000111,
+        "c": 0.000148,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.5,
+        "s": 0.0000594,
+        "t": 1529692800,
+        "o": 0.000111,
+        "h": 0.000123,
+        "l": 0.000111,
+        "c": 0.00012,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.30000000000000004,
+        "s": 0.000039399999999999995,
+        "t": 1529692500,
+        "o": 0.00014,
+        "h": 0.00014,
+        "l": 0.000114,
+        "c": 0.000114,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 1,
+        "s": 0.0001351,
+        "t": 1529692200,
+        "o": 0.000131,
+        "h": 0.000152,
+        "l": 0.000112,
+        "c": 0.00014,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 1,
+        "s": 0.00014340000000000002,
+        "t": 1529691900,
+        "o": 0.000143,
+        "h": 0.000156,
+        "l": 0.000136,
+        "c": 0.000136,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.7,
+        "s": 0.0000988,
+        "t": 1529691600,
+        "o": 0.000136,
+        "h": 0.000158,
+        "l": 0.000136,
+        "c": 0.000143,
+        "instrument": "LEVETH"
+    },
+    {
+        "v": 0.2,
+        "s": 0.000029199999999999998,
+        "t": 1529691300,
+        "o": 0.00015,
+        "h": 0.00015,
+        "l": 0.000142,
+        "c": 0.000142,
+        "instrument": "LEVETH"
+    }
+]
+```
+
+<a name="instrument-orderbook"></a>
+## Order book for the instrument
+### GET /instrument/:symbol/orderbook
+```http
+GET /api/v1/instrument/LEVETH/orderbook HTTP/1.1
+Accept: application/json
+Host: test.leverj.io
+```
+### 200 OK
+```json
+{
+    "bid": 0.000107,
+    "ask": 0.000123,
+    "buy": [
+        {
+            "price": 0.000107,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.0001,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000098,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000096,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000095,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000092,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000089,
+            "numberOfOrders": 2,
+            "totalQuantity": 0.2,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000088,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000079,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000073,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000072,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000067,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000065,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000059,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000055,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000051,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000046,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000042,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.00004,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000039,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000036,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000034,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.00003,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000027,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000026,
+            "numberOfOrders": 2,
+            "totalQuantity": 0.4,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000015,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000013,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000011,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000004,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        }
+    ],
+    "sell": [
+        {
+            "price": 0.000123,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000136,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000166,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000184,
+            "numberOfOrders": 2,
+            "totalQuantity": 0.2,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000188,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.00019,
+            "numberOfOrders": 2,
+            "totalQuantity": 0.6,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000191,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.0002,
+            "numberOfOrders": 2,
+            "totalQuantity": 0.4,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000205,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000208,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.00021,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000211,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000213,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000215,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000216,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.3,
+            "instrument": "LEVETH"
+        },
+        {
+            "price": 0.000217,
+            "numberOfOrders": 1,
+            "totalQuantity": 0.1,
+            "instrument": "LEVETH"
+        }
+    ]
+}
+```
+
 <a name="open-order-all"></a>
 ## Get all open orders
 ### GET /order
