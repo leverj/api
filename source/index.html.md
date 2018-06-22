@@ -396,11 +396,4 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |GET|[/account](#account)|
 |GET|[/account/execution](#account-execution)|GET User's recent executions |
 
-### Margin
-
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/account/margin](#account-margin)|Get balance in margin account|
-|POST|[/account/margin](#account-margin-move)|Move coins from multisig to Margin account|
-|DELETE|[/account/margin/:amount](#account-margin-clear)|Move specified amount of coins from margin account to multisig account|
 
