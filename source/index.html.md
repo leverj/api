@@ -404,8 +404,3 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |POST|[/account/margin](#account-margin-move)|Move coins from multisig to Margin account|
 |DELETE|[/account/margin/:amount](#account-margin-clear)|Move specified amount of coins from margin account to multisig account|
 
-### Multisig Account functions
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|POST|[/account/tx/withdraw](#account-withdrawtx)|Send user signed withdrawal tx for server signature|
-|GET|[/account/tx/recovery](#account-recoverytx)|Get Server signed Multisig account Recovery TX|
