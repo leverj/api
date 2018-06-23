@@ -305,16 +305,6 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |GET|[/contract/:symbol/order/closed?from=uuid](#contract-order-closed)|Get closed orders. Use uuid of last item to fetch next page|
 |GET|[/contract/:symbol/order/cancelled?from=uuid](#contract-order-cancelled)|Get closed orders. Use uuid of last item to fetch next page|
 
-### Order Book
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/contract/:symbol/orderbook](#contract-orderbook) |Get order book|
-
-### Recent Trades
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/contract/:symbol/trade](#contract-recent-trade)|Get recent trades|
-
 ### Get account information: Margin, Position, P&L, open orders
 |Method|Rest Endpoint|Description|
 |---|---|---|
