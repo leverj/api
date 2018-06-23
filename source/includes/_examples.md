@@ -297,43 +297,65 @@ Host: test.leverj.io
 ```http
 GET /api/v1/order HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
-Nonce: 1480957451447
+Nonce: 1481655922696
 ```
 
 ### 200 OK
 ```json
 [
-    {
-        "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-        "marginPerQty":27815,
-        "stopPrice":2,
-        "eventTime":1492903310910487,
-        "uuid":"76d015e0-27b2-11e7-8df2-8467e413f756",
-        "instrument":"BTCUSD7J28",
-        "orderType":"LMT",
-        "filled":0,
-        "status":"open",
-        "normalizedPrice":8326395,
-        "price":1201,
-        "entryTime":1492904077170872,
-        "targetPrice":3,
-        "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-        "cancelled":0,
-        "averagePrice":0,
-        "side":"buy",
-        "quantity":10
-    }
+  {
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.1,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.000098,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  },
+  {
+    "uuid": "c0299d70-7689-11e8-a99b-cd95ac56fa0c",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.1,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.00001,
+    "entryTime": 1529719464136165,
+    "eventTime": 1529719464136165,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719464081,
+    "signature": "0xe4c1cf216bed6e7a6021150ed313d4fde54177d3e07363d315592caef6470779732ef6e79edecfca55ea916313147ab95f1d3af7ebe967f1f989fc30d27b069900",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  }
 ]
 ```
 <a name="open-order-id"></a>
 ## Get open order by id
 ### GET /order/:uuid
 ```http
-GET /api/v1/order/a5ab5320-27b2-11e7-96d8-d4ff6da48147 HTTP/1.1
+GET /api/v1/order/d3b22f20-7688-11e8-a699-5e68bf92f205 HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1481655922696
 ```
@@ -341,26 +363,26 @@ Nonce: 1481655922696
 ```json
 [
     {
-        "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-        "marginPerQty":119512,
-        "stopPrice":15,
-        "eventTime":1492903389522334,
-        "uuid":"a5ab5320-27b2-11e7-96d8-d4ff6da48147",
-        "instrument":"BTCUSD7J28",
-        "orderType":"LMT",
-        "filled":0,
-        "status":"open",
-        "normalizedPrice":8325008,
-        "price":1201.2,
-        "entryTime":1492903389522334,
-        "crossMargin":true,
-        "targetPrice":3,
-        "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-        "cancelled":0,
-        "averagePrice":0,
-        "side":"buy",
-        "quantity":10
-    }
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.1,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.000098,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  }
 ]
 ```
 
@@ -370,47 +392,46 @@ Nonce: 1481655922696
 ```http
 POST /api/v1/order HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
-Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:0ec8dce463f49532b2a32a2ae2ffadb9c1d637e3654c6b32f1773ddcc47f8819
-Nonce: 1481655922696
+Host: test.leverj.io
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ```json
 [
     {
-        "orderType":"LMT",
-        "price":1201.2,
-        "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-        "instrument":"BTCUSDW",
-        "crossMargin":false,
+        "orderType": "LMT",
+        "price": 0.00001,
+        "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+        "instrument": "LEVETH",
         "side":"buy",
-        "quantity":10
+        "quantity": 0.1
     }
 ]
 ```
 ### 200 OK
 ```json
 [
-    {
-        "clientid":"de12c110-c616-11e6-8cd0-fbf50c0d0231",
-        "marginPerQty":27815,
-        "stopPrice":2,
-        "eventTime":1492903397870121,
-        "uuid":"aaa4f9d0-27b2-11e7-ae2c-bbcdf5153f0d",
-        "instrument":"BTCUSD7J28",
-        "orderType":"LMT",
-        "filled":0,
-        "status":"open",
-        "normalizedPrice":8325008,
-        "price":1201.2,
-        "entryTime":1492903397870121,
-        "crossMargin":false,
-        "targetPrice":3,
-        "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-        "cancelled":0,
-        "averagePrice":0,
-        "side":"buy",
-        "quantity":10
-    }
+  {
+    "uuid": "dbb46570-7689-11e8-84d2-e6bad3a82d26",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.1,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.00001,
+    "entryTime": 1529719510343649,
+    "eventTime": 1529719510343649,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719510312,
+    "signature": "0xb229696627a3e82cd8d1ee79b173dc2084ccb6f358a7be385fa87197f9312bcd0fcc38d71d4fe4796fd7e56a21a5bc9284082c4ea1ddc107e77fba2a7845ba7000",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  }
 ]
 ```
 <a name="open-update-order"></a>
@@ -420,50 +441,42 @@ Only uuid and any fields that need to be changed should be sent. Only price can 
 ```http
 PUT /api/v1/order HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:26751dd64f75523257a3aeda5f2d59e68f4322500bcbc4beaa8ad27754ddd62b
-Nonce: 1482348434637
+Host: test.leverj.io
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ```json
 [
     {
-       "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-       "price":814.8
+       "uuid":"d3b22f20-7688-11e8-a699-5e68bf92f205",
+       "price": 0.000088
     }
 ]
 ```
 ### 200 OK
 ```json
 [
-   {
-      "uuid":"503eb8a0-c7b3-11e6-a1d4-539d1cb6cbbc",
-      "userid":          "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-      "side":"sell",
-      "quantity":        1,
-      "filled":          0,
-      "cancelled":       0,
-      "price":814.8,
-      "averagePrice":    0,
-      "entryTime":1482348434328077,
-      "eventTime":1482348364074468,
-      "status":          "open",
-      "entryOrder":{
-         "50192f40-c7b3-11e6-ba51-b8bd8cf25f84":1
-      },
-      "orderType":"STP",
-      "stopPrice":7.2,
-      "targetPrice":     "NONE",
-      "instrument":      "BTCUSDW",
-      "oco":"503eb8a1-c7b3-11e6-bbb6-4029c20f8e39",
-      "maxStop":814,
-      "entryPrice":822.3,
-      "entryAmount":822.3,
-      "commission":10000,
-      "reward":          -2500,
-      "cushion":         1,
-      "reservedTicks":   2,
-      "crossMargin":     false
-   }
+    {
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.1,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.000088,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  }
 ]
 ```
 <a name="open-cancel-order"></a>
@@ -473,395 +486,25 @@ Specify orders to be deleted by comma separated uuids. Any stop orders deleted w
 ```http
 DELETE /api/v1/order/adcb4c70-b72a-11e6-9b68-be1cfc0a27e0,50192f40-c7b3-11e6-ba51-b8bd8cf25f84 HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:fbe7496da2d6f82657d15ad2bf997ca778704f814d8e4601159f4a5519d885e4
-Nonce: 1482347623909
+Host: test.leverj.io
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ### 200 OK
 ```json
 [
-   "adcb4c70-b72a-11e6-9b68-be1cfc0a27e0",
-   "50192f40-c7b3-11e6-ba51-b8bd8cf25f84"
+   "d3b22f20-7688-11e8-a699-5e68bf92f205",
+   "c0299d70-7689-11e8-a99b-cd95ac56fa0c"
 ]
 ```
 
-<a name="open-patch-order"></a>
-## Combined create/update/cancel
-
-The PATCH method uses the syntax for [RFC6902](https://tools.ietf.org/html/rfc6902). In addition to the standard ops, we have added `merge` and `split` for position management
-
-|PATCH op|Order operation|
-|---|---|
-|add|Create new order|
-|remove|Delete order|
-|replace|Update order|
-|split|Split position|
-|merge|Merge positions
-
-### PATCH /order
-```http
-PATCH /api/v1/order HTTP/1.1
-Accept: application/json
-Host: live.coinpit.me
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
-Nonce: 1482349148300
-```
-```json
-[
-   {
-      "op":"remove",
-      "value": ["0d71f940-c7b5-11e6-9906-9cd1c95275e5"]
-   },
-   {
-       "op":"replace",
-       "value":[
-           {
-               "uuid":"76d015e0-27b2-11e7-8df2-8467e413f756",
-               "price":1100
-           }
-       ]
-   },
-   {
-       "op":    "add",
-       "value": [
-         {
-           "instrument": "BTCUSDW",
-           "side":        "buy",
-           "quantity":    1,
-           "price":       1035.3,
-           "orderType":   "LMT",
-           "clientid":    "b825ce03-fb16-4fd7-8fbe-e225803509a4",
-           "stopPrice":   4.2,
-           "crossMargin": false,
-           "targetPrice": "NONE",
-           "postOnly":    false
-         }
-       ]
-   }
-]
-```
-### 200 OK
-```json
-[
-  {
-    "op": "remove",
-    "statusCode": 200,
-    "response": [
-       "19b3a371-c7b5-11e6-a305-6ee5416bea55"
-     ]
-   },
-  {
-    "op": "replace",
-    "statusCode": 200,
-    "response": [
-      {
-        "clientid": "de12c110-c616-11e6-8cd0-fbf50c0d0231",
-        "marginPerQty": 27815,
-        "stopPrice": 2,
-        "eventTime": 1492903310910487,
-        "uuid": "76d015e0-27b2-11e7-8df2-8467e413f756",
-        "instrument": "BTCUSD7J28",
-        "orderType": "LMT",
-        "commission": 0.0005,
-        "entryOrder": {},
-        "filled": 0,
-        "status": "open",
-        "normalizedPrice": 9090909,
-        "price": 1100,
-        "entryTime": 1492922049174770,
-        "cushion": 2,
-        "targetPrice": 3,
-        "reservedTicks": 2,
-        "userid": "mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-        "cancelled": 0,
-        "reward": 0,
-        "averagePrice": 0,
-        "side": "buy",
-        "quantity": 10
-          }
-      ]
-   },
-  {
-    "op": "add",
-    "statusCode": 200,
-    "response": [
-      {
-        "uuid": "16f9fe70-f6d8-11e6-ad01-e5a16988c694",
-        "userid": "mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd",
-        "side": "buy",
-        "quantity": 1,
-        "filled": 0,
-        "cancelled": 0,
-        "price": 1035.3,
-        "normalizedPrice": 1035.3,
-        "averagePrice": 0,
-        "entryTime": 1487531864023840,
-        "eventTime": 1487531864023840,
-        "status": "open",
-        "entryOrder": {},
-        "orderType": "LMT",
-        "stopPrice": 4.2,
-        "targetPrice": "NONE",
-        "clientid": "b825ce03-fb16-4fd7-8fbe-e225803509a4",
-        "instrument": "BTCUSDW",
-        "commission": 20000,
-        "reward": -2500,
-        "cushion": 1,
-        "reservedTicks": 2,
-        "crossMargin": false
-         }
-      ]
-   }
-]
-```
-
-### Using PATCH to merge positions
-To merge positions, send both target and stop orders. They will be replaced with new stop and target orders that represent the merged positions.
-
-```http
-PATCH https://live.coinpit.me/api/v1/order HTTP/1.1
-Nonce: 1493072997331
-Host: live.coinpit.me
-Accept: application/json
-Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:68cd2d30a15e1ac140cdcb335ce9e9e922ea1af573ab0f19728cd9e8a4e9d839
-```
-```json
-[
-  {
-    "value": [
-            "6f5d5160-293d-11e7-99a0-55b28e36f889",
-            "6d74bb40-293d-11e7-bbbe-3aa4c229b3fd"
-        ],
-    "op": "merge"
-    }
-]
-```
-### 200 OK
-```json
-[
-    {
-        "statusCode":200,
-        "response":{
-            "removed":[
-                "6f5d5160-293d-11e7-99a0-55b28e36f889",
-                "6f5d7870-293d-11e7-9d90-39954eec9913",
-                "6d74bb40-293d-11e7-bbbe-3aa4c229b3fd",
-                "6d74e250-293d-11e7-8f0b-615850a8fdc3"
-            ],
-            "added":[
-                {
-                    "entryOrder":{},
-                    "normalizedEntryPrice":7923302,
-                    "stopPrice":2,
-                    "eventTime":1493072997157693,
-                    "entryAmount":158477972,
-                    "uuid":"8bb29550-293d-11e7-b2cd-49c1c6dde9fb",
-                    "oco":"8bb44300-293d-11e7-a7d6-d6ba1ddb48bc",
-                    "commission":null,
-                    "orderType":"STP",
-                    "instrument":"BTCUSD7J28",
-                    "maxStop":1251.1,
-                    "normalizedMaxStop":7992966,
-                    "filled":0,
-                    "status":"open",
-                    "entryPrice":1262.1,
-                    "normalizedPrice":7980209,
-                    "price":1253.1,
-                    "entryTime":1493072997157693,
-                    "executionPrice":0,
-                    "crossMargin":false,
-                    "targetPrice":3,
-                    "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                    "cancelled":0,
-                    "reward":null,
-                    "averagePrice":0,
-                    "side":"sell",
-                    "quantity":20
-                },
-                {
-                    "normalizedEntryPrice":7923302,
-                    "stopPrice":2,
-                    "eventTime":1493072997168228,
-                    "executionPrice":0,
-                    "uuid":"8bb44300-293d-11e7-a7d6-d6ba1ddb48bc",
-                    "oco":"8bb29550-293d-11e7-b2cd-49c1c6dde9fb",
-                    "commission":null,
-                    "orderType":"TGT",
-                    "instrument":"BTCUSD7J28",
-                    "entryOrder":{},
-                    "filled":0,
-                    "status":"open",
-                    "entryPrice":1262.1,
-                    "normalizedPrice":7904513,
-                    "price":1265.1,
-                    "entryTime":1493072997168228,
-                    "entryAmount":158477972,
-                    "crossMargin":false,
-                    "targetPrice":3,
-                    "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                    "cancelled":0,
-                    "reward":null,
-                    "averagePrice":0,
-                    "side":"sell",
-                    "quantity":20
-                }
-            ]
-        },
-        "op":"merge"
-    }
-]
-```
-### Using PATCH to split a position
-Send the UUID of the stop order representing the position to be split and the quantity to be split off.
-
-```http
-PATCH https://live.coinpit.me/api/v1/order HTTP/1.1
-Nonce: 1493073253043
-Host: live.coinpit.me
-Accept: application/json
-Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:db6e359ae9adc4c8aa17487d539082b5a6ced147dd81e83180210a388b2d3657
-```
-```json
-[
-    {
-        "quantity":10,
-        "value":[
-            "8bb29550-293d-11e7-b2cd-49c1c6dde9fb"
-        ],
-        "op":"split"
-    }
-]
-```
-### 200 OK
-```json
-[
-    {
-        "statusCode":200,
-        "response":[
-            {
-                "entryOrder":{},
-                "normalizedEntryPrice":7923930,
-                "stopPrice":2,
-                "eventTime":1493072997157693,
-                "entryAmount":79244952,
-                "uuid":"8bb29550-293d-11e7-b2cd-49c1c6dde9fb",
-                "oco":"8bb44300-293d-11e7-a7d6-d6ba1ddb48bc",
-                "commission":null,
-                "orderType":"STP",
-                "instrument":"BTCUSD7J28",
-                "maxStop":1251.1,
-                "normalizedMaxStop":7992966,
-                "filled":0,
-                "status":"open",
-                "entryPrice":1262,
-                "normalizedPrice":7980209,
-                "price":1253.1,
-                "entryTime":1493072997157693,
-                "executionPrice":0,
-                "crossMargin":false,
-                "targetPrice":3,
-                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                "cancelled":10,
-                "reward":null,
-                "averagePrice":0,
-                "side":"sell",
-                "quantity":20
-            },
-            {
-                "normalizedEntryPrice":7923930,
-                "stopPrice":2,
-                "eventTime":1493072997168228,
-                "executionPrice":0,
-                "uuid":"8bb44300-293d-11e7-a7d6-d6ba1ddb48bc",
-                "oco":"8bb29550-293d-11e7-b2cd-49c1c6dde9fb",
-                "commission":null,
-                "orderType":"TGT",
-                "instrument":"BTCUSD7J28",
-                "entryOrder":{},
-                "filled":0,
-                "status":"open",
-                "entryPrice":1262,
-                "normalizedPrice":7904513,
-                "price":1265.1,
-                "entryTime":1493072997168228,
-                "entryAmount":79244952,
-                "crossMargin":false,
-                "targetPrice":3,
-                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                "cancelled":10,
-                "reward":null,
-                "averagePrice":0,
-                "side":"sell",
-                "quantity":20
-            },
-            {
-                "entryOrder":{},
-                "normalizedEntryPrice":7922675,
-                "stopPrice":2,
-                "eventTime":1493072997157693,
-                "entryAmount":79233020,
-                "uuid":"241dbf90-293e-11e7-9093-9cf21d0dd434",
-                "oco":"241e0db0-293e-11e7-bfe1-d12137b73cf6",
-                "commission":null,
-                "orderType":"STP",
-                "instrument":"BTCUSD7J28",
-                "maxStop":1251.1,
-                "normalizedMaxStop":7992966,
-                "filled":0,
-                "status":"open",
-                "entryPrice":1262.2,
-                "normalizedPrice":7980209,
-                "price":1253.1,
-                "entryTime":1493072997157693,
-                "executionPrice":0,
-                "crossMargin":false,
-                "targetPrice":3,
-                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                "cancelled":0,
-                "reward":null,
-                "averagePrice":0,
-                "side":"sell",
-                "quantity":10
-            },
-            {
-                "normalizedEntryPrice":7922675,
-                "stopPrice":2,
-                "eventTime":1493072997168228,
-                "executionPrice":0,
-                "uuid":"241e0db0-293e-11e7-bfe1-d12137b73cf6",
-                "oco":"241dbf90-293e-11e7-9093-9cf21d0dd434",
-                "commission":null,
-                "orderType":"TGT",
-                "instrument":"BTCUSD7J28",
-                "entryOrder":{},
-                "filled":0,
-                "status":"open",
-                "entryPrice":1262.2,
-                "normalizedPrice":7904513,
-                "price":1265.1,
-                "entryTime":1493072997168228,
-                "entryAmount":79233020,
-                "crossMargin":false,
-                "targetPrice":3,
-                "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-                "cancelled":0,
-                "reward":null,
-                "averagePrice":0,
-                "side":"sell",
-                "quantity":10
-            }
-        ],
-        "op":"split"
-    }
-]
-```
 <a name="contract-order-id"></a>
 ## Specific order for a contract
 ### GET /contract/:symbol/order/:uuid
 ```http
 GET /api/v1/contract/BTCUSDW/order/ec9a2f00-27de-11e7-a957-c11c2594f049 HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481651130426
 ```
@@ -901,7 +544,7 @@ Nonce: 1481651130426
 ```http
 GET /api/v1/contract/BTCUSDW/order/open HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481651130426
 ```
@@ -941,7 +584,7 @@ Nonce: 1481651130426
 ```http
 GET /api/v1/contract/BTCUSDW/order/closed HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481651130426
 ```
@@ -980,7 +623,7 @@ Nonce: 1481651130426
 ```http
 GET /api/v1/contract/BTCUSDW/order/cancelled HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1481653294715
 ```
@@ -1065,7 +708,7 @@ Nonce: 1481653294715
 ```http
 GET /api/v1/contract/BTCUSDW/orderbook HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480947259178
 ```
@@ -1110,7 +753,7 @@ Nonce: 1480947259178
 ```http
 GET /api/v1/contract/BTCUSDW/trade HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947260712
 ```
@@ -1155,7 +798,7 @@ Nonce: 1480947260712
 ```http
 GET /api/v1/account HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
 Nonce: 1480947266323
 ```
@@ -1179,7 +822,7 @@ Nonce: 1480947266323
 ```http
 GET /api/v1/account/execution HTTP/1.1
 Accept: application/json
-Host: live.coinpit.me
+Host: test.leverj.io
 Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
 Nonce: 1480957451447
 ```

@@ -295,7 +295,6 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |POST|[/order](#open-create-order)|Create orders|
 |PUT|[/order](#open-update-order)|Update Orders|
 |DELETE|[/order/:uuids](#open-cancel-order)|Delete specified orders|
-|PATCH|[/order](#open-patch-order)|Combined create/update/cancel|
 
 ### Orders by contract and status
 
