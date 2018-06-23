@@ -52,7 +52,7 @@ Host: test.leverj.io
             "quoted_asset_address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
             "base_asset": "ETH",
             "base_asset_address": "0x0000000000000000000000000000000000000000"
-        },
+        }
     }
 }
 ```
@@ -95,23 +95,6 @@ Host: test.leverj.io
         "noSignup": false
     },
     "instruments": {
-        "FEEETH": {
-            "symbol": "FEEETH",
-            "address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
-            "name": "FEE/ETH",
-            "decimals": 9,
-            "reward": -2500,
-            "commission": 10000,
-            "instrument_status": "active",
-            "ticksize": 6,
-            "ticksperpoint": 1000000,
-            "significantEtherDigits": 6,
-            "significantTokenDigits": 1,
-            "quoted_asset": "LEV",
-            "quoted_asset_address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
-            "base_asset": "ETH",
-            "base_asset_address": "0x0000000000000000000000000000000000000000"
-        },
         "LEVETH": {
             "symbol": "LEVETH",
             "address": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4",
@@ -136,13 +119,6 @@ Host: test.leverj.io
             "address": "0x0000000000000000000000000000000000000000",
             "symbol": "ETH",
             "decimals": 18,
-            "asset_status": "active"
-        },
-        "FEE": {
-            "name": "FEE",
-            "address": "0x1dF65ad4e59391116C5b155723682ea0CEc68A86",
-            "symbol": "FEE",
-            "decimals": 9,
             "asset_status": "active"
         },
         "LEV": {
