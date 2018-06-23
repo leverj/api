@@ -8,44 +8,6 @@ Examples are structured as follows:
 |HTTP Request|Abbreviated HTTP request|
 |Server Response|Including expected HTTP error code|
 
-<a name="auth"></a>
-## Get Loginless Server pubkey
-If you have already registered your public key, for example by signing on via the trading site, you can use the public key from the json key file to get the server's public key. The server uses a different key for each user.
-### GET /auth
-### 200 OK
-```http
-GET /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37 HTTP/1.1
-Accept: application/json
-Host: live.coinpit.me
-```
-### 200 OK
-```json
-{
-  "serverPublicKey": "03133b6286431a0a5251a464ced4a5dbf156e8631a01cdadda9e6fd448bfc7eda7",
-  "userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk"
-}
-```
-<a name="auth-register"></a>
-## Register Loginless User
-It is easiest to register on the trading site, but if you wish to programmatically register a user, you can do so by sending a signed message with your public key, country and IP of registration. During registration, your IP needs to match your country code. Our [SDK](#sdk) enables you to do the signatures easily.
-### POST /auth
-```http
-POST /api/v1/auth/038657d14c91aef4c7b2b117cfd1ee18fb7a9e0b248f8168f16b1bad63f9e7df37 HTTP/1.1
-Accept: application/json
-Host: live.coinpit.me
-```
-```json
-[
-  {
-    "message":"{\"publicKey\":\"039d43948b9ce88893f3f3cb61d1995142741418f86412f1d5fcc12a010a753ac8\",\"country\":\"DK\",\"timestamp\":1487534736607,\"ip\":\"127.0.0.1\",\"introducerid\":\"\"}",
-    "signature":"IF3239UZOPfdU3Ko8Wxf1Ohu5v0SF8TiXhdd66Nb2S4XXDyftF4r7ev1y/S/SGULLX9VxEMi4CJEmtiGzrHDCf0="
-  }
-]
-```
-### 200 OK
-```json
- {"userid":"my7hu7RZDhRRBFRHXgqDMbbtCNX8rokGS9","serverPublicKey":"03cfa0eb0226f9c189967f048ba575b989bded84bebf4042e08571384f12252408"}
-```
 <a name="all-info"></a>
 ## Exchange Basic Info
 ### GET /all/info
