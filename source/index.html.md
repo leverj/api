@@ -90,14 +90,14 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
 Url parameters are denoted by prepending a colon:
 
 ```
-/contract/:symbol/order/:uuid
+/instrument/:symbol/order/:uuid
 ```
 
 The parameters `:symbol` and `:uuid` need to be filled in when making a REST call to server.
 To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of instrument `LEVETH`, the actual url would be
 
 ```
-https://live.leverj.io/api/v1/contract/BTCUSDW/order/123e4567-e89b-12d3-a456-426655440000
+https://live.leverj.io/api/v1/instrument/LEVETH/order/123e4567-e89b-12d3-a456-426655440000
 ```
 
 ### Pagination
@@ -106,86 +106,12 @@ All resource objects have a Type-1 UUID that also represents creation time. Requ
 Example: If the last accessed page had the final item with uuid `123e4567-e89b-12d3-a456-426655440000`, to get page with subsequent items:
 
 ```
-https://live.leverj.io/api/v1/contract/BTCUSDW/executions?from=123e4567-e89b-12d3-a456-426655440000
+https://live.leverj.io/api/v1/instrument/LEVETH/executions?from=123e4567-e89b-12d3-a456-426655440000
 ```
 
 ### HTTP headers
-HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `live.coinpit.me`. For production use, you should change it to `live.leverj.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
+HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `test.leverj.io`. For production use, you should change it to `live.leverj.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
 
-## Quickstart using Coinpit shell: coinpit.py
-
-The python package [`pycoinpit`](https://pypi.python.org/pypi/pycoinpit) enables a shell like interaction with the leverj.io API and enables you to enter REST commands and have them translated to authenticated REST calls. The ```-p``` or ```--pretty``` option pretty-prints JSON responses. The ```-v``` or `--verbose` option in addition also dumps headers.
-
-```shell
-$ pip install pycoinpit
-
-$ coinpit.py -v -k mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
-
-Using keyfile:  mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj.json
-
-Connected to  https://live.coinpit.me/api/v1
-Enter REST commands: METHOD path body. Enter quit to exit
-For more information: https://leverj.io/api
-
-Examples:
-  GET /account
-  POST /order [{"price":1201.2,"side":"buy","quantity":10,"orderType":"LMT","instrument":"BTCUSDW"}]
-  PUT /order [{"price":1201.3,"uuid":"b117ef30-1f50-11e7-b324-e2f410d2f5f7"}]
-  GET /order
-  DELETE /order/b117ef30-1f50-11e7-b324-e2f410d2f5f7
-
-mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj>
-```
-
-REST commands may be entered at the prompt as HTTP method, url and optional body. The shell performs authenticated REST call and displays the result
-
-```
-mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj>get /account
-```
-```http
-GET https://live.coinpit.me/api/v1/account HTTP/1.0
-Nonce: 1492043473117
-Accept: application/json
-Authorization: HMAC mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj:f6d59269584a86f7457e23c8c61e8aba4c5d9fca1fe800fd3536caa22a3348fd
-```
-```
-===================================
-
-200
-===================================
-```
-```json
-{
-    "displayMargin":9414800,
-    "positions":{},
-    "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-    "margin":9414800,
-    "orders":{
-        "BTCUSD7J14":{
-            "6feea600-1fa7-11e7-883c-2b1c532b3fc4":{
-                "marginPerQty":27815,
-                "stopPrice":2,
-                "eventTime":1492018965601165,
-                "uuid":"6feea600-1fa7-11e7-883c-2b1c532b3fc4",
-                "instrument":"BTCUSD7J14",
-                "orderType":"LMT",
-                "filled":0,
-                "status":"open",
-                "normalizedPrice":8325008,
-                "price":1201.2,
-                "entryTime":1492018965601165,
-                "targetPrice":3,
-                "cancelled":0,
-                "averagePrice":0,
-                "side":"buy",
-                "quantity":10
-            }
-        },
-        "BTCUSD7J21":{}
-    },
-    "accountMargin":9971100
-}
-```
 <a name="loginless"></a>
 # Loginless or ZKA
 
