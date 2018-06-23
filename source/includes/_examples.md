@@ -498,206 +498,147 @@ Nonce: 1529719510312
 ]
 ```
 
-<a name="contract-order-id"></a>
-## Specific order for a contract
-### GET /contract/:symbol/order/:uuid
+<a name="instrument-order-id"></a>
+## Specific order for a instrument
+### GET /instrument/:symbol/order/:uuid
 ```http
-GET /api/v1/contract/BTCUSDW/order/ec9a2f00-27de-11e7-a957-c11c2594f049 HTTP/1.1
+GET /api/v1/instrument/LEVETH/order/d3b22f20-7688-11e8-a699-5e68bf92f205 HTTP/1.1
 Accept: application/json
 Host: test.leverj.io
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
-Nonce: 1481651130426
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ### 200 OK
 ```json
 [
     {
-        "marginPerQty":65905,
-        "stopPrice":5,
-        "eventTime":1492922406384773,
-        "uuid":"ec9a2f00-27de-11e7-a957-c11c2594f049",
-        "instrument":"BTCUSD7J28",
-        "orderType":"LMT",
-        "commission":0.0005,
-        "entryOrder":{},
-        "filled":0,
-        "status":"open",
-        "normalizedPrice":9670245,
-        "price":1034.1,
-        "entryTime":1492922406384773,
-        "cushion":2,
-        "crossMargin":false,
-        "targetPrice":"NONE",
-        "reservedTicks":2,
-        "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-        "cancelled":0,
-        "reward":0,
-        "averagePrice":0,
-        "side":"buy",
-        "quantity":1
-    }
-]
-```
-<a name="contract-order-open"></a>
-## Open Orders (including partially filled)
-### GET /contract/:symbol/order/open
-```http
-GET /api/v1/contract/BTCUSDW/order/open HTTP/1.1
-Accept: application/json
-Host: test.leverj.io
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
-Nonce: 1481651130426
-```
-### 200 OK
-```json
-[
-    {
-        "marginPerQty":65905,
-        "stopPrice":5,
-        "eventTime":1492922406384773,
-        "uuid":"ec9a2f00-27de-11e7-a957-c11c2594f049",
-        "instrument":"BTCUSD7J28",
-        "orderType":"LMT",
-        "commission":0.0005,
-        "entryOrder":{},
-        "filled":0,
-        "status":"open",
-        "normalizedPrice":9670245,
-        "price":1034.1,
-        "entryTime":1492922406384773,
-        "cushion":2,
-        "crossMargin":false,
-        "targetPrice":"NONE",
-        "reservedTicks":2,
-        "userid":"mx5YeJZSJbrENq24PLzW8BYHUxJb48Ttfj",
-        "cancelled":0,
-        "reward":0,
-        "averagePrice":0,
-        "side":"buy",
-        "quantity":1
-    }
-]
-```
-<a name="contract-order-closed"></a>
-## Closed Orders (including partially cancelled)
-### GET /contract/:symbol/order/closed?from=:uuid
-```http
-GET /api/v1/contract/BTCUSDW/order/closed HTTP/1.1
-Accept: application/json
-Host: test.leverj.io
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
-Nonce: 1481651130426
-```
-### 200 OK
-```json
-[
-  {
-    "uuid": "6cc52580-bb0c-11e6-b831-df21626bb966",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
     "side": "buy",
-    "quantity": 3,
-    "filled": 3,
+    "quantity": 1.0,
+    "filled": 0,
     "cancelled": 0,
-    "price": 752.2,
-    "averagePrice": 752.2,
-    "entryTime": 1480957272024245,
-    "eventTime": 1480965089774447,
-    "status": "closed",
-    "entryOrder": {},
+    "price": 0.000098,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
     "orderType": "LMT",
-    "stopPrice": 2.8,
-    "targetPrice": "NONE",
-    "clientid": "6badc210-bb0c-11e6-b1b0-31a3e9373a6c",
-    "instrument": "BTCUSDW",
-    "commission": 10000,
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
     "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
   }
 ]
 ```
-<a name="contract-order-cancelled"></a>
-## Cancelled orders (with no fills)
-### GET /contract/:symbol/order/cancelled?from=:uuid
+<a name="instrument-order-open"></a>
+## Open Orders (including partially filled)
+### GET /instrument/:symbol/order/open
 ```http
-GET /api/v1/contract/BTCUSDW/order/cancelled HTTP/1.1
+GET /api/v1/instrument/LEVETH/order/open HTTP/1.1
 Accept: application/json
 Host: test.leverj.io
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
-Nonce: 1481653294715
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
+```
+### 200 OK
+```json
+[
+    {
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.5,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.000098,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  }
+]
+```
+<a name="instrument-order-closed"></a>
+## Closed Orders (including partially cancelled)
+### GET /instrument/:symbol/order/closed?from=:uuid
+```http
+GET /api/v1/instrument/LEVETH/order/closed HTTP/1.1
+Accept: application/json
+Host: test.leverj.io
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
+```
+### 200 OK
+```json
+[
+    {
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.5,
+    "filled": 0,
+    "cancelled": 0,
+    "price": 0.000098,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
+    "orderType": "LMT",
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
+    "reward": -2500,
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
+  }
+]
+```
+<a name="instrument-order-cancelled"></a>
+## Cancelled orders (with no fills)
+### GET /instrument/:symbol/order/cancelled?from=:uuid
+```http
+GET /api/v1/instrument/LEVETH/order/cancelled HTTP/1.1
+Accept: application/json
+Host: test.leverj.io
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ### 200 OK
 ```json
 [
   {
-    "uuid": "8a1cbe40-bb0c-11e6-b56f-e850d46d696a",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 2,
+    "uuid": "d3b22f20-7688-11e8-a699-5e68bf92f205",
+    "accountId": "0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167",
+    "side": "buy",
+    "quantity": 0.5,
     "filled": 0,
-    "cancelled": 2,
-    "price": 745,
-    "averagePrice": 0,
-    "entryTime": 1480957321252323,
-    "eventTime": 1480957321696555,
-    "status": "cancelled",
-    "entryOrder": {},
+    "cancelled": 0,
+    "price": 0.000098,
+    "entryTime": 1529719067410372,
+    "eventTime": 1529719067410372,
+    "status": "open",
     "orderType": "LMT",
-    "stopPrice": 2.7,
-    "targetPrice": "NONE",
-    "clientid": "89064530-bb0c-11e6-b1b0-31a3e9373a6c",
-    "instrument": "BTCUSDW",
-    "reason": "Cancelled self-matching order",
-    "commission": 10000,
+    "instrument": "LEVETH",
+    "makerFee": 0,
+    "takerFee": 0,
+    "useFEE": false,
     "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
-  },
-  {
-    "uuid": "32e11200-baa5-11e6-a434-3f7d9d3258be",
-    "userid": "mqJ36LnDCjRavP1wwsieBTxHAb9R5grwsy",
-    "side": "sell",
-    "quantity": 21,
-    "filled": 0,
-    "cancelled": 21,
-    "price": "NONE",
-    "averagePrice": 0,
-    "entryTime": 1480912936736294,
-    "eventTime": 1480915778195181,
-    "status": "cancelled",
-    "entryOrder": {
-      "1f0c2a80-baa5-11e6-9558-951ab84e8daa": 1
-    },
-    "orderType": "TGT",
-    "stopPrice": 6.6,
-    "targetPrice": "NONE",
-    "instrument": "BTCUSDW",
-    "oco": "32e0eaf0-baa5-11e6-bb13-65d0268ef8f6",
-    "entryPrice": 758,
-    "entryPrices": [
-      758,
-      758,
-      758,
-      758,
-      758,
-      758
-    ],
-    "entryAmounts": [
-      15918,
-      12886,
-      9096,
-      5306,
-      4548,
-      1516
-    ],
-    "entryAmount": 0,
-    "commission": 10000,
-    "reward": -2500,
-    "cushion": 1,
-    "reservedTicks": 2,
-    "crossMargin": false
+    "timestamp": 1529719067326,
+    "signature": "0x1b8bba98827d23062ce4782f7329397bdeb31af14a42bbd3116a025f33a74b33089194df05a09e888344120fc489de0339260d1b51aa6e59ef076db8a73e067b00",
+    "token": "0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4"
   }
 ]
 ```
@@ -709,22 +650,12 @@ Nonce: 1481653294715
 GET /api/v1/account HTTP/1.1
 Accept: application/json
 Host: test.leverj.io
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:0d83676173fe248c8a765d86a551e827e1afe7749a688a836e957a7fde510d69
-Nonce: 1480947266323
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ### 200 OK
-```json
-{
-    "displayMargin":0,
-    "positions":{},
-    "userid":"mk1n8MGrgMEVRHuLarJ6W4MKuZG8CYfh8i",
-    "margin":0,
-    "orders":{
-        "BTCUSD7J14":{},
-        "BTCUSD7J21":{}
-    },
-    "accountMargin":0
-}
+```
+Coming soon!
 ```
 <a name="account-execution"></a>
 ## User Executions
@@ -733,38 +664,10 @@ Nonce: 1480947266323
 GET /api/v1/account/execution HTTP/1.1
 Accept: application/json
 Host: test.leverj.io
-Authorization: HMAC mfxWFDho5Aa2TTnxKRZNRgBED6GP8C9gDd:7c3fa2fb0702bf1e4f9a94ca6c48cc250d95e078b42c339307096fbe679e2c84
-Nonce: 1480957451447
+Authorization: 'SIGN 0x50F7a5CE920E2Ab517E6178CB1Edb90030f32167.0x5641C10fC028a5385dEC3A89f0a61f98DfBfCd30.28.0x37a8fbcf67406dbd68d825763727eebaf95aba915fcd0eb361f45163242c2b66.0x0f989ae4615b1ca4981fab0325b79ecb75aa943736af2ef279b4f0f3671ee837'
+Nonce: 1529719510312
 ```
 ### 200 OK
-```json
-[{
-  "userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
-  "executionid": "27a99cb0-f5bd-11e6-9bc0-ab69e5d88384",
-  "side": "sell",
-  "orderType": "MKT",
-  "orderid": "278ec1b0-f5bd-11e6-a389-363d200d248d",
-  "price": 1063.9,
-  "quantity": 1,
-  "liquidity": "commission",
-  "commission": 23498,
-  "eventTime": 1487410344443683,
-  "instrument": "BTCUSD7G24",
-  "entryAmount": -46952766,
-  "pnl": -44132
-}, {
-  "userid": "mvuQJYbLDDMKsNtr2KLV6fqeYj5Zis1Xdk",
-  "executionid": "1f0c9080-f5bd-11e6-8fe3-628ba4ed8f57",
-  "side": "buy",
-  "orderType": "MKT",
-  "orderid": "1ef6e5a0-f5bd-11e6-8279-f198eadae07e",
-  "price": 1064.9,
-  "quantity": 1,
-  "liquidity": "commission",
-  "commission": 23476,
-  "eventTime": 1487410329992901,
-  "instrument": "BTCUSD7G24",
-  "entryAmount": 0,
-  "pnl": 0
-}]
+```
+Coming soon!
 ```

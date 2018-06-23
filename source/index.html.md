@@ -214,14 +214,14 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |PUT|[/order](#open-update-order)|Update Orders|
 |DELETE|[/order/:uuids](#open-cancel-order)|Delete specified orders|
 
-### Orders by contract and status
+### Orders by instrument and status
 
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/contract/:symbol/order/:uuid](#contract-order-id)|Get specific order for a particular contract|
-|GET|[/contract/:symbol/order/open](#contract-order-open)|Get all open orders for a specific contract|
-|GET|[/contract/:symbol/order/closed?from=uuid](#contract-order-closed)|Get closed orders. Use uuid of last item to fetch next page|
-|GET|[/contract/:symbol/order/cancelled?from=uuid](#contract-order-cancelled)|Get closed orders. Use uuid of last item to fetch next page|
+|GET|[/instrument/:symbol/order/:uuid](#instrument-order-id)|Get specific order for a particular instrument|
+|GET|[/instrument/:symbol/order/open](#instrument-order-open)|Get all open orders for a specific instrument|
+|GET|[/instrument/:symbol/order/closed?from=uuid](#instrument-order-closed)|Get closed orders. Use uuid of last item to fetch next page|
+|GET|[/instrument/:symbol/order/cancelled?from=uuid](#instrument-order-cancelled)|Get closed orders. Use uuid of last item to fetch next page|
 
 ### Get account information: Margin, Position, P&L, open orders
 |Method|Rest Endpoint|Description|
