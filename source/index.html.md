@@ -2,34 +2,27 @@
 title: Leverj API
 
 language_tabs:
-  - python
   - javascript
 
 toc_footers:
-  - Try our <a href='https://test.leverj.io/'>testnet site</a>.
+  - Try out <a href='https://test.leverj.io/'>testnet site</a>.
+  - Trade at <a href='https://live.leverj.io/'>mainnet site</a>
   - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
 
 includes:
   - examples
-  - socket
-  - errors
 
 search: true
 ---
 # Introduction
 
-Leverj REST and Websocket API enable access to all features of the platform. The [testnet](https://test.leverj.io/) and [live](https://live.leverj.io/) sites are built entirely using this API and should be seen as one of the many possible platform implementations. The API could be leveraged to power a comprehesive set of tools and utilities, including automated trading clients and bots.
-
-Please refer to [JSON field definitions](https://leverj.io/docs/definitions.html) for more information.
-
-<a name="sdk"></a>
+Leverj REST and Websocket API enable access to all features of the platform. The [testnet](https://test.leverj.io/) and [live](https://live.leverj.io/) sites are built entirely using this API and should be seen as one of the many possible platform implementations. The API could be leveraged to power a comprehensive set of tools and utilities, including automated trading clients and bots.
 
 ## Language SDK/Libraries
 
-Currently we support node.js and python for programmatic access. Select your programming language on the top right of the page to select code examples appropriately. Python code examples and the client library is compatible with Python3.
+Currently we support only node.js for programmatic access.
   <ul>
-  <li><a href="https://github.com/leverj/leverj-client">Node.js client</a>
-  <li><a href="https://github.com/leverj/pyleverj">Python client</a>
+  <li><a href="https://github.com/leverj/zka">ZKA library</a>
   </ul>
 
 ## Scheme
@@ -49,39 +42,17 @@ For example to access the `/all/info` endpoint:
 ```shell
 curl https://live.leverj.io/api/v1/all/info
 ```
-### From your programming language
-```python
-import requests
-print(requests.get("https://live.leverj.io/api/v1/all/info").text)
-```
 
-```javascript
-restjs.get("https://live.leverj.io/api/v1/all/info")
- .then(function(info) {
-   console.log(info)
-  })
-```
 ### Unified javascript Rest library
 
-The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a `SCRIPT` tag in HTML
+The <a href="https://github.com/leverj/REST">rest.js</a> library enables isomorphic usage of REST calls from either node.js or the browser using either browserify or as a `SCRIPT` tag in HTML
 
-### In Browser
-```html
-  <script src="jquery.min.js"></script>
-  <script src="https://raw.githubusercontent.com/coinpit/REST/master/index.js"></script>
-  <script>
-    restjs.get("https://live.leverj.io/api/v1/all/info")
-          .then(function(result) {
-            console.log(result)
-          })
-  </script>
-```
 ### In node.js
 ```javascript
   var restjs = require('rest.js')
   restjs.get("https://live.leverj.io/api/v1/all/info")
         .then(function(result) {
-          console.log(result)
+          console.log(result.body)
         })
 ```
 
@@ -90,23 +61,14 @@ The <a href="https://github.com/coinpit/REST">rest.js</a> library enables isomor
 Url parameters are denoted by prepending a colon:
 
 ```
-/instrument/:symbol/order/:uuid
+/instrument/:symbol/chart/:timeframe
 ```
 
-The parameters `:symbol` and `:uuid` need to be filled in when making a REST call to server.
-To get a specific order with id `123e4567-e89b-12d3-a456-426655440000` of instrument `LEVETH`, the actual url would be
+The parameters `:symbol` and `:timeframe` need to be filled in when making a REST call to server.
+To get chart for a specific symbol with id `LEVETH` for timeframe `5`, the actual url would be
 
 ```
-https://live.leverj.io/api/v1/instrument/LEVETH/order/123e4567-e89b-12d3-a456-426655440000
-```
-
-### Pagination
-All resource objects have a Type-1 UUID that also represents creation time. Requests return results in descending order of creation time. By default the most recent object is returned with a page size of 100. Use the query parameter ```from``` to get data for the next page.
-
-Example: If the last accessed page had the final item with uuid `123e4567-e89b-12d3-a456-426655440000`, to get page with subsequent items:
-
-```
-https://live.leverj.io/api/v1/instrument/LEVETH/executions?from=123e4567-e89b-12d3-a456-426655440000
+https://live.leverj.io/api/v1/instrument/LEVETH/chart/5
 ```
 
 ### HTTP headers
@@ -115,15 +77,15 @@ HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host
 <a name="loginless"></a>
 # Zero Knowledge Authentication (ZKA)
 
-Leverj's uses a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account's private key. The apikey's secret is used to sign and confirm your identity but is not transfered over to the server either. The loginless system relies on ECDSA (Elliptic Curve Digital Signature Algorithm). The scheme involves signing message payload using an apikey's secret and subsequently using the elliptic curve signature elements to derive or recover the apikey. The recovered apikey is matched against the registered apikey. This pair of actions involving signing and recovery establishes trust and identity to facilitate authentication. Every request is authenticated using this mechanism.
+Leverj uses a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account's private key. The apikey's secret is used to sign and confirm your identity but is not transfered over to the server either. The loginless system relies on ECDSA (Elliptic Curve Digital Signature Algorithm). The scheme involves signing message payload using an apikey's secret and subsequently using the elliptic curve signature elements to derive or recover the apikey. The recovered apikey is matched against the registered apikey. This pair of actions involving signing and recovery establishes trust and identity to facilitate authentication. Every request is authenticated using this mechanism.
 
-You need to register online with the exchange to setup and download an apikey and its corresponding secret. An account can have multiple pairs of apikeys and their corresponding secrets.
+You need to register online with the exchange to setup and download an apikey and its corresponding secret. When you register, you will be given an option to download your `Trading Pass`. The `Trading Pass` contains your accountId, apikey, and secret. An account can have multiple pairs of apikeys and their corresponding secrets.
 
 Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: session hijacking, some kinds of replay attacks, cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.
 
 ## Overview
 
-ZKA requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your account id, apikey and secret, which are in your JSON key file that you saved when you registered with the exchange and setup your apikey.
+ZKA requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your account id, apikey and secret, which are in your Trading Pass, a JSON key file that you saved when you registered with the exchange and setup your apikey.
 
 ### Authorization and Nonce headers
 
@@ -137,46 +99,40 @@ Nonce: <unix_time>
 **v**, **r**, and **s** are ECDSA related elements. **r** and **s** are normal outputs of an ECDSA signature and **v** is the extra byte or header byte that helps in public key recovery.
 
 
-For example, to get account information:
+For example, to get all configuration information:
 
 ```http
-GET /api/v1/account HTTP/1.1
-Host: live.leverj.io
-Authorization: 'SIGN 0x175692523CC570fB0E1856BFa190c7a89777347d.0x5fB9c0E7d496C89792f0F5C7d3b0337C0Bba7C3a.28.0x711802f48404ef5abbc0962370b750f4d6ef71a4336e8a691b4b42953022465a.0x23c14435d18e972b19119791ec5f9f120b24ed26fef4feda4b8efc74d8297a41'
-Nonce: 1529543915691
+GET /api/v1/all/config HTTP/1.1
+Host: test.leverj.io
+Authorization: 'SIGN 0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F.0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa.27.0x50eef94b262808ea42072dbe4375d0e908efea6e713b37b8ed729a63e56e4c23.0x4cf4c460baf43092b5350692179a833feb9dd855d6421570a2dc7d1f3325a952'
+Nonce: 1550791374642
 ```
 
-We support transparent authentication support for node.js and python and suggest you use them instead of rolling out your own
+`/all/config` is an open endpoint and you don't need an API key to access it but similar header and signature structures are used when getting protected information.
+
+We provide transparent and seamless authentication support for node.js via an easy to use javascript module and suggest you use it instead of rolling out your own.
 
 ### zka node module
 
-The zka node module will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.
+The <a href="https://www.npmjs.com/package/zka">zka node module</a> will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.
 
-```coffeescript
-const zka    = require("zka")(baseUrl, "/api/v1")
+Remember to initialize and configure your zka instance before making calls to the API endpoints.
+
+```javascript
+const zka = require("zka")(baseUrl, "/api/v1")
 zka.init(accountId, apiKey, secret)
 ```
 
 ### Authentication with zka
 
 ### Nonce
-To prevent replay attacks, all requests should include a nonce and the nonce is also used to compute HMAC. The server expects UNIX time as the nonce. This requires a reasonably accurate clock on your client machine.
+To prevent replay attacks, all requests should include a nonce. The server expects UNIX time as the nonce. This requires a reasonably accurate clock on your client machine.
 
 ```
-Nonce: 1478041310000
+Nonce: 1550791374642
 ```
 ###  Clients with inaccurate clocks
-If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the `Server-Time` header in the HTTP responses. The node.js [SDK](#sdk) does skew adjustment automatically. The non-cacheable HTTP methods `PUT`, `POST`, `DELETE` and `OPTIONS` return a `Server-Time` header.
-
-```
-Server-Time: 1478041315780
-```
-
-### Send request using Authorization and nonce headers
-
-```
-curl -H "Authorization: 'SIGN 0x175692523CC570fB0E1856BFa190c7a89777347d.0x5fB9c0E7d496C89792f0F5C7d3b0337C0Bba7C3a.28.0x711802f48404ef5abbc0962370b750f4d6ef71a4336e8a691b4b42953022465a.0x23c14435d18e972b19119791ec5f9f120b24ed26fef4feda4b8efc74d8297a41'" -H 'Nonce 1529543915691' https://live.coinpit.me/api/v1/instrument/LEVETH/order
-```
+If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the `Server-Time` header in the HTTP responses. The zka node module does skew adjustment automatically. The non-cacheable HTTP methods `PUT`, `POST`, `DELETE` and `OPTIONS` return a `Server-Time` header.
 
 # Leverj REST API
 
@@ -191,7 +147,6 @@ Unprotected endpoints do not require an `Authorization` header.
 ### Exchange Configuration
 |Method|Rest Endpoint|Description|
 |---|---|---|
-|GET|[/all/spec](#all-spec)|Get specs for all exchange traded instruments|
 |GET|[/all/config](#all-config)|Get exchange configuration parameters|
 
 ### Market Data
@@ -209,21 +164,8 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/order](#open-order-all)|Get all open orders|
-|GET|[/order/:uuid](#open-order-id)|Get a specific open order|
-|POST|[/order](#open-create-order)|Create orders|
-|PUT|[/order](#open-update-order)|Update Orders|
-|DELETE|[/order/:uuids](#open-cancel-order)|Delete specified orders|
 
-### Orders by instrument and status
-
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/instrument/:symbol/order/:uuid](#instrument-order-id)|Get specific order for a particular instrument|
-|GET|[/instrument/:symbol/order/open](#instrument-order-open)|Get all open orders for a specific instrument|
-|GET|[/instrument/:symbol/order/closed?from=uuid](#instrument-order-closed)|Get closed orders. Use uuid of last item to fetch next page|
-|GET|[/instrument/:symbol/order/cancelled?from=uuid](#instrument-order-cancelled)|Get closed orders. Use uuid of last item to fetch next page|
-
-### Get account information: Margin, Position, P&L, open orders
+### Get account information: Orders and Trades
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/account](#account)|
