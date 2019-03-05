@@ -280,6 +280,51 @@ zka.rest.get('/order').then(function(result) {console.log(result)})
 ]
 ```
 
+<a name="open-create-order"></a>
+## Create New Order
+### POST /order
+```javascript
+// install tradehelper 
+// npm i @leverj/tradehelper
+const signer = require('@leverj/tradehelper/signer')
+
+// create new order object
+
+
+function createNewOrder(side, price, quantity, orderInstrument, orderAccountId, secret) {
+  let order = {
+    orderType: 'LMT',
+    side,
+    price: price.toFixed(orderInstrument.significantEtherDigits) - 0,
+    quantity: quantity.toFixed(orderInstrument.significantTokenDigits) - 0,
+    timestamp: Date.now() * 1e3,
+    accountId: orderAccountId,
+    token: orderInstrument.address,
+    instrument: orderInstrument.symbol
+  }
+  order.signature = signer.sign(order, orderInstrument.decimals, secret)
+  console.log({ order })
+  return order
+}
+
+
+// get instrument information for LEVETH
+// create LEVETH buy order
+
+zka.rest.get('/all/config').then(function (result) {
+  const instruments = result.instruments
+  const LEVETH_instrument = instruments['LEVETH']
+  console.log(LEVETH_instrument)
+  const newOrder = createNewOrder('buy', 0.001229, 20, LEVETH_instrument, accountId, secret)
+  try {
+    zka.rest.post('/order', {}, [newOrder]).catch(console.error)
+  } catch (e) {
+    console.error(e)
+  }
+})
+
+```
+
 <a name="account"></a>
 ## User account
 ### GET /account

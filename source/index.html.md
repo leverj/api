@@ -23,7 +23,10 @@ Leverj REST and Websocket API enable access to all features of the platform. The
 Currently we support only node.js for programmatic access.
   <ul>
   <li><a href="https://github.com/leverj/zka">ZKA library</a>
+  <li><a href="https://github.com/leverj/tradehelper">tradehelper library</a>
   </ul>
+
+Usage of these libraries will be illustrated in the following sections.
 
 ## Scheme
 
@@ -72,7 +75,7 @@ https://live.leverj.io/api/v1/instrument/LEVETH/chart/5
 ```
 
 ### HTTP headers
-HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `test.leverj.io`. For production use, you should change it to `live.leverj.io`. You also need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
+HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host `test.leverj.io`. For production use, you should change it to `live.leverj.io`. You need `Authorization` and `Nonce` headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.
 
 <a name="loginless"></a>
 # Zero Knowledge Authentication (ZKA)
@@ -164,6 +167,9 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |Method|Rest Endpoint|Description|
 |---|---|---|
 |GET|[/order](#open-order-all)|Get all open orders|
+|POST|[/order](#open-create-order)|Create orders|
+|PUT|[/order](#open-update-order)|Update Orders|
+|DELETE|[/order/:uuids](#open-cancel-order)|Delete specified orders|
 
 ### Get account information: Orders and Trades
 |Method|Rest Endpoint|Description|
