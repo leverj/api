@@ -289,9 +289,9 @@ zka.rest.get('/order').then(function(result) {console.log(result)})
 ## Create New Order
 ### POST /order
 ```javascript
-// install tradehelper 
-// npm i @leverj/tradehelper
-const signer = require('@leverj/tradehelper/signer')
+// install @leverj/adapter 
+// npm i @leverj/adapter
+const adapter = require("@leverj/adapter/src/OrderAdapter")
 
 // create new order object
 
@@ -300,15 +300,14 @@ function createNewOrder(side, price, quantity, orderInstrument, orderAccountId, 
   let order = {
     orderType: 'LMT',
     side,
-    price: price.toFixed(orderInstrument.significantEtherDigits) - 0,
-    quantity: quantity.toFixed(orderInstrument.significantTokenDigits) - 0,
+    price: price.toFixed(orderInstrument.baseSignificantDigits) - 0,
+    quantity: quantity.toFixed(orderInstrument.termSignificantDigits) - 0,
     timestamp: Date.now() * 1e3,
     accountId: orderAccountId,
     token: orderInstrument.address,
     instrument: orderInstrument.symbol
   }
-  order.signature = signer.sign(order, orderInstrument.decimals, secret)
-  console.log({ order })
+  order.signature = adapter.sign(order, orderInstrument, secret)
   return order
 }
 
