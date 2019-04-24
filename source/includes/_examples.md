@@ -42,9 +42,7 @@ zka.rest.get('/all/config').then(function(result) {console.log(result)})
      estimatedTokenTransferFee: '100000',
      network:
       { provider: 'mainnet',
-        uri: 'https://mainnet.infura.io',
         etherscan: 'https://etherscan.io',
-        socket: 'wss://mainnet.infura.io:443/ws',
         id: 1,
         registry: '0x7B70aCD346892736f9f6c7F4f196B07400a50Da0',
         custodian: '0xCE00901a0638d758D6f89d59dFa32120D2259B0C',
@@ -54,32 +52,34 @@ zka.rest.get('/all/config').then(function(result) {console.log(result)})
   instruments:
    { FEEETH:
       { symbol: 'FEEETH',
-        address: '0xffe4a5A685eFc53F45Bf50F3DAB45ded1B028134',
         name: 'FEE/ETH',
-        instrument_status: 'active',
-        ticksize: 6,
-        ticksperpoint: 1000000,
-        significantEtherDigits: 6,
-        significantTokenDigits: 1,
-        base_asset_address: '0x0000000000000000000000000000000000000000',
-        base_asset: 'ETH',
-        quoted_asset_address: '0xffe4a5A685eFc53F45Bf50F3DAB45ded1B028134',
-        quoted_asset: 'FEE',
-        decimals: 9 },
+        status: 'active',
+        ticksize: 8,
+        ticksperpoint: 100000000,
+        baseSignificantDigits: 8,
+        quoteSignificantDigits: 1,
+        base: [Object],
+        quote: [Object] },
      LEVETH:
       { symbol: 'LEVETH',
-        address: '0x0F4CA92660Efad97a9a70CB0fe969c755439772C',
         name: 'LEV/ETH',
-        instrument_status: 'active',
-        ticksize: 6,
-        ticksperpoint: 1000000,
-        significantEtherDigits: 6,
-        significantTokenDigits: 1,
-        base_asset_address: '0x0000000000000000000000000000000000000000',
-        base_asset: 'ETH',
-        quoted_asset_address: '0x0F4CA92660Efad97a9a70CB0fe969c755439772C',
-        quoted_asset: 'LEV',
-        decimals: 9 } },
+        status: 'active',
+        ticksize: 8,
+        ticksperpoint: 100000000,
+        baseSignificantDigits: 8,
+        quoteSignificantDigits: 1,
+        base: [Object],
+        quote: [Object] },
+     ETHDAI:
+      { symbol: 'ETHDAI',
+        name: 'ETH/DAI',
+        status: 'active',
+        ticksize: 1,
+        ticksperpoint: 10,
+        baseSignificantDigits: 1,
+        quoteSignificantDigits: 4,
+        base: [Object],
+        quote: [Object] } },
   assets:
    { ETH:
       { name: 'ETHEREUM',
@@ -91,12 +91,17 @@ zka.rest.get('/all/config').then(function(result) {console.log(result)})
         address: '0x0F4CA92660Efad97a9a70CB0fe969c755439772C',
         symbol: 'LEV',
         decimals: 9 },
+     DAI:
+      { name: 'DAI',
+        address: '0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359',
+        symbol: 'DAI',
+        decimals: 18 },
      FEE:
       { name: 'FEE',
         address: '0xffe4a5A685eFc53F45Bf50F3DAB45ded1B028134',
         symbol: 'FEE',
-        decimals: 9 } 
-    } 
+        decimals: 9 
+      } } 
 }
 ```
 <a name="instrument-recent-trade"></a>
