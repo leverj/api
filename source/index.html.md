@@ -22,7 +22,7 @@ Leverj REST and Websocket API enable access to all features of the platform. The
 
 Currently we support only node.js for programmatic access.
   <ul>
-  <li><a href="https://github.com/leverj/zka">ZKA library</a>
+  <li><a href="https://www.npmjs.com/package/@leverj/zka">@leverj/zka library</a>
   <li><a href="https://www.npmjs.com/package/@leverj/adapter">@leverj/adapter library</a>
   </ul>
 
