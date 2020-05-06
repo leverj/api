@@ -1,13 +1,17 @@
 ---
 title: Leverj API
 
-language_tabs:
+language_tabs: # must be one of https://git.io/vQNgJ
+  - shell
+  - ruby
+  - python
   - javascript
 
 toc_footers:
   - Try out <a href='https://test.leverj.io/'>testnet site</a>.
   - Trade at <a href='https://live.leverj.io/'>mainnet site</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='#'>Sign Up for a Developer Key</a>
+  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
   - examples
@@ -177,4 +181,54 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 |GET|[/account](#account)|
 |GET|[/account/execution](#account-execution)|GET User's recent executions |
 
+
+## Delete a Specific Kitten
+
+```ruby
+require 'kittn'
+
+api = Kittn::APIClient.authorize!('meowmeowmeow')
+api.kittens.delete(2)
+```
+
+```python
+import kittn
+
+api = kittn.authorize('meowmeowmeow')
+api.kittens.delete(2)
+```
+
+```shell
+curl "http://example.com/api/kittens/2"
+  -X DELETE
+  -H "Authorization: meowmeowmeow"
+```
+
+```javascript
+const kittn = require('kittn');
+
+let api = kittn.authorize('meowmeowmeow');
+let max = api.kittens.delete(2);
+```
+
+> The above command returns JSON structured like this:
+
+```json
+{
+  "id": 2,
+  "deleted" : ":("
+}
+```
+
+This endpoint deletes a specific kitten.
+
+### HTTP Request
+
+`DELETE http://example.com/kittens/<ID>`
+
+### URL Parameters
+
+Parameter | Description
+--------- | -----------
+ID | The ID of the kitten to delete
 
