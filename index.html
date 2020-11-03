@@ -1,0 +1,1013 @@
+
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Leverj API</title>
+
+    <style media="screen">
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight .gh {
+  color: #999999;
+}
+.highlight .sr {
+  color: #f6aa11;
+}
+.highlight .go {
+  color: #888888;
+}
+.highlight .gp {
+  color: #555555;
+}
+.highlight .gs {
+}
+.highlight .gu {
+  color: #aaaaaa;
+}
+.highlight .nb {
+  color: #f6aa11;
+}
+.highlight .cm {
+  color: #75715e;
+}
+.highlight .cp {
+  color: #75715e;
+}
+.highlight .c1 {
+  color: #75715e;
+}
+.highlight .cs {
+  color: #75715e;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cpf {
+  color: #75715e;
+}
+.highlight .err {
+  color: #960050;
+}
+.highlight .gr {
+  color: #960050;
+}
+.highlight .gt {
+  color: #960050;
+}
+.highlight .gd {
+  color: #49483e;
+}
+.highlight .gi {
+  color: #49483e;
+}
+.highlight .ge {
+  color: #49483e;
+}
+.highlight .kc {
+  color: #66d9ef;
+}
+.highlight .kd {
+  color: #66d9ef;
+}
+.highlight .kr {
+  color: #66d9ef;
+}
+.highlight .no {
+  color: #66d9ef;
+}
+.highlight .kt {
+  color: #66d9ef;
+}
+.highlight .mf {
+  color: #ae81ff;
+}
+.highlight .mh {
+  color: #ae81ff;
+}
+.highlight .il {
+  color: #ae81ff;
+}
+.highlight .mi {
+  color: #ae81ff;
+}
+.highlight .mo {
+  color: #ae81ff;
+}
+.highlight .m, .highlight .mb, .highlight .mx {
+  color: #ae81ff;
+}
+.highlight .sc {
+  color: #ae81ff;
+}
+.highlight .se {
+  color: #ae81ff;
+}
+.highlight .ss {
+  color: #ae81ff;
+}
+.highlight .sd {
+  color: #e6db74;
+}
+.highlight .s2 {
+  color: #e6db74;
+}
+.highlight .sb {
+  color: #e6db74;
+}
+.highlight .sh {
+  color: #e6db74;
+}
+.highlight .si {
+  color: #e6db74;
+}
+.highlight .sx {
+  color: #e6db74;
+}
+.highlight .s1 {
+  color: #e6db74;
+}
+.highlight .s, .highlight .sa, .highlight .dl {
+  color: #e6db74;
+}
+.highlight .na {
+  color: #a6e22e;
+}
+.highlight .nc {
+  color: #a6e22e;
+}
+.highlight .nd {
+  color: #a6e22e;
+}
+.highlight .ne {
+  color: #a6e22e;
+}
+.highlight .nf, .highlight .fm {
+  color: #a6e22e;
+}
+.highlight .vc {
+  color: #ffffff;
+}
+.highlight .nn {
+  color: #ffffff;
+}
+.highlight .ni {
+  color: #ffffff;
+}
+.highlight .bp {
+  color: #ffffff;
+}
+.highlight .vg {
+  color: #ffffff;
+}
+.highlight .vi {
+  color: #ffffff;
+}
+.highlight .nv, .highlight .vm {
+  color: #ffffff;
+}
+.highlight .w {
+  color: #ffffff;
+}
+.highlight {
+  color: #ffffff;
+}
+.highlight .n, .highlight .py, .highlight .nx {
+  color: #ffffff;
+}
+.highlight .nl {
+  color: #f92672;
+}
+.highlight .ow {
+  color: #f92672;
+}
+.highlight .nt {
+  color: #f92672;
+}
+.highlight .k, .highlight .kv {
+  color: #f92672;
+}
+.highlight .kn {
+  color: #f92672;
+}
+.highlight .kp {
+  color: #f92672;
+}
+.highlight .o {
+  color: #f92672;
+}
+    </style>
+    <style media="print">
+      * {
+        -webkit-transition:none!important;
+        transition:none!important;
+      }
+      .highlight table td { padding: 5px; }
+.highlight table pre { margin: 0; }
+.highlight, .highlight .w {
+  color: #586e75;
+}
+.highlight .err {
+  color: #002b36;
+  background-color: #dc322f;
+}
+.highlight .c, .highlight .ch, .highlight .cd, .highlight .cm, .highlight .cpf, .highlight .c1, .highlight .cs {
+  color: #657b83;
+}
+.highlight .cp {
+  color: #b58900;
+}
+.highlight .nt {
+  color: #b58900;
+}
+.highlight .o, .highlight .ow {
+  color: #93a1a1;
+}
+.highlight .p, .highlight .pi {
+  color: #93a1a1;
+}
+.highlight .gi {
+  color: #859900;
+}
+.highlight .gd {
+  color: #dc322f;
+}
+.highlight .gh {
+  color: #268bd2;
+  background-color: #002b36;
+  font-weight: bold;
+}
+.highlight .k, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kv {
+  color: #6c71c4;
+}
+.highlight .kc {
+  color: #cb4b16;
+}
+.highlight .kt {
+  color: #cb4b16;
+}
+.highlight .kd {
+  color: #cb4b16;
+}
+.highlight .s, .highlight .sa, .highlight .sb, .highlight .sc, .highlight .dl, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .sx, .highlight .s1 {
+  color: #859900;
+}
+.highlight .sr {
+  color: #2aa198;
+}
+.highlight .si {
+  color: #d33682;
+}
+.highlight .se {
+  color: #d33682;
+}
+.highlight .nn {
+  color: #b58900;
+}
+.highlight .nc {
+  color: #b58900;
+}
+.highlight .no {
+  color: #b58900;
+}
+.highlight .na {
+  color: #268bd2;
+}
+.highlight .m, .highlight .mb, .highlight .mf, .highlight .mh, .highlight .mi, .highlight .il, .highlight .mo, .highlight .mx {
+  color: #859900;
+}
+.highlight .ss {
+  color: #859900;
+}
+    </style>
+    <link href="stylesheets/screen-c9d8fa83.css" rel="stylesheet" media="screen" />
+    <link href="stylesheets/print-953e3353.css" rel="stylesheet" media="print" />
+      <script src="javascripts/all-e9bde216.js"></script>
+
+    <script>
+      $(function() { setupCodeCopy(); });
+    </script>
+  </head>
+
+  <body class="index" data-languages="[&quot;shell&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar-cad8cdcb.png" alt="" />
+      </span>
+    </a>
+    <div class="toc-wrapper">
+      <img src="images/logo-6bd16dc1.png" class="logo" alt="" />
+        <div class="lang-selector">
+              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="python">python</a>
+              <a href="#" data-language-name="javascript">javascript</a>
+        </div>
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      <ul id="toc" class="toc-list-h1">
+          <li>
+            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#language-sdk-libraries" class="toc-h2 toc-link" data-title="Language SDK/Libraries">Language SDK/Libraries</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#spot-amp-futures-markets" class="toc-h1 toc-link" data-title="Spot &amp; Futures Markets">Spot &amp; Futures Markets</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#scheme" class="toc-h2 toc-link" data-title="Scheme">Scheme</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#overview" class="toc-h2 toc-link" data-title="Overview">Overview</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#spot-rest-api" class="toc-h1 toc-link" data-title="Spot REST API">Spot REST API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#unprotected-rest-api-endpoints" class="toc-h2 toc-link" data-title="Unprotected REST API Endpoints">Unprotected REST API Endpoints</a>
+                  </li>
+                  <li>
+                    <a href="#protected-rest-api-endpoints" class="toc-h2 toc-link" data-title="Protected REST API endpoints">Protected REST API endpoints</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#futures-rest-api" class="toc-h1 toc-link" data-title="Futures REST API">Futures REST API</a>
+          </li>
+          <li>
+            <a href="#examples-spot" class="toc-h1 toc-link" data-title="Examples (Spot)">Examples (Spot)</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#exchange-basic-info" class="toc-h2 toc-link" data-title="Exchange Basic Info">Exchange Basic Info</a>
+                  </li>
+                  <li>
+                    <a href="#exchange-config-format-subject-to-frequent-change" class="toc-h2 toc-link" data-title="Exchange config (format subject to frequent change)">Exchange config (format subject to frequent change)</a>
+                  </li>
+                  <li>
+                    <a href="#recent-trade-data-for-an-instrument-e-g-leveth" class="toc-h2 toc-link" data-title="Recent trade data for an instrument (e.g. LEVETH)">Recent trade data for an instrument (e.g. LEVETH)</a>
+                  </li>
+                  <li>
+                    <a href="#chart-for-instrument" class="toc-h2 toc-link" data-title="Chart for instrument">Chart for instrument</a>
+                  </li>
+                  <li>
+                    <a href="#order-book-for-the-instrument" class="toc-h2 toc-link" data-title="Order book for the instrument">Order book for the instrument</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-open-orders" class="toc-h2 toc-link" data-title="Get all open orders">Get all open orders</a>
+                  </li>
+                  <li>
+                    <a href="#create-new-order" class="toc-h2 toc-link" data-title="Create New Order">Create New Order</a>
+                  </li>
+                  <li>
+                    <a href="#user-account" class="toc-h2 toc-link" data-title="User account">User account</a>
+                  </li>
+                  <li>
+                    <a href="#user-executions" class="toc-h2 toc-link" data-title="User Executions">User Executions</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#examples-futures" class="toc-h1 toc-link" data-title="Examples (Futures)">Examples (Futures)</a>
+          </li>
+          <li>
+            <a href="#gluon" class="toc-h1 toc-link" data-title="Gluon">Gluon</a>
+          </li>
+          <li>
+            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+          </li>
+      </ul>
+        <ul class="toc-footer">
+            <li>Try out the <a href='https://kovan.leverj.io/'>Kovan testnet site</a></li>
+            <li>Try out the <a href='https://ropsten.leverj.io/'>Ropsten testnet site</a></li>
+        </ul>
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id='introduction'>Introduction</h1>
+<p>Leverj REST and Websocket API enable access to all features of the platform. The <a href="https://kovan.leverj.io/">Kovan testnet</a>, the <a href="https://ropsten.leverj.io/">Ropsten testnet</a>, and the <a href="https://live.leverj.io/">live</a> sites are built entirely using this API and should be seen as one of the many possible platform implementations. The API could be leveraged to power a comprehensive set of tools and utilities, including automated trading clients and bots.</p>
+<h2 id='language-sdk-libraries'>Language SDK/Libraries</h2>
+<aside class="notice">
+TODO: update this to include all libraries
+</aside>
+
+<p>Currently we support Python and Javascript (with node.js) for programmatic access.</p>
+<h3 id='python'>Python</h3>
+<p><ul>
+  <li><a href="https://github.com/leverj/leverj-ordersigner">leverj-ordersigner</a>
+  <li><a href="https://pypi.org/project/leverj-ordersigner/">leverj-ordersigner at pypi</a>
+  </ul></p>
+<h3 id='javascript-node-js'>Javascript (Node.js)</h3>
+<p><ul>
+  <li><a href="https://www.npmjs.com/package/@leverj/zka">@leverj/zka library</a>
+  <li><a href="https://www.npmjs.com/package/@leverj/adapter">@leverj/adapter library</a>
+  </ul></p>
+
+<p>Usage of these libraries will be illustrated in the following sections.</p>
+<h1 id='spot-amp-futures-markets'>Spot &amp; Futures Markets</h1>
+<p>Leverj provides access to two markets, the spot market and the derivatives market. The spot market supports ERC20 pairs. The derivatives market supports futures products. Perpetual swaps on BTC and ETH prices are currently offered.</p>
+
+<p>The API is very similar for both spot and futures markets, with minor differences to accomodate for product variations, market structure differences, and differing trading strategy possibilities between the two.</p>
+<h2 id='scheme'>Scheme</h2>
+<p>The URL scheme like most REST apis consists of a BASE_URL and an endpoint.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>REST URL = BASE_URL + ENDPOINT
+</code></pre></div><h3 id='base-url'>Base URL</h3>
+<p>The BASE_URL is of the following format:
+<code>&lt;protocol&gt;://&lt;host&gt;/&lt;market&gt;/api/v1</code></p>
+
+<p>For REST calls <code>https</code> is the protocol, host depends on the environment, and market could be <code>spot</code> or <code>futures</code>.</p>
+
+<p>The base url for spot REST API for the live site is <code>https://live.leverj.io/spot/api/v1</code>. For Kovan testnet use <code>https://kovan.leverj.io/spot/api/v1</code>.</p>
+
+<p>For futures, the live site base url is <code>https://live.leverj.io/futures/api/v1</code> and for Kovan its <code>https://kovan.leverj.io/futures/api/v1</code>.</p>
+
+<p>To request an endpoint, append it to the base url and make a request.</p>
+<h3 id='getting-all-info'>Getting All Info</h3>
+<p>For example to access the <code>/all/info</code> endpoint for the <code>spot</code> market use <code>https://live.leverj.io/spot/api/v1/all/info</code>. For <code>futures</code> use <code>https://live.leverj.io/futures/api/v1/all/info</code>.</p>
+<div class="highlight"><pre class="highlight shell tab-shell"><code>curl https://live.leverj.io/spot/api/v1/all/info
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code>  <span class="kd">const</span> <span class="nx">axios</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">axios</span><span class="dl">'</span><span class="p">);</span>
+  <span class="nx">axios</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">"</span><span class="s2">https://live.leverj.io/spot/api/v1/all/info</span><span class="dl">"</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">({</span> <span class="nx">response</span> <span class="p">});</span>
+  <span class="p">});</span>
+</code></pre></div><h3 id='url-parameters'>URL parameters</h3>
+<p>Url parameters are denoted by prepending a colon:</p>
+<div class="highlight"><pre class="highlight plaintext"><code>/instrument/:symbol/chart/:timeframe
+</code></pre></div>
+<p>The parameters <code>:symbol</code> and <code>:timeframe</code> need to be filled in when making a REST call to server.
+To get chart for a specific symbol with id <code>L2ETH</code> for timeframe <code>5</code>, the actual url would be <code>https://live.leverj.io/api/v1/instrument/L2ETH/chart/5</code></p>
+<div class="highlight"><pre class="highlight plaintext"><code>https://live.leverj.io/api/v1/instrument/LEVETH/chart/5
+</code></pre></div><h3 id='http-headers'>HTTP headers</h3>
+<p>HTTP 1.1 requires <code>Host</code> header. In the examples here, we have used testnet host <code>kovan.leverj.io</code>. For production use, you should change it to <code>live.leverj.io</code>. You need <code>Authorization</code> and <code>Nonce</code> headers for protected resources. You may also add other appropriate headers, which are omitted here for brevity.</p>
+
+<p><a name="loginless"></a></p>
+<h1 id='authentication'>Authentication</h1>
+<p>Leverj uses a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account&#39;s private key. The apikey&#39;s secret is used to sign and confirm your identity but is not transfered over to the server either. The loginless system relies on ECDSA (Elliptic Curve Digital Signature Algorithm). The scheme involves signing message payload using an apikey&#39;s secret and subsequently using the elliptic curve signature elements to derive or recover the apikey. The recovered apikey is matched against the registered apikey. This pair of actions involving signing and recovery establishes trust and identity to facilitate authentication. Every request is authenticated using this mechanism.</p>
+
+<p>You need to register online with the exchange to setup and download an apikey and its corresponding secret. When you register, you will be given an option to download your <code>Trading Pass</code>. The <code>Trading Pass</code> contains your accountId, apikey, and secret. An account can have multiple pairs of apikeys and their corresponding secrets.</p>
+
+<p>Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: session hijacking, some kinds of replay attacks, cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.</p>
+<h2 id='overview'>Overview</h2>
+<p>ZKA requires you to set <code>Authorization</code> and <code>Nonce</code> headers in HTTP for protected endpoints. This requires your account id, apikey and secret, which are in your Trading Pass, a JSON key file that you saved when you registered with the exchange and setup your apikey.</p>
+<h3 id='authorization-and-nonce-headers'>Authorization and Nonce headers</h3>
+<p>The syntax for <code>Authorization</code> and <code>Nonce</code> headers is as below.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Authorization: SIGN &lt;account_id&gt;.&lt;apiKey&gt;.&lt;v&gt;.&lt;r&gt;.&lt;s&gt;
+Nonce: &lt;unix_time&gt;
+</code></pre></div>
+<p><strong>v</strong>, <strong>r</strong>, and <strong>s</strong> are ECDSA related elements. <strong>r</strong> and <strong>s</strong> are normal outputs of an ECDSA signature and <strong>v</strong> is the extra byte or header byte that helps in public key recovery.</p>
+
+<p>For example, to get all configuration information:</p>
+<div class="highlight"><pre class="highlight http tab-http"><code><span class="nf">GET</span> <span class="nn">/api/v1/all/config</span> <span class="k">HTTP</span><span class="o">/</span><span class="m">1.1</span>
+<span class="na">Host</span><span class="p">:</span> <span class="s">test.leverj.io</span>
+<span class="na">Authorization</span><span class="p">:</span> <span class="s">'SIGN 0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F.0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa.27.0x50eef94b262808ea42072dbe4375d0e908efea6e713b37b8ed729a63e56e4c23.0x4cf4c460baf43092b5350692179a833feb9dd855d6421570a2dc7d1f3325a952'</span>
+<span class="na">Nonce</span><span class="p">:</span> <span class="s">1550791374642</span>
+</code></pre></div>
+<p><code>/all/config</code> is an open endpoint and you don&#39;t need an API key to access it but similar header and signature structures are used when getting protected information.</p>
+
+<p>We provide transparent and seamless authentication support for node.js via an easy to use javascript module and suggest you use it instead of rolling out your own.</p>
+<h3 id='zka-node-module'>zka node module</h3>
+<p>The <a href="https://www.npmjs.com/package/zka">zka node module</a> will do all the handshake and authentication and enables interaction with REST and socket API transparently. This may be used from a browser using browserify.</p>
+
+<p>Remember to initialize and configure your zka instance before making calls to the API endpoints.</p>
+<div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="kd">const</span> <span class="nx">zka</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">zka</span><span class="dl">"</span><span class="p">)(</span><span class="nx">baseUrl</span><span class="p">,</span> <span class="dl">"</span><span class="s2">/api/v1</span><span class="dl">"</span><span class="p">)</span>
+<span class="nx">zka</span><span class="p">.</span><span class="nx">init</span><span class="p">(</span><span class="nx">accountId</span><span class="p">,</span> <span class="nx">apiKey</span><span class="p">,</span> <span class="nx">secret</span><span class="p">)</span>
+</code></pre></div><h3 id='authentication-with-zka'>Authentication with zka</h3><h3 id='nonce'>Nonce</h3>
+<p>To prevent replay attacks, all requests should include a nonce. The server expects UNIX time as the nonce. This requires a reasonably accurate clock on your client machine.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>Nonce: 1550791374642
+</code></pre></div><h3 id='clients-with-inaccurate-clocks'>Clients with inaccurate clocks</h3>
+<p>If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the <code>Server-Time</code> header in the HTTP responses. The zka node module does skew adjustment automatically. The non-cacheable HTTP methods <code>PUT</code>, <code>POST</code>, <code>DELETE</code> and <code>OPTIONS</code> return a <code>Server-Time</code> header.</p>
+<h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints'>Unprotected REST API Endpoints</h2>
+<p>Unprotected endpoints do not require an <code>Authorization</code> header.</p>
+<h3 id='general-exchange-data'>General Exchange Data</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#all-info">/all/info</a></td>
+<td>Last price, 24Hr volume, etc</td>
+</tr>
+</tbody></table>
+<h3 id='exchange-configuration'>Exchange Configuration</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#all-config">/all/config</a></td>
+<td>Get exchange configuration parameters</td>
+</tr>
+</tbody></table>
+<h3 id='market-data'>Market Data</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#instrument-recent-trade">/instrument/:symbol/trade</a></td>
+<td>Get recent trade data</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#instrument-chart">/instrument/:symbol/chart/:timeframe</a></td>
+<td>Get chart data for instrument</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#instrument-orderbook">/instrument/:symbol/orderbook</a></td>
+<td>Get order book for the instrument</td>
+</tr>
+</tbody></table>
+<h2 id='protected-rest-api-endpoints'>Protected REST API endpoints</h2>
+<p>All user specific endpoints require <code>Authorization</code> and <code>Nonce</code> headers as described in the <a href="#loginless">Loginless or ZKA</a> section</p>
+<h3 id='open-orders'>Open Orders</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#open-order-all">/order</a></td>
+<td>Get all open orders</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><a href="#open-create-order">/order</a></td>
+<td>Create orders</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="#open-update-order">/order</a></td>
+<td>Update Orders</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><a href="#open-cancel-order">/order/:uuids</a></td>
+<td>Delete specified orders</td>
+</tr>
+</tbody></table>
+<h3 id='get-account-information-orders-and-trades'>Get account information: Orders and Trades</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#account">/account</a></td>
+<td></td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#account-execution">/account/execution</a></td>
+<td>GET User&#39;s recent executions</td>
+</tr>
+</tbody></table>
+<h1 id='futures-rest-api'>Futures REST API</h1>
+<aside class="notice">
+TODO
+</aside>
+<h1 id='examples-spot'>Examples (Spot)</h1>
+<p>Examples are structured as follows:</p>
+
+<table><thead>
+<tr>
+<th>Section</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Endpoint</td>
+<td>The /api endpoint</td>
+</tr>
+<tr>
+<td>Client Request</td>
+<td>Request using the zka client</td>
+</tr>
+<tr>
+<td>Server Response</td>
+<td>JSON Response payload (abbreviated to partial data sets for readability)</td>
+</tr>
+</tbody></table>
+
+<p><a name="all-info"></a></p>
+<h2 id='exchange-basic-info'>Exchange Basic Info</h2><h3 id='get-all-info'>GET /all/info</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/info</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span> <span class="nl">FEEETH</span><span class="p">:</span>
+   <span class="p">{</span> <span class="na">vol24H</span><span class="p">:</span> <span class="p">{</span> <span class="na">qty</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">eth</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">FEEETH</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="na">bid</span><span class="p">:</span> <span class="mf">0.000002</span> <span class="p">},</span>
+  <span class="nx">LEVETH</span><span class="p">:</span>
+   <span class="p">{</span> <span class="nl">vol24H</span><span class="p">:</span> <span class="p">{</span> <span class="na">qty</span><span class="p">:</span> <span class="mf">1.2</span><span class="p">,</span> <span class="na">eth</span><span class="p">:</span> <span class="mf">0.0001214</span><span class="p">,</span> <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="nx">lastPrice</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+     <span class="nx">bid</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
+     <span class="nx">ask</span><span class="p">:</span> <span class="mf">0.000102</span> <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre></div>
+<p><a name="all-config"></a></p>
+<h2 id='exchange-config-format-subject-to-frequent-change'>Exchange config (format subject to frequent change)</h2><h3 id='get-all-config'>GET /all/config</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/config</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-2'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span> <span class="nl">config</span><span class="p">:</span>
+   <span class="p">{</span> <span class="na">maxInputs</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+     <span class="na">maxOrdersCreateUpdate</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+     <span class="na">fee</span><span class="p">:</span>
+      <span class="p">{</span> <span class="na">maker</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="na">taker</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span> <span class="na">factor</span><span class="p">:</span> <span class="mi">10000</span><span class="p">,</span> <span class="na">weiPerNanoFee</span><span class="p">:</span> <span class="mi">1000000</span> <span class="p">},</span>
+     <span class="na">estimatedTokenTransferFee</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100000</span><span class="dl">'</span><span class="p">,</span>
+     <span class="na">network</span><span class="p">:</span>
+      <span class="p">{</span> <span class="na">provider</span><span class="p">:</span> <span class="dl">'</span><span class="s1">mainnet</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">etherscan</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://etherscan.io</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">id</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">registry</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x7B70aCD346892736f9f6c7F4f196B07400a50Da0</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">custodian</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xCE00901a0638d758D6f89d59dFa32120D2259B0C</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">staking</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xeF4224FBE45b60F661aFBb6C7eb072EAFc6D5621</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="na">geofence</span><span class="p">:</span> <span class="p">{</span> <span class="na">block</span><span class="p">:</span> <span class="p">[</span><span class="nb">Array</span><span class="p">]</span> <span class="p">},</span>
+     <span class="na">noSignup</span><span class="p">:</span> <span class="kc">false</span> <span class="p">},</span>
+  <span class="nx">instruments</span><span class="p">:</span>
+   <span class="p">{</span> <span class="nl">FEEETH</span><span class="p">:</span>
+      <span class="p">{</span> <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">FEEETH</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">FEE/ETH</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">active</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">ticksize</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="na">ticksperpoint</span><span class="p">:</span> <span class="mi">100000000</span><span class="p">,</span>
+        <span class="na">baseSignificantDigits</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="na">quoteSignificantDigits</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="na">base</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="na">quote</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">LEVETH</span><span class="p">:</span>
+      <span class="p">{</span> <span class="nl">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEV/ETH</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">active</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">ticksize</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="nx">ticksperpoint</span><span class="p">:</span> <span class="mi">100000000</span><span class="p">,</span>
+        <span class="nx">baseSignificantDigits</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+        <span class="nx">quoteSignificantDigits</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">base</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">quote</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">},</span>
+     <span class="nx">ETHDAI</span><span class="p">:</span>
+      <span class="p">{</span> <span class="nl">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ETHDAI</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ETH/DAI</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">active</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">ticksize</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">ticksperpoint</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+        <span class="nx">baseSignificantDigits</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="nx">quoteSignificantDigits</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="nx">base</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="nx">quote</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">}</span> <span class="p">},</span>
+  <span class="nx">assets</span><span class="p">:</span>
+   <span class="p">{</span> <span class="nl">ETH</span><span class="p">:</span>
+      <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ETHEREUM</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">address</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x0000000000000000000000000000000000000000</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ETH</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">decimals</span><span class="p">:</span> <span class="mi">18</span> <span class="p">},</span>
+     <span class="nx">LEV</span><span class="p">:</span>
+      <span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVERJ</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">address</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x0F4CA92660Efad97a9a70CB0fe969c755439772C</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEV</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">decimals</span><span class="p">:</span> <span class="mi">9</span> <span class="p">},</span>
+     <span class="nx">DAI</span><span class="p">:</span>
+      <span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">DAI</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">address</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">DAI</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">decimals</span><span class="p">:</span> <span class="mi">18</span> <span class="p">},</span>
+     <span class="nx">FEE</span><span class="p">:</span>
+      <span class="p">{</span> <span class="nl">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">FEE</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">address</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xffe4a5A685eFc53F45Bf50F3DAB45ded1B028134</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">symbol</span><span class="p">:</span> <span class="dl">'</span><span class="s1">FEE</span><span class="dl">'</span><span class="p">,</span>
+        <span class="nx">decimals</span><span class="p">:</span> <span class="mi">9</span> 
+      <span class="p">}</span> <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre></div>
+<p><a name="instrument-recent-trade"></a></p>
+<h2 id='recent-trade-data-for-an-instrument-e-g-leveth'>Recent trade data for an instrument (e.g. LEVETH)</h2><h3 id='get-instrument-symbol-trade'>GET /instrument/:symbol/trade</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/trade</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-3'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550710792</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550708634</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.000101</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550687614</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682148</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">92</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682147</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682142</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">94</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span> <span class="p">}</span> 
+<span class="p">]</span>
+</code></pre></div>
+<p><a name="instrument-chart"></a></p>
+<h2 id='chart-for-instrument'>Chart for instrument</h2><h3 id='get-instrument-symbol-chart-timeframe'>GET /instrument/:symbol/chart/:timeframe</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/chart/5</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-4'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550794200</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793900</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793600</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793300</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793000</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550792700</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p><a name="instrument-orderbook"></a></p>
+<h2 id='order-book-for-the-instrument'>Order book for the instrument</h2><h3 id='get-instrument-symbol-orderbook'>GET /instrument/:symbol/orderbook</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/orderbook</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-5'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span> <span class="nl">bid</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
+  <span class="nx">ask</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+  <span class="nx">buy</span><span class="p">:</span>
+   <span class="p">[</span> <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000092</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}],</span>
+  <span class="nx">sell</span><span class="p">:</span>
+   <span class="p">[</span> <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000103</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}]</span> 
+<span class="p">}</span>
+</code></pre></div>
+<p><a name="open-order-all"></a></p>
+<h2 id='get-all-open-orders'>Get all open orders</h2><h3 id='get-order'>GET /order</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/order</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-6'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">uuid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">77bb9a50-3639-11e9-aa67-1b934017d41a</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="na">filled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">averagePrice</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">cancelled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001209</span><span class="p">,</span>
+    <span class="na">entryTime</span><span class="p">:</span> <span class="mi">1550795606133888</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795606133888</span><span class="p">,</span>
+    <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">open</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1550795605937000</span><span class="p">,</span>
+    <span class="na">signature</span><span class="p">:</span>
+     <span class="dl">'</span><span class="s1">0x2de825f6315f3a712f0b69c36b690918466889edcebbd86e086c4b5e8715c9fa2bd4e74bf0cb263d2c5464b7eba5777f94246989d4f98707c9f44aa891b4743900</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ac60c4f4-bd6b-40a4-ae1d-bbef604d0bb7</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">uuid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">b7bf15a0-3639-11e9-b2cc-fe32bd3894ee</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="na">filled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">averagePrice</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">cancelled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001213</span><span class="p">,</span>
+    <span class="na">entryTime</span><span class="p">:</span> <span class="mi">1550795713530585</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795713530585</span><span class="p">,</span>
+    <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">open</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1550795713339000</span><span class="p">,</span>
+    <span class="na">signature</span><span class="p">:</span>
+     <span class="dl">'</span><span class="s1">0x962f348852da325d8663d25ee922f67b278929d500b68234ee0e294d0b4f7e601a957c8798a7fb6d26fb2bc477d3c30293790d9a64e68a3e87d6ae433432b33d01</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a0da5818-b0a3-4e39-b8eb-f5f7f7384bfe</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">}</span> 
+<span class="p">]</span>
+</code></pre></div>
+<p><a name="open-create-order"></a></p>
+<h2 id='create-new-order'>Create New Order</h2><h3 id='post-order'>POST /order</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="c1">// install @leverj/adapter </span>
+<span class="c1">// npm i @leverj/adapter</span>
+<span class="kd">const</span> <span class="nx">adapter</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@leverj/adapter/src/OrderAdapter</span><span class="dl">"</span><span class="p">)</span>
+
+<span class="c1">// create new order object</span>
+
+
+<span class="kd">function</span> <span class="nx">createNewOrder</span><span class="p">(</span><span class="nx">side</span><span class="p">,</span> <span class="nx">price</span><span class="p">,</span> <span class="nx">quantity</span><span class="p">,</span> <span class="nx">orderInstrument</span><span class="p">,</span> <span class="nx">orderAccountId</span><span class="p">,</span> <span class="nx">secret</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">order</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">side</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="nx">price</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="nx">orderInstrument</span><span class="p">.</span><span class="nx">baseSignificantDigits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="nx">quantity</span><span class="p">.</span><span class="nx">toFixed</span><span class="p">(</span><span class="nx">orderInstrument</span><span class="p">.</span><span class="nx">termSignificantDigits</span><span class="p">)</span> <span class="o">-</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="nb">Date</span><span class="p">.</span><span class="nx">now</span><span class="p">()</span> <span class="o">*</span> <span class="mi">1</span><span class="nx">e3</span><span class="p">,</span>
+    <span class="na">accountId</span><span class="p">:</span> <span class="nx">orderAccountId</span><span class="p">,</span>
+    <span class="na">token</span><span class="p">:</span> <span class="nx">orderInstrument</span><span class="p">.</span><span class="nx">address</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="nx">orderInstrument</span><span class="p">.</span><span class="nx">symbol</span>
+  <span class="p">}</span>
+  <span class="nx">order</span><span class="p">.</span><span class="nx">signature</span> <span class="o">=</span> <span class="nx">adapter</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">order</span><span class="p">,</span> <span class="nx">orderInstrument</span><span class="p">,</span> <span class="nx">secret</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nx">order</span>
+<span class="p">}</span>
+
+
+<span class="c1">// get instrument information for LEVETH</span>
+<span class="c1">// create LEVETH buy order</span>
+
+<span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/config</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span> <span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">instruments</span> <span class="o">=</span> <span class="nx">result</span><span class="p">.</span><span class="nx">instruments</span>
+  <span class="kd">const</span> <span class="nx">LEVETH_instrument</span> <span class="o">=</span> <span class="nx">instruments</span><span class="p">[</span><span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">]</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">LEVETH_instrument</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">newOrder</span> <span class="o">=</span> <span class="nx">createNewOrder</span><span class="p">(</span><span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span> <span class="mf">0.001229</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nx">LEVETH_instrument</span><span class="p">,</span> <span class="nx">accountId</span><span class="p">,</span> <span class="nx">secret</span><span class="p">)</span>
+  <span class="k">try</span> <span class="p">{</span>
+    <span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/order</span><span class="dl">'</span><span class="p">,</span> <span class="p">{},</span> <span class="p">[</span><span class="nx">newOrder</span><span class="p">]).</span><span class="k">catch</span><span class="p">(</span><span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">)</span>
+  <span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="nx">e</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">})</span>
+
+</code></pre></div>
+<p><a name="account"></a></p>
+<h2 id='user-account'>User account</h2><h3 id='get-account'>GET /account</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/account</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-7'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span> <span class="nl">orders</span><span class="p">:</span>
+   <span class="p">{</span> <span class="na">FEEETH</span><span class="p">:</span> <span class="p">{},</span>
+     <span class="na">LEVETH</span><span class="p">:</span>
+      <span class="p">{</span> <span class="dl">'</span><span class="s1">77bb9a50-3639-11e9-aa67-1b934017d41a</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">],</span>
+        <span class="dl">'</span><span class="s1">b7bf15a0-3639-11e9-b2cc-fe32bd3894ee</span><span class="dl">'</span><span class="p">:</span> <span class="p">[</span><span class="nb">Object</span><span class="p">]</span> <span class="p">}</span> <span class="p">},</span>
+  <span class="nx">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">apiKeys</span><span class="p">:</span> <span class="p">{</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span><span class="p">:</span> <span class="kc">true</span> <span class="p">},</span>
+  <span class="nx">preference</span><span class="p">:</span> <span class="p">{},</span>
+  <span class="nx">exited</span><span class="p">:</span> <span class="p">{}</span> 
+<span class="p">}</span>
+</code></pre></div>
+<p><a name="account-execution"></a></p>
+<h2 id='user-executions'>User Executions</h2><h3 id='get-account-execution'>GET /account/execution</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/account/execution</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-8'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">executionid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">7dd3a952-3639-11e9-bd86-99376ce577bd</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">7d30b290-3639-11e9-8dbe-58e2283f8f2a</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001228</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">liquidity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">commission</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">commission</span><span class="p">:</span> <span class="mf">0.000002456</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795616358063</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">executionid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">7d9a22c2-3639-11e9-92a4-74585b482779</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">7d30b290-3639-11e9-8dbe-58e2283f8f2a</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001227</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">liquidity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">commission</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">commission</span><span class="p">:</span> <span class="mf">0.000002454</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795615980826</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">executionid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">7d396520-3639-11e9-805a-71319d7431df</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">7d30b290-3639-11e9-8dbe-58e2283f8f2a</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001226</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">liquidity</span><span class="p">:</span> <span class="dl">'</span><span class="s1">commission</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">commission</span><span class="p">:</span> <span class="mf">0.000002452</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795615346724</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}</span> 
+<span class="p">]</span>
+</code></pre></div><h1 id='examples-futures'>Examples (Futures)</h1>
+<aside class="notice">
+TODO
+</aside>
+<h1 id='gluon'>Gluon</h1>
+<aside class="notice">
+TODO
+</aside>
+<h1 id='errors'>Errors</h1>
+<aside class="notice">Always check error codes of HTTP requests. Do not assume success.</aside>
+
+<p>The Leverj API uses the standard HTTP error codes:</p>
+
+<table><thead>
+<tr>
+<th>Error Code</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>400</td>
+<td>Bad Request -- Usually syntax error in your HTTP request URI or headers</td>
+</tr>
+<tr>
+<td>401</td>
+<td>Unauthorized -- You are using an unregistered private key or your clock is way off</td>
+</tr>
+<tr>
+<td>404</td>
+<td>Not Found -- The specified resource could not be found</td>
+</tr>
+<tr>
+<td>405</td>
+<td>Method Not Allowed -- Resource does not support that method. Eg. PUT on a GET only resource</td>
+</tr>
+<tr>
+<td>406</td>
+<td>Not Acceptable -- You requested a format that isn&#39;t JSON</td>
+</tr>
+<tr>
+<td>410</td>
+<td>Gone -- Resource no longer supported</td>
+</tr>
+<tr>
+<td>429</td>
+<td>Too Many Requests -- You have exceed the rate limit</td>
+</tr>
+<tr>
+<td>500</td>
+<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
+</tr>
+<tr>
+<td>503</td>
+<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+</tr>
+</tbody></table>
+
+      </div>
+      <div class="dark-box">
+          <div class="lang-selector">
+                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="python">python</a>
+                <a href="#" data-language-name="javascript">javascript</a>
+          </div>
+      </div>
+    </div>
+  </body>
+</html>
