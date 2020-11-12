@@ -38,6 +38,7 @@ Currently we support Python and Javascript (with node.js) for programmatic acces
   <ul>
   <li><a href="https://github.com/leverj/leverj-ordersigner">leverj-ordersigner</a>
   <li><a href="https://pypi.org/project/leverj-ordersigner/">leverj-ordersigner at pypi</a>
+  <li><a href="https://github.com/leverj/ordersigner-daemon">ordersigner-daemon to support python 2.7</a>
   </ul>
 
 ### Javascript (Node.js)
@@ -73,7 +74,7 @@ For REST calls `https` is the protocol, host depends on the environment, and mar
 
 The base url for spot REST API for the live site is `https://live.leverj.io/spot/api/v1`. For Kovan testnet use `https://kovan.leverj.io/spot/api/v1`.
 
-For futures, the live site base url is `https://live.leverj.io/futures/api/v1` and for Kovan its `https://kovan.leverj.io/futures/api/v1`.
+For futures, the live site base url is `https://live.leverj.io/futures/api/v1` and for Kovan it is `https://kovan.leverj.io/futures/api/v1`.
 
 
 To request an endpoint, append it to the base url and make a request.
@@ -84,6 +85,13 @@ For example to access the `/all/info` endpoint for the `spot` market use `https:
 
 ```shell
 curl https://live.leverj.io/spot/api/v1/all/info
+```
+
+```python
+import requests
+response = requests.get('https://live.leverj.io/spot/api/v1/all/info')
+response.status_code
+response.json()
 ```
 
 ```javascript
@@ -117,13 +125,13 @@ HTTP 1.1 requires `Host` header. In the examples here, we have used testnet host
 
 Leverj uses a zero-knowledge authentication system. Leverj replaces the typical username and password based authentication scheme with a triplet of your account id, an apikey and a secret associated with the apikey. There is absolutely no need for the system to know about your account's private key. The apikey's secret is used to sign and confirm your identity but is not transfered over to the server either. The loginless system relies on ECDSA (Elliptic Curve Digital Signature Algorithm). The scheme involves signing message payload using an apikey's secret and subsequently using the elliptic curve signature elements to derive or recover the apikey. The recovered apikey is matched against the registered apikey. This pair of actions involving signing and recovery establishes trust and identity to facilitate authentication. Every request is authenticated using this mechanism.
 
-You need to register online with the exchange to setup and download an apikey and its corresponding secret. When you register, you will be given an option to download your `Trading Pass`. The `Trading Pass` contains your accountId, apikey, and secret. An account can have multiple pairs of apikeys and their corresponding secrets.
+You need to register online with the exchange to setup and download an apikey and its corresponding secret. When you register, you will be given an option to download your api key. You can also download the key at a later time by accessing it from your Leverj Gluon wallet. The api key contains your accountId, apikey, and secret. It will download as a json formatted file. An account can have multiple pairs of apikeys and their corresponding secrets.
 
 Zero knowledge Authentication avoids setting session cookies and eliminates the following classes of attacks: session hijacking, some kinds of replay attacks, cookie sniffing, and some XSS and CSRF attacks. Not having the password or session id on the server mitigates some kinds of attacks due to server breach. Zero knowledge systems never send passwords or cookies and are also safer in case of information leak from TLS issues such as the Heartbleed bug.
 
 ## Overview
 
-ZKA requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your account id, apikey and secret, which are in your Trading Pass, a JSON key file that you saved when you registered with the exchange and setup your apikey.
+Leverj authentication requires you to set `Authorization` and `Nonce` headers in HTTP for protected endpoints. This requires your account id, apikey and secret, which are in a JSON key file that you saved when you registered with the exchange and setup your apikey.
 
 ### Authorization and Nonce headers
 
@@ -178,41 +186,61 @@ If your client does not have an accurate clock or you are on an unusually slow n
 Unprotected endpoints do not require an `Authorization` header.
 
 ### General Exchange Data
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/all/info](#all-info)|Last price, 24Hr volume, etc|
+| Method | Rest Endpoint               | Description                  |
+| ------ | --------------------------- | ---------------------------- |
+| GET    | [/all/info](#spot-all-info) | Last price, 24Hr volume, etc |
 
 ### Exchange Configuration
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/all/config](#all-config)|Get exchange configuration parameters|
+| Method | Rest Endpoint                   | Description                           |
+| ------ | ------------------------------- | ------------------------------------- |
+| GET    | [/all/config](#spot-all-config) | Get exchange configuration parameters |
 
 ### Market Data
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/instrument/:symbol/trade](#instrument-recent-trade)|Get recent trade data|
-|GET|[/instrument/:symbol/chart/:timeframe](#instrument-chart)|Get chart data for instrument|
-|GET|[/instrument/:symbol/orderbook](#instrument-orderbook)|Get order book for the instrument|
+| Method | Rest Endpoint                                                  | Description                       |
+| ------ | -------------------------------------------------------------- | --------------------------------- |
+| GET    | [/instrument/:symbol/trade](#spot-instrument-recent-trade)     | Get recent trade data             |
+| GET    | [/instrument/:symbol/chart/:timeframe](#spot-instrument-chart) | Get chart data for instrument     |
+| GET    | [/instrument/:symbol/orderbook](#spot-instrument-orderbook)    | Get order book for the instrument |
 
 ## Protected REST API endpoints
 All user specific endpoints require `Authorization` and `Nonce` headers as described in the [Loginless or ZKA](#loginless) section
 
 ### Open Orders
 
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/order](#open-order-all)|Get all open orders|
-|POST|[/order](#open-create-order)|Create orders|
-|PUT|[/order](#open-update-order)|Update Orders|
-|DELETE|[/order/:uuids](#open-cancel-order)|Delete specified orders|
+| Method | Rest Endpoint                       | Description             |
+| ------ | ----------------------------------- | ----------------------- |
+| GET    | [/order](#open-order-all)           | Get all open orders     |
+| POST   | [/order](#open-create-order)        | Create orders           |
+| PUT    | [/order](#open-update-order)        | Update Orders           |
+| DELETE | [/order/:uuids](#open-cancel-order) | Delete specified orders |
 
 ### Get account information: Orders and Trades
-|Method|Rest Endpoint|Description|
-|---|---|---|
-|GET|[/account](#account)|
-|GET|[/account/execution](#account-execution)|GET User's recent executions |
+| Method | Rest Endpoint                            | Description                  |
+| ------ | ---------------------------------------- | ---------------------------- |
+| GET    | [/account](#account)                     |
+| GET    | [/account/execution](#account-execution) | GET User's recent executions |
 
 # Futures REST API
+
+## Unprotected REST API Endpoints
+Unprotected endpoints do not require an `Authorization` header.
+
+### General Exchange Data
+| Method | Rest Endpoint                  | Description                  |
+| ------ | ------------------------------ | ---------------------------- |
+| GET    | [/all/info](#futures-all-info) | Last price, 24Hr volume, etc |
+
+### Exchange Configuration
+| Method | Rest Endpoint                      | Description                           |
+| ------ | ---------------------------------- | ------------------------------------- |
+| GET    | [/all/config](#futures-all-config) | Get exchange configuration parameters |
+
+### Market Data
+| Method | Rest Endpoint                                                     | Description                       |
+| ------ | ----------------------------------------------------------------- | --------------------------------- |
+| GET    | [/instrument/:symbol/trade](#futures-instrument-recent-trade)     | Get recent trade data             |
+| GET    | [/instrument/:symbol/chart/:timeframe](#futures-instrument-chart) | Get chart data for instrument     |
+| GET    | [/instrument/:symbol/orderbook](#futures-instrument-orderbook)    | Get order book for the instrument |
 
 <aside class="notice">
 TODO

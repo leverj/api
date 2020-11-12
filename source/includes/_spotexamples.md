@@ -1,20 +1,38 @@
 # Examples (Spot)
 Examples are structured as follows:
 
-|Section|Description|
-|---|---|
-|Endpoint|The /api endpoint|
-|Client Request|Request using the zka client|
-|Server Response|JSON Response payload (abbreviated to partial data sets for readability)|
+| Section         | Description                                                              |
+| --------------- | ------------------------------------------------------------------------ |
+| Endpoint        | The /api endpoint                                                        |
+| Client Request  | Request using the zka client                                             |
+| Server Response | JSON Response payload (abbreviated to partial data sets for readability) |
 
-<a name="all-info"></a>
+<a name="spot-all-info"></a>
 ## Exchange Basic Info
 ### GET /all/info
+```shell
+curl https://live.leverj.io/spot/api/v1/all/info
+```
+
+```python
+response = requests.get('https://live.leverj.io/spot/api/v1/all/info')
+response.json()
+```
+
 ```javascript
 zka.rest.get('/all/info').then(function(result) {console.log(result)})
 ```
 ### Response
-```javascript
+Returns information on 
+  
+* last 24 hours volume, 
+* last price, 
+* bid, and 
+* ask
+
+for each of the spot pairs.
+
+```json
 { FEEETH:
    { vol24H: { qty: 0, eth: 0, instrument: 'FEEETH' },
      bid: 0.000002 },
@@ -26,85 +44,218 @@ zka.rest.get('/all/info').then(function(result) {console.log(result)})
 }
 ```
 
-<a name="all-config"></a>
+<a name="spot-all-config"></a>
 ## Exchange config (format subject to frequent change)
 ### GET /all/config
+```shell
+curl https://live.leverj.io/spot/api/v1/all/config
+```
+
+```python
+response = requests.get('https://live.leverj.io/spot/api/v1/all/config')
+response.json()
+```
+
 ```javascript
 zka.rest.get('/all/config').then(function(result) {console.log(result)})
 ```
 ### Response
-```javascript
-{ config:
-   { maxInputs: 50,
-     maxOrdersCreateUpdate: 100,
-     fee:
-      { maker: 0, taker: 20, factor: 10000, weiPerNanoFee: 1000000 },
-     estimatedTokenTransferFee: '100000',
-     network:
-      { provider: 'mainnet',
-        etherscan: 'https://etherscan.io',
-        id: 1,
-        registry: '0x7B70aCD346892736f9f6c7F4f196B07400a50Da0',
-        custodian: '0xCE00901a0638d758D6f89d59dFa32120D2259B0C',
-        staking: '0xeF4224FBE45b60F661aFBb6C7eb072EAFc6D5621' },
-     geofence: { block: [Array] },
-     noSignup: false },
-  instruments:
-   { FEEETH:
-      { symbol: 'FEEETH',
-        name: 'FEE/ETH',
-        status: 'active',
-        ticksize: 8,
-        ticksperpoint: 100000000,
-        baseSignificantDigits: 8,
-        quoteSignificantDigits: 1,
-        base: [Object],
-        quote: [Object] },
-     LEVETH:
-      { symbol: 'LEVETH',
-        name: 'LEV/ETH',
-        status: 'active',
-        ticksize: 8,
-        ticksperpoint: 100000000,
-        baseSignificantDigits: 8,
-        quoteSignificantDigits: 1,
-        base: [Object],
-        quote: [Object] },
-     ETHDAI:
-      { symbol: 'ETHDAI',
-        name: 'ETH/DAI',
-        status: 'active',
-        ticksize: 1,
-        ticksperpoint: 10,
-        baseSignificantDigits: 1,
-        quoteSignificantDigits: 4,
-        base: [Object],
-        quote: [Object] } },
-  assets:
-   { ETH:
-      { name: 'ETHEREUM',
-        address: '0x0000000000000000000000000000000000000000',
-        symbol: 'ETH',
-        decimals: 18 },
-     LEV:
-      { name: 'LEVERJ',
-        address: '0x0F4CA92660Efad97a9a70CB0fe969c755439772C',
-        symbol: 'LEV',
-        decimals: 9 },
-     DAI:
-      { name: 'DAI',
-        address: '0x89d24A6b4CcB1B6fAA2625fE562bDD9a23260359',
-        symbol: 'DAI',
-        decimals: 18 },
-     FEE:
-      { name: 'FEE',
-        address: '0xffe4a5A685eFc53F45Bf50F3DAB45ded1B028134',
-        symbol: 'FEE',
-        decimals: 9 
-      } } 
+Returns configuration information about 
+  
+* fee, 
+* smart contracts, 
+* instruments, and 
+* assets
+
+
+```json
+{
+    "config": {
+        "maxInputs": 50,
+        "maxOrdersCreateUpdate": 50,
+        "fee": {
+            "default": {
+                "maker": 0,
+                "taker": 0
+            },
+            "factor": 10000,
+            "weiPerNanoFEE": 1000000,
+            "DAIUSDC": {
+                "maker": 0,
+                "taker": 0
+            }
+        },
+        "estimatedTokenTransferFee": "100000",
+        "network": {
+            "provider": "mainnet",
+            "etherscan": "https://etherscan.io",
+            "id": 1,
+            "appId": 2,
+            "gluon": "0x75ACe7a086eA0FB1a79e43Cc6331Ad053d8C67cB",
+            "legacyTokensExtension": "0xDA88EfA53c85Afa30564bb651A2E76b99a232082",
+            "lev": "0x0F4CA92660Efad97a9a70CB0fe969c755439772C",
+            "registryLogic": "0x385827aC8d1AC7B2960D4aBc303c843D9f87Bb0C",
+            "registryData": "0x0fC25C7931679B838209c484d49Df0Cb9E633C41",
+            "stakeLogic": "0xe517af2457E0dD285ed22Ee4440b265f203D1B0d",
+            "stakeLogicV1": "0x88Ac1E78b8a7D2B457Cb030978F71EdeE541bD5b",
+            "stakeData": "0xaB3AC436D66CBEeDc734ed2c1562c3a213c9bc77",
+            "spotLogic": "0x463cd03Db739B8A8c67adC8732f708A649478681",
+            "spotData": "0x0d283D685F0A741C463846176e4c8EFF90D3F9EC"
+        },
+        "geofence": {
+            "block": ["US", "PR", "AS", "VI", "GU", "UM", "SC", "CU", "SY", "SD", "IR", "KP", "UA:40", "UA:43"]
+        },
+        "noSignup": false,
+        "maintenance": false,
+        "tradingDisabled": false,
+        "depositGasLimit": 160000,
+        "gasPriceMultiplier": 1.5,
+        "default": {
+            "instrument": "LEVETH"
+        },
+        "minimumDepositConfirmations": 25,
+        "markets": {
+            "DAI": true,
+            "ETH": true
+        },
+        "legacyTokensExtensionSupport": {
+            "USDT": false
+        },
+        "defaultDisplayPair": "DAIUSDC"
+    },
+    "instruments": {
+        "L2ETH": {
+            "id": "L2ETH",
+            "symbol": "L2ETH",
+            "name": "L2/ETH",
+            "status": "active",
+            "ticksize": 6,
+            "ticksperpoint": 1000000,
+            "baseSignificantDigits": 1,
+            "quoteSignificantDigits": 6,
+            "base": {
+                "name": "L2",
+                "address": "0xBbff34E47E559ef680067a6B1c980639EEb64D24",
+                "symbol": "L2",
+                "decimals": 18
+            },
+            "quote": {
+                "name": "ETH",
+                "address": "0x0000000000000000000000000000000000000000",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "convertSymbol": "ETH"
+        },
+        "LINKETH": {
+            "id": "LINKETH",
+            "symbol": "LINKETH",
+            "name": "LINK/ETH",
+            "status": "active",
+            "ticksize": 6,
+            "ticksperpoint": 1000000,
+            "baseSignificantDigits": 1,
+            "quoteSignificantDigits": 6,
+            "base": {
+                "name": "LINK",
+                "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+                "symbol": "LINK",
+                "decimals": 18
+            },
+            "quote": {
+                "name": "ETH",
+                "address": "0x0000000000000000000000000000000000000000",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "convertSymbol": "ETH"
+        },
+        "ETHDAI": {
+            "id": "ETHDAI",
+            "symbol": "ETHDAI",
+            "name": "ETH/DAI",
+            "status": "active",
+            "ticksize": 2,
+            "ticksperpoint": 100,
+            "baseSignificantDigits": 4,
+            "quoteSignificantDigits": 2,
+            "base": {
+                "name": "ETH",
+                "address": "0x0000000000000000000000000000000000000000",
+                "symbol": "ETH",
+                "decimals": 18
+            },
+            "quote": {
+                "name": "DAI",
+                "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                "symbol": "DAI",
+                "decimals": 18
+            },
+            "convertSymbol": "ETH"
+        },
+        "DAIUSDC": {
+            "id": "DAIUSDC",
+            "symbol": "DAIUSDC",
+            "name": "DAI/USDC",
+            "status": "active",
+            "ticksize": 4,
+            "ticksperpoint": 10000,
+            "baseSignificantDigits": 4,
+            "quoteSignificantDigits": 4,
+            "base": {
+                "name": "DAI",
+                "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+                "symbol": "DAI",
+                "decimals": 18
+            },
+            "quote": {
+                "name": "USDC",
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "symbol": "USDC",
+                "decimals": 6
+            },
+            "convertSymbol": "DAI"
+        }
+    },
+    "assets": {
+        "ETH": {
+            "name": "ETH",
+            "address": "0x0000000000000000000000000000000000000000",
+            "symbol": "ETH",
+            "decimals": 18
+        },
+        "LINK": {
+            "name": "LINK",
+            "address": "0x514910771AF9Ca656af840dff83E8264EcF986CA",
+            "symbol": "LINK",
+            "decimals": 18
+        },
+        "DAI": {
+            "name": "DAI",
+            "address": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+            "symbol": "DAI",
+            "decimals": 18
+        },
+        "USDC": {
+            "name": "USDC",
+            "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+            "symbol": "USDC",
+            "decimals": 6
+        },
+        "L2": {
+            "name": "L2",
+            "address": "0xBbff34E47E559ef680067a6B1c980639EEb64D24",
+            "symbol": "L2",
+            "decimals": 18
+        }
+    },
+    "user": {
+        "ip": "<IP Address>",
+        "country": ["<country>", "<province>"]
+    }
 }
 ```
-<a name="instrument-recent-trade"></a>
+<a name="spot-instrument-recent-trade"></a>
 ## Recent trade data for an instrument (e.g. LEVETH)
 ### GET /instrument/:symbol/trade
 ```javascript
