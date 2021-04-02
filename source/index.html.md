@@ -11,8 +11,8 @@ toc_footers:
   - Try out the <a href='https://ropsten.leverj.io/'>Ropsten testnet site</a>
 
 includes:
-  - spotexamples
   - futuresexamples
+  - spotexamples
   - gluon
   - errors
 
