@@ -351,6 +351,29 @@
               </ul>
           </li>
           <li>
+            <a href="#examples-futures" class="toc-h1 toc-link" data-title="Examples (Futures)">Examples (Futures)</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#exchange-basic-info" class="toc-h2 toc-link" data-title="Exchange Basic Info">Exchange Basic Info</a>
+                  </li>
+                  <li>
+                    <a href="#exchange-config-format-subject-to-frequent-change" class="toc-h2 toc-link" data-title="Exchange config (format subject to frequent change)">Exchange config (format subject to frequent change)</a>
+                  </li>
+                  <li>
+                    <a href="#recent-trade-data-for-an-instrument-e-g-leveth" class="toc-h2 toc-link" data-title="Recent trade data for an instrument (e.g. LEVETH)">Recent trade data for an instrument (e.g. LEVETH)</a>
+                  </li>
+                  <li>
+                    <a href="#chart-for-instrument" class="toc-h2 toc-link" data-title="Chart for instrument">Chart for instrument</a>
+                  </li>
+                  <li>
+                    <a href="#order-book-for-the-instrument" class="toc-h2 toc-link" data-title="Order book for the instrument">Order book for the instrument</a>
+                  </li>
+                  <li>
+                    <a href="#get-all-open-orders" class="toc-h2 toc-link" data-title="Get all open orders">Get all open orders</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#examples-spot" class="toc-h1 toc-link" data-title="Examples (Spot)">Examples (Spot)</a>
               <ul class="toc-list-h2">
                   <li>
@@ -379,29 +402,6 @@
                   </li>
                   <li>
                     <a href="#user-executions" class="toc-h2 toc-link" data-title="User Executions">User Executions</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
-            <a href="#examples-futures" class="toc-h1 toc-link" data-title="Examples (Futures)">Examples (Futures)</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#exchange-basic-info" class="toc-h2 toc-link" data-title="Exchange Basic Info">Exchange Basic Info</a>
-                  </li>
-                  <li>
-                    <a href="#exchange-config-format-subject-to-frequent-change" class="toc-h2 toc-link" data-title="Exchange config (format subject to frequent change)">Exchange config (format subject to frequent change)</a>
-                  </li>
-                  <li>
-                    <a href="#recent-trade-data-for-an-instrument-e-g-leveth" class="toc-h2 toc-link" data-title="Recent trade data for an instrument (e.g. LEVETH)">Recent trade data for an instrument (e.g. LEVETH)</a>
-                  </li>
-                  <li>
-                    <a href="#chart-for-instrument" class="toc-h2 toc-link" data-title="Chart for instrument">Chart for instrument</a>
-                  </li>
-                  <li>
-                    <a href="#order-book-for-the-instrument" class="toc-h2 toc-link" data-title="Order book for the instrument">Order book for the instrument</a>
-                  </li>
-                  <li>
-                    <a href="#get-all-open-orders" class="toc-h2 toc-link" data-title="Get all open orders">Get all open orders</a>
                   </li>
               </ul>
           </li>
@@ -676,6 +676,379 @@ Nonce: &lt;unix_time&gt;
 </tr>
 </tbody></table>
 
+<aside class="notice">
+TODO
+</aside>
+<h1 id='examples-futures'>Examples (Futures)</h1>
+<p>Examples are structured as follows:</p>
+
+<table><thead>
+<tr>
+<th>Section</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Endpoint</td>
+<td>The /api endpoint</td>
+</tr>
+<tr>
+<td>Client Request</td>
+<td>Request using the zka client</td>
+</tr>
+<tr>
+<td>Server Response</td>
+<td>JSON Response payload (abbreviated to partial data sets for readability)</td>
+</tr>
+</tbody></table>
+
+<p><a name="futures-all-info"></a></p>
+<h2 id='exchange-basic-info'>Exchange Basic Info</h2><h3 id='get-all-info'>GET /all/info</h3><div class="highlight"><pre class="highlight shell tab-shell"><code>curl https://live.leverj.io/futures/api/v1/all/info
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://live.leverj.io/futures/api/v1/all/info'</span><span class="p">)</span>
+<span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/info</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response'>Response</h3>
+<p>Returns information on </p>
+
+<ul>
+<li>last 24 hours volume, </li>
+<li>last price, </li>
+<li>bid, </li>
+<li>ask,</li>
+<li>funding rate, and</li>
+<li>index</li>
+</ul>
+
+<p>for each of the perpetual swap instruments.</p>
+
+<p>BTCUSD perpetual swap has id 1 and ETHUSD perpetual swap has id 2.</p>
+<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"vol24H"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"eth"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"priceChange"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"priceChangePercent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"lastPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">15072</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mi">15532</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"ask"</span><span class="p">:</span><span class="w"> </span><span class="mi">15688</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fundingRate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2098600000000000000"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605142800000</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605146400000</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"indexPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">15596</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"futurePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">15619</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605143249</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">15585</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_BTCUSD"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"vol24H"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.3</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">596.4</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"priceChange"</span><span class="p">:</span><span class="w"> </span><span class="mf">-2.7</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"priceChangePercent"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.5869565217391</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"lastPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">457.3</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mf">455.1</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"ask"</span><span class="p">:</span><span class="w"> </span><span class="mf">459.7</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fundingRate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22000000000000000"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605142800000</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605146400000</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"indexPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">457.8</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"futurePrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">458.4</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605143249</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">457.52</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_ETHUSD"</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p><a name="futures-all-config"></a></p>
+<h2 id='exchange-config-format-subject-to-frequent-change'>Exchange config (format subject to frequent change)</h2><h3 id='get-all-config'>GET /all/config</h3><div class="highlight"><pre class="highlight shell tab-shell"><code>curl https://live.leverj.io/futures/api/v1/all/config
+</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://live.leverj.io/futures/api/v1/all/config'</span><span class="p">)</span>
+<span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
+</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/config</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-2'>Response</h3>
+<p>Returns configuration information about </p>
+
+<ul>
+<li>fee, </li>
+<li>smart contracts, </li>
+<li>instruments, and </li>
+<li>assets</li>
+</ul>
+<h3 id='response-3'>Response</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"maxInputs"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"maxOrdersCreateUpdate"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"maker"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"taker"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
+            </span><span class="p">},</span><span class="w">
+            </span><span class="nl">"factor"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"estimatedTokenTransferFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100000"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mainnet"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"etherscan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://etherscan.io"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"appId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"gluon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x75ACe7a086eA0FB1a79e43Cc6331Ad053d8C67cB"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"legacyTokensExtension"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDA88EfA53c85Afa30564bb651A2E76b99a232082"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"lev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0F4CA92660Efad97a9a70CB0fe969c755439772C"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"registryLogic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x385827aC8d1AC7B2960D4aBc303c843D9f87Bb0C"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"registryData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0fC25C7931679B838209c484d49Df0Cb9E633C41"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"stakeLogic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xe517af2457E0dD285ed22Ee4440b265f203D1B0d"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"stakeLogicV1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x88Ac1E78b8a7D2B457Cb030978F71EdeE541bD5b"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"stakeData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xaB3AC436D66CBEeDc734ed2c1562c3a213c9bc77"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"derivativesLogic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDfBFe895e07e5115773Cb9631CB2148114589caC"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"derivativesData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x563052914Fd973a2305763269A106a7B0B6D50Cc"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"minimumDepositConfirmations"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"geofence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"block"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"US"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"AS"</span><span class="p">,</span><span class="w"> </span><span class="s2">"VI"</span><span class="p">,</span><span class="w"> </span><span class="s2">"GU"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UM"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CU"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SY"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"IR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"KP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UA:40"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UA:43"</span><span class="p">]</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"noSignup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"maintenance"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"tradingDisabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"depositGasLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">160000</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"gasPriceMultiplier"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"markets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"DAI"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"legacyTokensExtensionSupport"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"USDT"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"defaultDisplayPair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAIUSDC"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"instruments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USD"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"tickSize"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quoteSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"baseSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"maxLeverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_BTCUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quote"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6B175474E89094C44Da98b954EedeAC495271d0F"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETHUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH/USD"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"tickSize"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quoteSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"baseSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"maxLeverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_ETHUSD"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"quote"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6B175474E89094C44Da98b954EedeAC495271d0F"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+                </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"assets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"DAI"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6B175474E89094C44Da98b954EedeAC495271d0F"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
+        </span><span class="p">},</span><span class="w">
+        </span><span class="nl">"L2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L2"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xBbff34E47E559ef680067a6B1c980639EEb64D24"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L2"</span><span class="p">,</span><span class="w">
+            </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
+        </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;IP Address&gt;"</span><span class="p">,</span><span class="w">
+        </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;country&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;province&gt;"</span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div>
+<p><a name="futures-instrument-recent-trade"></a></p>
+<h2 id='recent-trade-data-for-an-instrument-e-g-leveth'>Recent trade data for an instrument (e.g. LEVETH)</h2><h3 id='get-instrument-symbol-trade'>GET /instrument/:symbol/trade</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/trade</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-4'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550710792</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550708634</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.000101</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550687614</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682148</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">92</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682147</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682142</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
+    <span class="na">volume</span><span class="p">:</span> <span class="mi">94</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span> <span class="p">}</span> 
+<span class="p">]</span>
+</code></pre></div>
+<p><a name="instrument-chart"></a></p>
+<h2 id='chart-for-instrument'>Chart for instrument</h2><h3 id='get-instrument-symbol-chart-timeframe'>GET /instrument/:symbol/chart/:timeframe</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/chart/5</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-5'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550794200</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793900</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793600</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793300</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793000</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">t</span><span class="p">:</span> <span class="mi">1550792700</span><span class="p">,</span>
+    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre></div>
+<p><a name="instrument-orderbook"></a></p>
+<h2 id='order-book-for-the-instrument'>Order book for the instrument</h2><h3 id='get-instrument-symbol-orderbook'>GET /instrument/:symbol/orderbook</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/orderbook</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-6'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span> <span class="nl">bid</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
+  <span class="nx">ask</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+  <span class="nx">buy</span><span class="p">:</span>
+   <span class="p">[</span> <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000092</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}],</span>
+  <span class="nx">sell</span><span class="p">:</span>
+   <span class="p">[</span> <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
+     <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000103</span><span class="p">,</span>
+       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}]</span> 
+<span class="p">}</span>
+</code></pre></div>
+<p><a name="open-order-all"></a></p>
+<h2 id='get-all-open-orders'>Get all open orders</h2><h3 id='get-order'>GET /order</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/order</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
+</code></pre></div><h3 id='response-7'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">uuid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">77bb9a50-3639-11e9-aa67-1b934017d41a</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
+    <span class="na">filled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">averagePrice</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">cancelled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001209</span><span class="p">,</span>
+    <span class="na">entryTime</span><span class="p">:</span> <span class="mi">1550795606133888</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795606133888</span><span class="p">,</span>
+    <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">open</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1550795605937000</span><span class="p">,</span>
+    <span class="na">signature</span><span class="p">:</span>
+     <span class="dl">'</span><span class="s1">0x2de825f6315f3a712f0b69c36b690918466889edcebbd86e086c4b5e8715c9fa2bd4e74bf0cb263d2c5464b7eba5777f94246989d4f98707c9f44aa891b4743900</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ac60c4f4-bd6b-40a4-ae1d-bbef604d0bb7</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">},</span>
+  <span class="p">{</span> <span class="na">uuid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">b7bf15a0-3639-11e9-b2cc-fe32bd3894ee</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">quantity</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
+    <span class="na">filled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">averagePrice</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">cancelled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001213</span><span class="p">,</span>
+    <span class="na">entryTime</span><span class="p">:</span> <span class="mi">1550795713530585</span><span class="p">,</span>
+    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795713530585</span><span class="p">,</span>
+    <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">open</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1550795713339000</span><span class="p">,</span>
+    <span class="na">signature</span><span class="p">:</span>
+     <span class="dl">'</span><span class="s1">0x962f348852da325d8663d25ee922f67b278929d500b68234ee0e294d0b4f7e601a957c8798a7fb6d26fb2bc477d3c30293790d9a64e68a3e87d6ae433432b33d01</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a0da5818-b0a3-4e39-b8eb-f5f7f7384bfe</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">}</span> 
+<span class="p">]</span>
+</code></pre></div>
 <aside class="notice">
 TODO
 </aside>
@@ -1169,380 +1542,7 @@ TODO
     <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795615346724</span><span class="p">,</span>
     <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}</span> 
 <span class="p">]</span>
-</code></pre></div><h1 id='examples-futures'>Examples (Futures)</h1>
-<p>Examples are structured as follows:</p>
-
-<table><thead>
-<tr>
-<th>Section</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>Endpoint</td>
-<td>The /api endpoint</td>
-</tr>
-<tr>
-<td>Client Request</td>
-<td>Request using the zka client</td>
-</tr>
-<tr>
-<td>Server Response</td>
-<td>JSON Response payload (abbreviated to partial data sets for readability)</td>
-</tr>
-</tbody></table>
-
-<p><a name="futures-all-info"></a></p>
-<h2 id='exchange-basic-info'>Exchange Basic Info</h2><h3 id='get-all-info'>GET /all/info</h3><div class="highlight"><pre class="highlight shell tab-shell"><code>curl https://live.leverj.io/futures/api/v1/all/info
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://live.leverj.io/futures/api/v1/all/info'</span><span class="p">)</span>
-<span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/info</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
-</code></pre></div><h3 id='response'>Response</h3>
-<p>Returns information on </p>
-
-<ul>
-<li>last 24 hours volume, </li>
-<li>last price, </li>
-<li>bid, </li>
-<li>ask,</li>
-<li>funding rate, and</li>
-<li>index</li>
-</ul>
-
-<p>for each of the perpetual swap instruments.</p>
-
-<p>BTCUSD perpetual swap has id 1 and ETHUSD perpetual swap has id 2.</p>
-<div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"vol24H"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"eth"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"priceChange"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"priceChangePercent"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"lastPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">15072</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mi">15532</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"ask"</span><span class="p">:</span><span class="w"> </span><span class="mi">15688</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"fundingRate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2098600000000000000"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605142800000</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605146400000</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"indexPrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">15596</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"futurePrice"</span><span class="p">:</span><span class="w"> </span><span class="mi">15619</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605143249</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mi">15585</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_BTCUSD"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"vol24H"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"qty"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.3</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"eth"</span><span class="p">:</span><span class="w"> </span><span class="mf">596.4</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"priceChange"</span><span class="p">:</span><span class="w"> </span><span class="mf">-2.7</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"priceChangePercent"</span><span class="p">:</span><span class="w"> </span><span class="mf">-0.5869565217391</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"lastPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">457.3</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"bid"</span><span class="p">:</span><span class="w"> </span><span class="mf">455.1</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"ask"</span><span class="p">:</span><span class="w"> </span><span class="mf">459.7</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"fundingRate"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"rate"</span><span class="p">:</span><span class="w"> </span><span class="s2">"22000000000000000"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"start"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605142800000</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"end"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605146400000</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"indexPrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">457.8</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"futurePrice"</span><span class="p">:</span><span class="w"> </span><span class="mf">458.4</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"index"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"date"</span><span class="p">:</span><span class="w"> </span><span class="mi">1605143249</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"price"</span><span class="p">:</span><span class="w"> </span><span class="mf">457.52</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_ETHUSD"</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p><a name="futures-all-config"></a></p>
-<h2 id='exchange-config-format-subject-to-frequent-change'>Exchange config (format subject to frequent change)</h2><h3 id='get-all-config'>GET /all/config</h3><div class="highlight"><pre class="highlight shell tab-shell"><code>curl https://live.leverj.io/futures/api/v1/all/config
-</code></pre></div><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">response</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'https://live.leverj.io/futures/api/v1/all/config'</span><span class="p">)</span>
-<span class="n">response</span><span class="p">.</span><span class="n">json</span><span class="p">()</span>
-</code></pre></div><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/all/config</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
-</code></pre></div><h3 id='response-2'>Response</h3>
-<p>Returns configuration information about </p>
-
-<ul>
-<li>fee, </li>
-<li>smart contracts, </li>
-<li>instruments, and </li>
-<li>assets</li>
-</ul>
-<h3 id='response-3'>Response</h3><div class="highlight"><pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-    </span><span class="nl">"config"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"maxInputs"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"maxOrdersCreateUpdate"</span><span class="p">:</span><span class="w"> </span><span class="mi">20</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"fee"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="nl">"maker"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"taker"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="w">
-            </span><span class="p">},</span><span class="w">
-            </span><span class="nl">"factor"</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"estimatedTokenTransferFee"</span><span class="p">:</span><span class="w"> </span><span class="s2">"100000"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"network"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"provider"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mainnet"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"etherscan"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://etherscan.io"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"appId"</span><span class="p">:</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"gluon"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x75ACe7a086eA0FB1a79e43Cc6331Ad053d8C67cB"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"legacyTokensExtension"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDA88EfA53c85Afa30564bb651A2E76b99a232082"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"lev"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0F4CA92660Efad97a9a70CB0fe969c755439772C"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"registryLogic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x385827aC8d1AC7B2960D4aBc303c843D9f87Bb0C"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"registryData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x0fC25C7931679B838209c484d49Df0Cb9E633C41"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"stakeLogic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xe517af2457E0dD285ed22Ee4440b265f203D1B0d"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"stakeLogicV1"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x88Ac1E78b8a7D2B457Cb030978F71EdeE541bD5b"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"stakeData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xaB3AC436D66CBEeDc734ed2c1562c3a213c9bc77"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"derivativesLogic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xDfBFe895e07e5115773Cb9631CB2148114589caC"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"derivativesData"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x563052914Fd973a2305763269A106a7B0B6D50Cc"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"minimumDepositConfirmations"</span><span class="p">:</span><span class="w"> </span><span class="mi">25</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"geofence"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"block"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"US"</span><span class="p">,</span><span class="w"> </span><span class="s2">"PR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"AS"</span><span class="p">,</span><span class="w"> </span><span class="s2">"VI"</span><span class="p">,</span><span class="w"> </span><span class="s2">"GU"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UM"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SC"</span><span class="p">,</span><span class="w"> </span><span class="s2">"CU"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SY"</span><span class="p">,</span><span class="w"> </span><span class="s2">"SD"</span><span class="p">,</span><span class="w"> </span><span class="s2">"IR"</span><span class="p">,</span><span class="w"> </span><span class="s2">"KP"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UA:40"</span><span class="p">,</span><span class="w"> </span><span class="s2">"UA:43"</span><span class="p">]</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"noSignup"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"maintenance"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"tradingDisabled"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"depositGasLimit"</span><span class="p">:</span><span class="w"> </span><span class="mi">160000</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"gasPriceMultiplier"</span><span class="p">:</span><span class="w"> </span><span class="mf">1.5</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"default"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"instrument"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"markets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"DAI"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"legacyTokensExtensionSupport"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"USDT"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"defaultDisplayPair"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAIUSDC"</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"instruments"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"1"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTCUSD"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC/USD"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"tickSize"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"quoteSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"baseSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"BTC"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"maxLeverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_BTCUSD"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"quote"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6B175474E89094C44Da98b954EedeAC495271d0F"</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETHUSD"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH/USD"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"status"</span><span class="p">:</span><span class="w"> </span><span class="s2">"active"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"tickSize"</span><span class="p">:</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"quoteSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"baseSignificantDigits"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"baseSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ETH"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"quoteSymbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"maxLeverage"</span><span class="p">:</span><span class="w"> </span><span class="mi">50</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"topic"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index_ETHUSD"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"quote"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-                </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6B175474E89094C44Da98b954EedeAC495271d0F"</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-                </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
-            </span><span class="p">}</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"assets"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"DAI"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0x6B175474E89094C44Da98b954EedeAC495271d0F"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DAI"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
-        </span><span class="p">},</span><span class="w">
-        </span><span class="nl">"L2"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-            </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L2"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"address"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0xBbff34E47E559ef680067a6B1c980639EEb64D24"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"symbol"</span><span class="p">:</span><span class="w"> </span><span class="s2">"L2"</span><span class="p">,</span><span class="w">
-            </span><span class="nl">"decimals"</span><span class="p">:</span><span class="w"> </span><span class="mi">18</span><span class="w">
-        </span><span class="p">}</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"user"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="nl">"ip"</span><span class="p">:</span><span class="w"> </span><span class="s2">"&lt;IP Address&gt;"</span><span class="p">,</span><span class="w">
-        </span><span class="nl">"country"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"&lt;country&gt;"</span><span class="p">,</span><span class="w"> </span><span class="s2">"&lt;province&gt;"</span><span class="p">]</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div>
-<p><a name="futures-instrument-recent-trade"></a></p>
-<h2 id='recent-trade-data-for-an-instrument-e-g-leveth'>Recent trade data for an instrument (e.g. LEVETH)</h2><h3 id='get-instrument-symbol-trade'>GET /instrument/:symbol/trade</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/trade</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
-</code></pre></div><h3 id='response-4'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550710792</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">volume</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550708634</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.000101</span><span class="p">,</span>
-    <span class="na">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550687614</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
-    <span class="na">volume</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682148</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
-    <span class="na">volume</span><span class="p">:</span> <span class="mi">92</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682147</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
-    <span class="na">volume</span><span class="p">:</span> <span class="mi">6</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">date</span><span class="p">:</span> <span class="mi">1550682142</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.0001</span><span class="p">,</span>
-    <span class="na">volume</span><span class="p">:</span> <span class="mi">94</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span> <span class="p">}</span> 
-<span class="p">]</span>
-</code></pre></div>
-<p><a name="instrument-chart"></a></p>
-<h2 id='chart-for-instrument'>Chart for instrument</h2><h3 id='get-instrument-symbol-chart-timeframe'>GET /instrument/:symbol/chart/:timeframe</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/chart/5</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
-</code></pre></div><h3 id='response-5'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">t</span><span class="p">:</span> <span class="mi">1550794200</span><span class="p">,</span>
-    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793900</span><span class="p">,</span>
-    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793600</span><span class="p">,</span>
-    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793300</span><span class="p">,</span>
-    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">t</span><span class="p">:</span> <span class="mi">1550793000</span><span class="p">,</span>
-    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">v</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">s</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">t</span><span class="p">:</span> <span class="mi">1550792700</span><span class="p">,</span>
-    <span class="na">o</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">h</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">l</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">c</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-    <span class="na">i</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}</span>
-<span class="p">]</span>
-</code></pre></div>
-<p><a name="instrument-orderbook"></a></p>
-<h2 id='order-book-for-the-instrument'>Order book for the instrument</h2><h3 id='get-instrument-symbol-orderbook'>GET /instrument/:symbol/orderbook</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/instrument/LEVETH/orderbook</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
-</code></pre></div><h3 id='response-6'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span> <span class="nl">bid</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
-  <span class="nx">ask</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-  <span class="nx">buy</span><span class="p">:</span>
-   <span class="p">[</span> <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000093</span><span class="p">,</span>
-       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-     <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000092</span><span class="p">,</span>
-       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}],</span>
-  <span class="nx">sell</span><span class="p">:</span>
-   <span class="p">[</span> <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000102</span><span class="p">,</span>
-       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mf">0.2</span><span class="p">,</span>
-       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">},</span>
-     <span class="p">{</span> <span class="na">price</span><span class="p">:</span> <span class="mf">0.000103</span><span class="p">,</span>
-       <span class="na">numberOfOrders</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-       <span class="na">totalQuantity</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-       <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span> <span class="p">}]</span> 
-<span class="p">}</span>
-</code></pre></div>
-<p><a name="open-order-all"></a></p>
-<h2 id='get-all-open-orders'>Get all open orders</h2><h3 id='get-order'>GET /order</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="nx">zka</span><span class="p">.</span><span class="nx">rest</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/order</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">result</span><span class="p">)})</span>
-</code></pre></div><h3 id='response-7'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">[</span> <span class="p">{</span> <span class="na">uuid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">77bb9a50-3639-11e9-aa67-1b934017d41a</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">quantity</span><span class="p">:</span> <span class="mi">9</span><span class="p">,</span>
-    <span class="na">filled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">averagePrice</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">cancelled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001209</span><span class="p">,</span>
-    <span class="na">entryTime</span><span class="p">:</span> <span class="mi">1550795606133888</span><span class="p">,</span>
-    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795606133888</span><span class="p">,</span>
-    <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">open</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1550795605937000</span><span class="p">,</span>
-    <span class="na">signature</span><span class="p">:</span>
-     <span class="dl">'</span><span class="s1">0x2de825f6315f3a712f0b69c36b690918466889edcebbd86e086c4b5e8715c9fa2bd4e74bf0cb263d2c5464b7eba5777f94246989d4f98707c9f44aa891b4743900</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">ac60c4f4-bd6b-40a4-ae1d-bbef604d0bb7</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">},</span>
-  <span class="p">{</span> <span class="na">uuid</span><span class="p">:</span> <span class="dl">'</span><span class="s1">b7bf15a0-3639-11e9-b2cc-fe32bd3894ee</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">accountId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xE239Caeb4A6eCe2567fa5307f6b5D95149a5188F</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">side</span><span class="p">:</span> <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">quantity</span><span class="p">:</span> <span class="mi">8</span><span class="p">,</span>
-    <span class="na">filled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">averagePrice</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">cancelled</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
-    <span class="na">price</span><span class="p">:</span> <span class="mf">0.001213</span><span class="p">,</span>
-    <span class="na">entryTime</span><span class="p">:</span> <span class="mi">1550795713530585</span><span class="p">,</span>
-    <span class="na">eventTime</span><span class="p">:</span> <span class="mi">1550795713530585</span><span class="p">,</span>
-    <span class="na">status</span><span class="p">:</span> <span class="dl">'</span><span class="s1">open</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">orderType</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LMT</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">instrument</span><span class="p">:</span> <span class="dl">'</span><span class="s1">LEVETH</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">timestamp</span><span class="p">:</span> <span class="mi">1550795713339000</span><span class="p">,</span>
-    <span class="na">signature</span><span class="p">:</span>
-     <span class="dl">'</span><span class="s1">0x962f348852da325d8663d25ee922f67b278929d500b68234ee0e294d0b4f7e601a957c8798a7fb6d26fb2bc477d3c30293790d9a64e68a3e87d6ae433432b33d01</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">token</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0xAa7127e250E87476FdD253f15e86A4Ea9c4c4BD4</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a0da5818-b0a3-4e39-b8eb-f5f7f7384bfe</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">}</span> 
-<span class="p">]</span>
-</code></pre></div>
-<aside class="notice">
-TODO
-</aside>
-<h1 id='gluon'>Gluon</h1>
+</code></pre></div><h1 id='gluon'>Gluon</h1>
 <aside class="notice">
 TODO
 </aside>
