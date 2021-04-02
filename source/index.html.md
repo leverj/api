@@ -180,6 +180,28 @@ Nonce: 1550791374642
 ###  Clients with inaccurate clocks
 If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the `Server-Time` header in the HTTP responses. The zka node module does skew adjustment automatically. The non-cacheable HTTP methods `PUT`, `POST`, `DELETE` and `OPTIONS` return a `Server-Time` header.
 
+# Futures REST API
+
+## Unprotected REST API Endpoints
+Unprotected endpoints do not require an `Authorization` header.
+
+### General Exchange Data
+| Method | Rest Endpoint                  | Description                  |
+| ------ | ------------------------------ | ---------------------------- |
+| GET    | [/all/info](#futures-all-info) | Last price, 24Hr volume, etc |
+
+### Exchange Configuration
+| Method | Rest Endpoint                      | Description                           |
+| ------ | ---------------------------------- | ------------------------------------- |
+| GET    | [/all/config](#futures-all-config) | Get exchange configuration parameters |
+
+### Market Data
+| Method | Rest Endpoint                                                     | Description                       |
+| ------ | ----------------------------------------------------------------- | --------------------------------- |
+| GET    | [/instrument/:symbol/trade](#futures-instrument-recent-trade)     | Get recent trade data             |
+| GET    | [/instrument/:symbol/chart/:timeframe](#futures-instrument-chart) | Get chart data for instrument     |
+| GET    | [/instrument/:symbol/orderbook](#futures-instrument-orderbook)    | Get order book for the instrument |
+
 # Spot REST API
 
 ## Unprotected REST API Endpoints
@@ -219,28 +241,6 @@ All user specific endpoints require `Authorization` and `Nonce` headers as descr
 | ------ | ---------------------------------------- | ---------------------------- |
 | GET    | [/account](#account)                     |
 | GET    | [/account/execution](#account-execution) | GET User's recent executions |
-
-# Futures REST API
-
-## Unprotected REST API Endpoints
-Unprotected endpoints do not require an `Authorization` header.
-
-### General Exchange Data
-| Method | Rest Endpoint                  | Description                  |
-| ------ | ------------------------------ | ---------------------------- |
-| GET    | [/all/info](#futures-all-info) | Last price, 24Hr volume, etc |
-
-### Exchange Configuration
-| Method | Rest Endpoint                      | Description                           |
-| ------ | ---------------------------------- | ------------------------------------- |
-| GET    | [/all/config](#futures-all-config) | Get exchange configuration parameters |
-
-### Market Data
-| Method | Rest Endpoint                                                     | Description                       |
-| ------ | ----------------------------------------------------------------- | --------------------------------- |
-| GET    | [/instrument/:symbol/trade](#futures-instrument-recent-trade)     | Get recent trade data             |
-| GET    | [/instrument/:symbol/chart/:timeframe](#futures-instrument-chart) | Get chart data for instrument     |
-| GET    | [/instrument/:symbol/orderbook](#futures-instrument-orderbook)    | Get order book for the instrument |
 
 <aside class="notice">
 TODO
