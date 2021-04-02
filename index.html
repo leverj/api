@@ -332,21 +332,21 @@
               </ul>
           </li>
           <li>
-            <a href="#spot-rest-api" class="toc-h1 toc-link" data-title="Spot REST API">Spot REST API</a>
+            <a href="#futures-rest-api" class="toc-h1 toc-link" data-title="Futures REST API">Futures REST API</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#unprotected-rest-api-endpoints" class="toc-h2 toc-link" data-title="Unprotected REST API Endpoints">Unprotected REST API Endpoints</a>
                   </li>
-                  <li>
-                    <a href="#protected-rest-api-endpoints" class="toc-h2 toc-link" data-title="Protected REST API endpoints">Protected REST API endpoints</a>
-                  </li>
               </ul>
           </li>
           <li>
-            <a href="#futures-rest-api" class="toc-h1 toc-link" data-title="Futures REST API">Futures REST API</a>
+            <a href="#spot-rest-api" class="toc-h1 toc-link" data-title="Spot REST API">Spot REST API</a>
               <ul class="toc-list-h2">
                   <li>
                     <a href="#unprotected-rest-api-endpoints-2" class="toc-h2 toc-link" data-title="Unprotected REST API Endpoints">Unprotected REST API Endpoints</a>
+                  </li>
+                  <li>
+                    <a href="#protected-rest-api-endpoints" class="toc-h2 toc-link" data-title="Protected REST API endpoints">Protected REST API endpoints</a>
                   </li>
               </ul>
           </li>
@@ -517,7 +517,7 @@ Nonce: &lt;unix_time&gt;
 <div class="highlight"><pre class="highlight plaintext"><code>Nonce: 1550791374642
 </code></pre></div><h3 id='clients-with-inaccurate-clocks'>Clients with inaccurate clocks</h3>
 <p>If your client does not have an accurate clock or you are on an unusually slow network connection, you can compute the skew and apply it to all future requests using the <code>Server-Time</code> header in the HTTP responses. The zka node module does skew adjustment automatically. The non-cacheable HTTP methods <code>PUT</code>, <code>POST</code>, <code>DELETE</code> and <code>OPTIONS</code> return a <code>Server-Time</code> header.</p>
-<h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints'>Unprotected REST API Endpoints</h2>
+<h1 id='futures-rest-api'>Futures REST API</h1><h2 id='unprotected-rest-api-endpoints'>Unprotected REST API Endpoints</h2>
 <p>Unprotected endpoints do not require an <code>Authorization</code> header.</p>
 <h3 id='general-exchange-data'>General Exchange Data</h3>
 <table><thead>
@@ -529,7 +529,7 @@ Nonce: &lt;unix_time&gt;
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="#spot-all-info">/all/info</a></td>
+<td><a href="#futures-all-info">/all/info</a></td>
 <td>Last price, 24Hr volume, etc</td>
 </tr>
 </tbody></table>
@@ -543,11 +543,65 @@ Nonce: &lt;unix_time&gt;
 </thead><tbody>
 <tr>
 <td>GET</td>
-<td><a href="#spot-all-config">/all/config</a></td>
+<td><a href="#futures-all-config">/all/config</a></td>
 <td>Get exchange configuration parameters</td>
 </tr>
 </tbody></table>
 <h3 id='market-data'>Market Data</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#futures-instrument-recent-trade">/instrument/:symbol/trade</a></td>
+<td>Get recent trade data</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#futures-instrument-chart">/instrument/:symbol/chart/:timeframe</a></td>
+<td>Get chart data for instrument</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#futures-instrument-orderbook">/instrument/:symbol/orderbook</a></td>
+<td>Get order book for the instrument</td>
+</tr>
+</tbody></table>
+<h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
+<p>Unprotected endpoints do not require an <code>Authorization</code> header.</p>
+<h3 id='general-exchange-data-2'>General Exchange Data</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#spot-all-info">/all/info</a></td>
+<td>Last price, 24Hr volume, etc</td>
+</tr>
+</tbody></table>
+<h3 id='exchange-configuration-2'>Exchange Configuration</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Rest Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#spot-all-config">/all/config</a></td>
+<td>Get exchange configuration parameters</td>
+</tr>
+</tbody></table>
+<h3 id='market-data-2'>Market Data</h3>
 <table><thead>
 <tr>
 <th>Method</th>
@@ -619,60 +673,6 @@ Nonce: &lt;unix_time&gt;
 <td>GET</td>
 <td><a href="#account-execution">/account/execution</a></td>
 <td>GET User&#39;s recent executions</td>
-</tr>
-</tbody></table>
-<h1 id='futures-rest-api'>Futures REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
-<p>Unprotected endpoints do not require an <code>Authorization</code> header.</p>
-<h3 id='general-exchange-data-2'>General Exchange Data</h3>
-<table><thead>
-<tr>
-<th>Method</th>
-<th>Rest Endpoint</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>GET</td>
-<td><a href="#futures-all-info">/all/info</a></td>
-<td>Last price, 24Hr volume, etc</td>
-</tr>
-</tbody></table>
-<h3 id='exchange-configuration-2'>Exchange Configuration</h3>
-<table><thead>
-<tr>
-<th>Method</th>
-<th>Rest Endpoint</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>GET</td>
-<td><a href="#futures-all-config">/all/config</a></td>
-<td>Get exchange configuration parameters</td>
-</tr>
-</tbody></table>
-<h3 id='market-data-2'>Market Data</h3>
-<table><thead>
-<tr>
-<th>Method</th>
-<th>Rest Endpoint</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>GET</td>
-<td><a href="#futures-instrument-recent-trade">/instrument/:symbol/trade</a></td>
-<td>Get recent trade data</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="#futures-instrument-chart">/instrument/:symbol/chart/:timeframe</a></td>
-<td>Get chart data for instrument</td>
-</tr>
-<tr>
-<td>GET</td>
-<td><a href="#futures-instrument-orderbook">/instrument/:symbol/orderbook</a></td>
-<td>Get order book for the instrument</td>
 </tr>
 </tbody></table>
 
