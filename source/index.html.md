@@ -202,6 +202,8 @@ Unprotected endpoints do not require an `Authorization` header.
 | GET    | [/instrument/:symbol/chart/:timeframe](#futures-instrument-chart) | Get chart data for instrument     |
 | GET    | [/instrument/:symbol/orderbook](#futures-instrument-orderbook)    | Get order book for the instrument |
 
+# Futures WebSocket API
+
 # Spot REST API
 
 ## Unprotected REST API Endpoints
