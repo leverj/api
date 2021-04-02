@@ -7,7 +7,7 @@ language_tabs:
 toc_footers:
   - Try out <a href='https://test.leverj.io/'>testnet site</a>.
   - Trade at <a href='https://live.leverj.io/'>mainnet site</a>
-  - <a href='https://github.com/tripit/slate'>Documentation Powered by Slate</a>
+  - <a href='https://github.com/slatedocs/slate'>Documentation Powered by Slate</a>
 
 includes:
   - examples
