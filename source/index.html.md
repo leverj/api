@@ -57,7 +57,7 @@ Leverj provides access to two markets, the spot market and the derivatives marke
 The API is very similar for both spot and futures markets, with minor differences to accomodate for product variations, market structure differences, and differing trading strategy possibilities between the two.
 
 <aside class="notice">
-Spot markets in its current form will be [shutdown](https://blog.leverj.io/announcement-shutting-down-the-spot-markets-on-leverj-c20d14fad546) by May 2021.
+Spot markets in its current form will be <a href="https://blog.leverj.io/announcement-shutting-down-the-spot-markets-on-leverj-c20d14fad546">shutdown</a> by May 2021.
 </aside>
 
 ## Scheme
