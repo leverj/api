@@ -1090,9 +1090,18 @@ TODO
 <span class="p">]</span>
 </code></pre></div>
 <p><a name="futures-websocket-orderbook"></a></p>
-<h2 id='fetch-all-futures-order-books'>Fetch all futures order books</h2><h3 id='list-on-the-topic-39-orderbook-39'>List on the topic: &#39;orderbook&#39;</h3>
+<h2 id='fetch-all-futures-order-books'>Fetch all futures order books</h2><h3 id='listen-on-the-topic-39-orderbook-39'>Listen on the topic: &#39;orderbook&#39;</h3>
 <p>Connect to the socket endpoint and listen on &quot;orderbook&quot;.
 A simple code illustration in python and a sample response is provided.</p>
+
+<p>The entire orderbook is returned when listening on this topic. Filter down to the specific instrument as required.</p>
+
+<p>The instruments currently supported are:
+* 1 - BTCUSD (DAI)
+* 2 - ETHUSD (DAI)
+* 3 - BTCUSD (USDT)
+* 4 - ETHUSD (USDT)
+* 5 - DEFIUSD (USDT)</p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"orderbook"</span><span class="p">,</span> <span class="n">on_orderbook</span><span class="p">)</span>
