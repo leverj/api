@@ -341,6 +341,11 @@
           </li>
           <li>
             <a href="#futures-websocket-api" class="toc-h1 toc-link" data-title="Futures WebSocket API">Futures WebSocket API</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#unprotected-websocket-topics" class="toc-h2 toc-link" data-title="Unprotected Websocket Topics">Unprotected Websocket Topics</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#spot-rest-api" class="toc-h1 toc-link" data-title="Spot REST API">Spot REST API</a>
@@ -373,6 +378,9 @@
                   </li>
                   <li>
                     <a href="#get-all-open-orders" class="toc-h2 toc-link" data-title="Get all open orders">Get all open orders</a>
+                  </li>
+                  <li>
+                    <a href="#fetch-all-futures-order-books" class="toc-h2 toc-link" data-title="Fetch all futures order books">Fetch all futures order books</a>
                   </li>
               </ul>
           </li>
@@ -578,7 +586,27 @@ Nonce: &lt;unix_time&gt;
 <td>Get order book for the instrument</td>
 </tr>
 </tbody></table>
-<h1 id='futures-websocket-api'>Futures WebSocket API</h1><h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
+<h1 id='futures-websocket-api'>Futures WebSocket API</h1>
+<p>Leverj provides high speed and high throughput websocket based connectivity for all its endpoints. Use socket.io libraries to connect via websocket. Here are a few language binding to consider:
+* Python: <a href="https://python-socketio.readthedocs.io/en/latest/">python-socketio</a>
+* Javascript <a href="https://socket.io/">socket.io</a></p>
+<h2 id='unprotected-websocket-topics'>Unprotected Websocket Topics</h2>
+<p>Unprotected endpoints do not require <code>Authorization</code>.</p>
+<h3 id='market-data-2'>Market Data</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Topic</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-orderbook">orderbook</a></td>
+<td>Fetch order book</td>
+</tr>
+</tbody></table>
+<h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
 <p>Unprotected endpoints do not require an <code>Authorization</code> header.</p>
 <h3 id='general-exchange-data-2'>General Exchange Data</h3>
 <table><thead>
@@ -608,7 +636,7 @@ Nonce: &lt;unix_time&gt;
 <td>Get exchange configuration parameters</td>
 </tr>
 </tbody></table>
-<h3 id='market-data-2'>Market Data</h3>
+<h3 id='market-data-3'>Market Data</h3>
 <table><thead>
 <tr>
 <th>Method</th>
@@ -1055,6 +1083,127 @@ TODO
     <span class="na">clientOrderId</span><span class="p">:</span> <span class="dl">'</span><span class="s1">a0da5818-b0a3-4e39-b8eb-f5f7f7384bfe</span><span class="dl">'</span><span class="p">,</span>
     <span class="na">originator</span><span class="p">:</span> <span class="dl">'</span><span class="s1">0x12d80a4b0803Cf7D462EDF36963429B6aCfA3fFa</span><span class="dl">'</span> <span class="p">}</span> 
 <span class="p">]</span>
+</code></pre></div>
+<p><a name="futures-websocket-orderbook"></a></p>
+<h2 id='fetch-all-futures-order-books'>Fetch all futures order books</h2><h3 id='topic-orderbook'>TOPIC orderbook</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"orderbook"</span><span class="p">,</span> <span class="n">on_orderbook</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_orderbook</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">f'orderbook data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+</code></pre></div><h3 id='response-8'>Response</h3><div class="highlight"><pre class="highlight javascript tab-javascript"><code><span class="p">{</span>
+    <span class="dl">'</span><span class="s1">1</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="dl">'</span><span class="s1">2</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span><span class="p">:</span> <span class="p">[]</span>
+    <span class="p">},</span>
+    <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="dl">'</span><span class="s1">bid</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56904</span><span class="p">,</span>
+        <span class="dl">'</span><span class="s1">ask</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56914</span><span class="p">,</span>
+        <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">:</span> <span class="p">[{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56904</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56899</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56894</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56889</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56884</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">}],</span>
+        <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span><span class="p">:</span> <span class="p">[{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56914</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56919</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56924</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56929</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">56934</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">3</span><span class="dl">'</span>
+        <span class="p">}]</span>
+    <span class="p">},</span>
+    <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span><span class="p">:</span> <span class="p">{</span>
+        <span class="dl">'</span><span class="s1">bid</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1718.5</span><span class="p">,</span>
+        <span class="dl">'</span><span class="s1">ask</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1720.5</span><span class="p">,</span>
+        <span class="dl">'</span><span class="s1">buy</span><span class="dl">'</span><span class="p">:</span> <span class="p">[{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1718.5</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1.65</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1717.9</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.57</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1717.4</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.22</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1716.9</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.04</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">}],</span>
+        <span class="dl">'</span><span class="s1">sell</span><span class="dl">'</span><span class="p">:</span> <span class="p">[{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1720.5</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1.65</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1721</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.57</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1721.6</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.22</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">},</span> <span class="p">{</span>
+            <span class="dl">'</span><span class="s1">price</span><span class="dl">'</span><span class="p">:</span> <span class="mf">1722.1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">numberOfOrders</span><span class="dl">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">totalQuantity</span><span class="dl">'</span><span class="p">:</span> <span class="mf">0.04</span><span class="p">,</span>
+            <span class="dl">'</span><span class="s1">instrument</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">4</span><span class="dl">'</span>
+        <span class="p">}]</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 </code></pre></div>
 <aside class="notice">
 TODO
