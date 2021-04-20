@@ -550,6 +550,47 @@ def on_orderbook(data):
 }
 ```
 
+<a name="futures-websocket-index"></a>
+## Fetch indices
+### Listen on the topic: 'index'
+
+Connect to the socket endpoint and listen on "index".
+A simple code illustration in python and a sample response is provided.
+
+The value for all indices is returned in real time, as available. Filter down to the specific index as required.
+
+The indices currently supported are:
+
+* index_BTCUSD
+* index_ETHUSD
+* index_DEFI
+
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+sio.on("index", on_index)
+
+def on_index(data):
+        print(f'index data: {data}')
+
+```
+
+### Response
+```python
+on_index data: {'date': 1618952192, 'topic': 'index_BTCUSD'}
+on_index data: {'date': 1618952192, 'topic': 'index_DEFI'}
+on_index data: {'date': 1618952192, 'topic': 'index_ETHUSD'}
+on_index data: {'date': 1618952192, 'topic': 'index_LINK'}
+on_index data: {'date': 1618952193, 'price': 2309.6, 'topic': 'index_ETHUSD', 'stale': False}
+on_index data: {'date': 1618952193, 'price': 56854.1, 'topic': 'index_BTCUSD', 'stale': False}
+on_index data: {'date': 1618952194, 'price': 56852.6, 'topic': 'index_BTCUSD', 'stale': False}
+on_index data: {'date': 1618952195, 'price': 2309.2, 'topic': 'index_ETHUSD', 'stale': False}
+on_index data: {'date': 1618952195, 'price': 56847.6, 'topic': 'index_BTCUSD', 'stale': False}
+on_index data: {'date': 1618952196, 'price': 451.1, 'topic': 'index_DEFI', 'stale': False}
+```
+
 
 <aside class="notice">
 TODO

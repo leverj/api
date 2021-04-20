@@ -222,6 +222,7 @@ Unprotected endpoints do not require `Authorization`.
 | Method | Topic                                     | Description      |
 | ------ | ----------------------------------------- | ---------------- |
 | GET    | [orderbook](#futures-websocket-orderbook) | Fetch order book |
+| GET    | [index](#futures-websocket-index) | Fetch indices |
 
 
 # Spot REST API
