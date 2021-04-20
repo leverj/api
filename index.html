@@ -1120,118 +1120,118 @@ A simple code illustration in python and a sample response is provided.</p>
 <span class="k">def</span> <span class="nf">on_orderbook</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="s">f'orderbook data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-8'>Response</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="p">{</span>
-    <span class="s">'1'</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">'buy'</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s">'sell'</span><span class="p">:</span> <span class="p">[]</span>
-    <span class="p">},</span>
-    <span class="s">'2'</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">'buy'</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s">'sell'</span><span class="p">:</span> <span class="p">[]</span>
-    <span class="p">},</span>
-    <span class="s">'3'</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">'bid'</span><span class="p">:</span> <span class="mi">56904</span><span class="p">,</span>
-        <span class="s">'ask'</span><span class="p">:</span> <span class="mi">56914</span><span class="p">,</span>
-        <span class="s">'buy'</span><span class="p">:</span> <span class="p">[{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56904</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56899</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56894</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56889</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56884</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">}],</span>
-        <span class="s">'sell'</span><span class="p">:</span> <span class="p">[{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56914</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56919</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56924</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56929</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">56934</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'3'</span>
-        <span class="p">}]</span>
-    <span class="p">},</span>
-    <span class="s">'4'</span><span class="p">:</span> <span class="p">{</span>
-        <span class="s">'bid'</span><span class="p">:</span> <span class="mf">1718.5</span><span class="p">,</span>
-        <span class="s">'ask'</span><span class="p">:</span> <span class="mf">1720.5</span><span class="p">,</span>
-        <span class="s">'buy'</span><span class="p">:</span> <span class="p">[{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1718.5</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">1.65</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1717.9</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.57</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1717.4</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.22</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1716.9</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.04</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">}],</span>
-        <span class="s">'sell'</span><span class="p">:</span> <span class="p">[{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1720.5</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">1.65</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mi">1721</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.57</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1721.6</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.22</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">},</span> <span class="p">{</span>
-            <span class="s">'price'</span><span class="p">:</span> <span class="mf">1722.1</span><span class="p">,</span>
-            <span class="s">'numberOfOrders'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s">'totalQuantity'</span><span class="p">:</span> <span class="mf">0.04</span><span class="p">,</span>
-            <span class="s">'instrument'</span><span class="p">:</span> <span class="s">'4'</span>
-        <span class="p">}]</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+</code></pre></div><h3 id='response-8'>Response</h3><div class="highlight"><pre class="highlight plaintext"><code>{
+    '1': {
+        'buy': [],
+        'sell': []
+    },
+    '2': {
+        'buy': [],
+        'sell': []
+    },
+    '3': {
+        'bid': 56904,
+        'ask': 56914,
+        'buy': [{
+            'price': 56904,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56899,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56894,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56889,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56884,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }],
+        'sell': [{
+            'price': 56914,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56919,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56924,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56929,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56934,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }]
+    },
+    '4': {
+        'bid': 1718.5,
+        'ask': 1720.5,
+        'buy': [{
+            'price': 1718.5,
+            'numberOfOrders': 1,
+            'totalQuantity': 1.65,
+            'instrument': '4'
+        }, {
+            'price': 1717.9,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.57,
+            'instrument': '4'
+        }, {
+            'price': 1717.4,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.22,
+            'instrument': '4'
+        }, {
+            'price': 1716.9,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.04,
+            'instrument': '4'
+        }],
+        'sell': [{
+            'price': 1720.5,
+            'numberOfOrders': 1,
+            'totalQuantity': 1.65,
+            'instrument': '4'
+        }, {
+            'price': 1721,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.57,
+            'instrument': '4'
+        }, {
+            'price': 1721.6,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.22,
+            'instrument': '4'
+        }, {
+            'price': 1722.1,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.04,
+            'instrument': '4'
+        }]
+    }
+}
 </code></pre></div>
 <p><a name="futures-websocket-index"></a></p>
 <h2 id='fetch-indices'>Fetch indices</h2><h3 id='listen-on-the-topic-39-index-39'>Listen on the topic: &#39;index&#39;</h3>
@@ -1254,16 +1254,16 @@ A simple code illustration in python and a sample response is provided.</p>
 <span class="k">def</span> <span class="nf">on_index</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
         <span class="k">print</span><span class="p">(</span><span class="s">f'index data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-9'>Response</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_DEFI'</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_ETHUSD'</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_LINK'</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952193</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">2309.6</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_ETHUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952193</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">56854.1</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952194</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">56852.6</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952195</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">2309.2</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_ETHUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952195</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">56847.6</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
-<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952196</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">451.1</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_DEFI'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+</code></pre></div><h3 id='response-9'>Response</h3><div class="highlight"><pre class="highlight plaintext"><code>on_index data: {'date': 1618952192, 'topic': 'index_BTCUSD'}
+on_index data: {'date': 1618952192, 'topic': 'index_DEFI'}
+on_index data: {'date': 1618952192, 'topic': 'index_ETHUSD'}
+on_index data: {'date': 1618952192, 'topic': 'index_LINK'}
+on_index data: {'date': 1618952193, 'price': 2309.6, 'topic': 'index_ETHUSD', 'stale': False}
+on_index data: {'date': 1618952193, 'price': 56854.1, 'topic': 'index_BTCUSD', 'stale': False}
+on_index data: {'date': 1618952194, 'price': 56852.6, 'topic': 'index_BTCUSD', 'stale': False}
+on_index data: {'date': 1618952195, 'price': 2309.2, 'topic': 'index_ETHUSD', 'stale': False}
+on_index data: {'date': 1618952195, 'price': 56847.6, 'topic': 'index_BTCUSD', 'stale': False}
+on_index data: {'date': 1618952196, 'price': 451.1, 'topic': 'index_DEFI', 'stale': False}
 </code></pre></div>
 <aside class="notice">
 TODO
