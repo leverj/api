@@ -408,7 +408,11 @@ zka.rest.get('/order').then(function(result) {console.log(result)})
 
 <a name="futures-websocket-orderbook"></a>
 ## Fetch all futures order books
-### TOPIC orderbook
+### List on the topic: 'orderbook'
+
+Connect to the socket endpoint and listen on "orderbook".
+A simple code illustration in python and a sample response is provided.
+
 ```python
 sio = socketio.Client(logger=False, engineio_logger=False)
 sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
