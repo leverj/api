@@ -406,6 +406,135 @@ zka.rest.get('/order').then(function(result) {console.log(result)})
 ]
 ```
 
+<a name="futures-websocket-orderbook"></a>
+## Fetch all futures order books
+### TOPIC orderbook
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+sio.on("orderbook", on_orderbook)
+
+def on_orderbook(data):
+        print(f'orderbook data: {data}')
+
+```
+
+### Response
+```javascript
+{
+    '1': {
+        'buy': [],
+        'sell': []
+    },
+    '2': {
+        'buy': [],
+        'sell': []
+    },
+    '3': {
+        'bid': 56904,
+        'ask': 56914,
+        'buy': [{
+            'price': 56904,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56899,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56894,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56889,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56884,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }],
+        'sell': [{
+            'price': 56914,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56919,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56924,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56929,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }, {
+            'price': 56934,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.01,
+            'instrument': '3'
+        }]
+    },
+    '4': {
+        'bid': 1718.5,
+        'ask': 1720.5,
+        'buy': [{
+            'price': 1718.5,
+            'numberOfOrders': 1,
+            'totalQuantity': 1.65,
+            'instrument': '4'
+        }, {
+            'price': 1717.9,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.57,
+            'instrument': '4'
+        }, {
+            'price': 1717.4,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.22,
+            'instrument': '4'
+        }, {
+            'price': 1716.9,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.04,
+            'instrument': '4'
+        }],
+        'sell': [{
+            'price': 1720.5,
+            'numberOfOrders': 1,
+            'totalQuantity': 1.65,
+            'instrument': '4'
+        }, {
+            'price': 1721,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.57,
+            'instrument': '4'
+        }, {
+            'price': 1721.6,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.22,
+            'instrument': '4'
+        }, {
+            'price': 1722.1,
+            'numberOfOrders': 1,
+            'totalQuantity': 0.04,
+            'instrument': '4'
+        }]
+    }
+}
+```
+
 
 <aside class="notice">
 TODO

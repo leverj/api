@@ -208,6 +208,19 @@ Unprotected endpoints do not require an `Authorization` header.
 
 # Futures WebSocket API
 
+Leverj provides high speed and high throughput websocket based connectivity for all its endpoints. Use socket.io libraries to connect via websocket. Here are a few language binding to consider:
+* Python: [python-socketio](https://python-socketio.readthedocs.io/en/latest/)
+* Javascript [socket.io](https://socket.io/)
+
+## Unprotected Websocket Topics
+Unprotected endpoints do not require `Authorization`.
+
+### Market Data
+| Method | Topic                                     | Description      |
+| ------ | ----------------------------------------- | ---------------- |
+| GET    | [orderbook](#futures-websocket-orderbook) | Fetch order book |
+
+
 # Spot REST API
 
 ## Unprotected REST API Endpoints
