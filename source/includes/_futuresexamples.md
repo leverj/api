@@ -435,7 +435,7 @@ def on_orderbook(data):
 ```
 
 ### Response
-```python
+```
 {
     '1': {
         'buy': [],
@@ -578,7 +578,7 @@ def on_index(data):
 ```
 
 ### Response
-```python
+```
 on_index data: {'date': 1618952192, 'topic': 'index_BTCUSD'}
 on_index data: {'date': 1618952192, 'topic': 'index_DEFI'}
 on_index data: {'date': 1618952192, 'topic': 'index_ETHUSD'}
