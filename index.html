@@ -1096,12 +1096,15 @@ A simple code illustration in python and a sample response is provided.</p>
 
 <p>The entire orderbook is returned when listening on this topic. Filter down to the specific instrument as required.</p>
 
-<p>The instruments currently supported are:
-* 1 - BTCUSD (DAI)
-* 2 - ETHUSD (DAI)
-* 3 - BTCUSD (USDT)
-* 4 - ETHUSD (USDT)
-* 5 - DEFIUSD (USDT)</p>
+<p>The instruments currently supported are:</p>
+
+<ul>
+<li>1 - BTCUSD (DAI)</li>
+<li>2 - ETHUSD (DAI)</li>
+<li>3 - BTCUSD (USDT)</li>
+<li>4 - ETHUSD (USDT)</li>
+<li>5 - DEFIUSD (USDT)</li>
+</ul>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"orderbook"</span><span class="p">,</span> <span class="n">on_orderbook</span><span class="p">)</span>
