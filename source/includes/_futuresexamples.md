@@ -416,11 +416,13 @@ A simple code illustration in python and a sample response is provided.
 The entire orderbook is returned when listening on this topic. Filter down to the specific instrument as required.
 
 The instruments currently supported are:
+
 * 1 - BTCUSD (DAI)
 * 2 - ETHUSD (DAI)
 * 3 - BTCUSD (USDT)
 * 4 - ETHUSD (USDT)
 * 5 - DEFIUSD (USDT)
+
 
 ```python
 sio = socketio.Client(logger=False, engineio_logger=False)
