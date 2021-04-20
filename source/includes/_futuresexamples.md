@@ -420,7 +420,7 @@ def on_orderbook(data):
 ```
 
 ### Response
-```javascript
+```python
 {
     '1': {
         'buy': [],

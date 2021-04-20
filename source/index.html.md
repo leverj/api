@@ -208,7 +208,10 @@ Unprotected endpoints do not require an `Authorization` header.
 
 # Futures WebSocket API
 
-Leverj provides high speed and high throughput websocket based connectivity for all its endpoints. Use socket.io libraries to connect via websocket. Here are a few language binding to consider:
+Leverj provides high speed and high throughput websocket based connectivity for all its endpoints. Use socket.io libraries to connect via websocket. 
+
+Here are a few language binding to consider:
+
 * Python: [python-socketio](https://python-socketio.readthedocs.io/en/latest/)
 * Javascript [socket.io](https://socket.io/)
 
