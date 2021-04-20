@@ -382,6 +382,9 @@
                   <li>
                     <a href="#fetch-all-futures-order-books" class="toc-h2 toc-link" data-title="Fetch all futures order books">Fetch all futures order books</a>
                   </li>
+                  <li>
+                    <a href="#fetch-indices" class="toc-h2 toc-link" data-title="Fetch indices">Fetch indices</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -609,6 +612,11 @@ Nonce: &lt;unix_time&gt;
 <td>GET</td>
 <td><a href="#futures-websocket-orderbook">orderbook</a></td>
 <td>Fetch order book</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-index">index</a></td>
+<td>Fetch indices</td>
 </tr>
 </tbody></table>
 <h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
@@ -1224,6 +1232,38 @@ A simple code illustration in python and a sample response is provided.</p>
         <span class="p">}]</span>
     <span class="p">}</span>
 <span class="p">}</span>
+</code></pre></div>
+<p><a name="futures-websocket-index"></a></p>
+<h2 id='fetch-indices'>Fetch indices</h2><h3 id='listen-on-the-topic-39-index-39'>Listen on the topic: &#39;index&#39;</h3>
+<p>Connect to the socket endpoint and listen on &quot;index&quot;.
+A simple code illustration in python and a sample response is provided.</p>
+
+<p>The value for all indices is returned in real time, as available. Filter down to the specific index as required.</p>
+
+<p>The indices currently supported are:</p>
+
+<ul>
+<li>index_BTCUSD</li>
+<li>index_ETHUSD</li>
+<li>index_DEFI</li>
+</ul>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"index"</span><span class="p">,</span> <span class="n">on_index</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_index</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">f'index data: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+</code></pre></div><h3 id='response-9'>Response</h3><div class="highlight"><pre class="highlight python tab-python"><code><span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_DEFI'</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_ETHUSD'</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952192</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_LINK'</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952193</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">2309.6</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_ETHUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952193</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">56854.1</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952194</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">56852.6</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952195</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">2309.2</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_ETHUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952195</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">56847.6</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_BTCUSD'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+<span class="n">on_index</span> <span class="n">data</span><span class="p">:</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="mi">1618952196</span><span class="p">,</span> <span class="s">'price'</span><span class="p">:</span> <span class="mf">451.1</span><span class="p">,</span> <span class="s">'topic'</span><span class="p">:</span> <span class="s">'index_DEFI'</span><span class="p">,</span> <span class="s">'stale'</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
 </code></pre></div>
 <aside class="notice">
 TODO
