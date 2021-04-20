@@ -445,9 +445,13 @@ TODO: update this to include all libraries
 
 <p>Usage of these libraries will be illustrated in the following sections.</p>
 <h1 id='spot-amp-futures-markets'>Spot &amp; Futures Markets</h1>
-<p>Leverj provides access to two markets, the spot market and the derivatives market. The spot market supports ERC20 pairs. The derivatives market supports futures products. Perpetual swaps on BTC and ETH prices are currently offered.</p>
+<p>Leverj provides access to two markets, the spot market and the derivatives market. The spot market supports ERC20 pairs. The derivatives market supports futures products. Perpetual swaps on BTC, ETH, and DEFI index are currently offered.</p>
 
 <p>The API is very similar for both spot and futures markets, with minor differences to accomodate for product variations, market structure differences, and differing trading strategy possibilities between the two.</p>
+
+<aside class="notice">
+Spot markets in its current form will be [shutdown](https://blog.leverj.io/announcement-shutting-down-the-spot-markets-on-leverj-c20d14fad546) by May 2021.
+</aside>
 <h2 id='scheme'>Scheme</h2>
 <p>The URL scheme like most REST apis consists of a BASE_URL and an endpoint.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>REST URL = BASE_URL + ENDPOINT
