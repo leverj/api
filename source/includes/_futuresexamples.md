@@ -617,9 +617,10 @@ def on_connect(data):
 
 ### Response
 
-If connected successfully,
+If connected successfully, you should see the message "connected!".
 
 ```
+**** response ****
 connected!
 ```
 
@@ -630,7 +631,7 @@ connected!
 Disconnect using one of the socket.io language bindings. 
 An example in Python is included.
 
-As a first step instantiate a socket.io client. Register an event listener for the "disconnect" event. This would allow you to be alerted when you successfully disconnect from an existing websocket connection.
+Register an event listener for the "disconnect" event. This would allow you to be alerted when you successfully disconnect from an existing websocket connection.
 
 
 ```python
@@ -645,9 +646,10 @@ def on_disconnect(data):
 
 ### Response
 
-If the socket connection is disconnected successfully,
+If the socket connection is disconnected successfully, you should see the message "disconnected!".
 
 ```
+**** response ****
 disconnected!
 ```
 
@@ -655,27 +657,40 @@ disconnected!
 ## Register
 ### Register on a connected Leverj socket.io endpoint
 
-Registration allows you to authenticate and listen to your own personal events from a protected endpoints.
+Registration allows you to authenticate and listen to your own personal events from protected endpoints.
 
 As a first step instantiate a socket.io client. Connect and then register.
 
-<aside class="notice">
-Make sure to register on Leverj and download your Gluon API Key. You will need it to register and to make calls to all protected endpoints.
+<aside class="warning">
+Make sure to register at the <a href="https://kovan.leverj.io">Leverj Kovan Testnet</a> and at <a href="https://live.leverj.io">Leverj Live</a>. Download your Gluon API Key, which is accessible from your Gluon wallet. You will need the Gluon API Key to make calls to all protected endpoints.
 </aside>
 
+Please look at the [websocket client example]("https://github.com/leverj/leverj-pyclient/blob/develop/websocket_client_example.py") and the utility functions in [leverj.websocket.util.py] ("https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py").
 
 ```python
-TODO
+def register(originator_credentials):
+    request_body = {"accountId": originator_credentials.get(
+        'accountId'), "apiKey": originator_credentials.get('apiKey')}
+    request = {
+        "method": "GET",
+        "uri": "/register",
+        "headers": {},
+        "body": json.dumps(request_body),
+        "params": {}
+    }
+    return request
 
+request = register(originator_credentials)
+
+# protected_endpoint_request util method adds required signature headers and formats the request
+protected_request_payload = protected_endpoint_request(request, originator_credentials)
+    
 ```
 
 ### Response
 
-TODO
+You will not receive an explicit response on successful registration. If the registration fails you will not receive data from protected endpoints.
 
-```
-TODO
-```
 
 <a name="futures-websocket-unregister"></a>
 ## Unregister
@@ -687,16 +702,28 @@ Once you successfully unregister, you will stop listening to data from events fo
 
 
 ```python
-TODO
+def unregister(originator_credentials):
+    request_body = {"accountId": originator_credentials.get(
+        'accountId'), "apiKey": originator_credentials.get('apiKey')}
+    request = {
+        "method": "GET",
+        "uri": "/unregister",
+        "headers": {},
+        "body": json.dumps(request_body),
+        "params": {}
+    }
+    return request
+
+request = unregister(originator_credentials)
+
+# protected_endpoint_request util method adds required signature headers and formats the request
+protected_request_payload = protected_endpoint_request(request, originator_credentials)
+
 ```
 
 ### Response
 
-TODO
-
-```
-TODO
-```
+You will not receive an explicit response on unregistration.
 
 
 <aside class="notice">

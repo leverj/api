@@ -215,26 +215,43 @@ Here are a few language binding to consider:
 * Python: [python-socketio](https://python-socketio.readthedocs.io/en/latest/)
 * Javascript [socket.io](https://socket.io/)
 
+When using websocket remember that the conversation occurs by means of emitting events and messages and listening to topics for data. When a client needs to communicate to the server it will emit an event with some data pertaining to the event. To receive data from the server the client listens on topics it is interested in and attaches callback functions to these listeners. When new data is published on such a topic, the client receives it and the client callback function is invoked. Client programs on receiving data could then proceed to use that data.
+
 ## Connect & Register
 
 As a first step, make sure to connect. You will need to connect to receive all and any data from websocket, including data from open endpoints. For protected endpoints, register in addition to connecting. You could think of registration as a login or authorization step.
 
 Disconnect and unregister are actions that help cleanup and close the websocket connection.
 
+### Format & Helper Methods for Protected Endpoints
+
+We will discuss details about each of the open and protected endpoints in the next few sections. In this section we touch upon an important pre-requisite for fetching protected data, i.e. the data that needs authentication.
+
+Start by registering and downloading an APIKey. You will need an APIKey for each environment. You will have separate keys for testnet and the live environments. It's not the same. The APIKey is a JSON formatted text file that contains information on the following:
+
+* accountId -- the Ethereum mainnet address
+* apiKey -- identifier used to authorize and sign requests
+* secret -- private or secret key for the apiKey
+
+Collectively, this triplet are the credentials. Sometimes, it's also referred to in this documentation and in the example code as originator credentials. These credentials are available only to the user or caller of the API. Leverj has no access to the apiKey secret and cannot help in recovering it if you lose it. However, you are able to generate a new APIKey if you lose one.
+
+When emitting a message to a server to fetch data from a protected endpoint you need to send `event`  and `data`. `event` is a concatenation of the corrsponding `method` and `uri`. As an example to create an order you use the event `POST /order`. The `data` part of the message that is emitted needs adherering to certain requirements in terms of format and signatures. There is a helper method that provides a utility method to generate `event` and `data` by passing in the request payload and the credentials.
+
+Look at the `protected_endpoint_request` function in <a href="https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py">leverj.websocket.util.py</a> for an example implementation. You are welcome to use this method as is in your code or rewrite it in a a way that suits you.
+
+
 ### Connect & Disconnect
-| Method | Action                                     | Description      |
-| ------ | -------------------------------------------| ---------------- |
-| GET    | [connect](#futures-websocket-connect)      | Connect to websocket |
-| GET    | [disconnect](#futures-websocket-disconnect)| Disconnect           |
+| Method | Action                                      | Description          |
+| ------ | ------------------------------------------- | -------------------- |
+| GET    | [connect](#futures-websocket-connect)       | Connect to websocket |
+| GET    | [disconnect](#futures-websocket-disconnect) | Disconnect           |
 
 
 ### Register & Un-Register
-| Method | Action                                     | Description      |
-| ------ | -------------------------------------------| ---------------- |
-| GET    | [register](#futures-websocket-regsiter)    | Register/authorize|
-| GET    | [unregister](#futures-websocket-unregister)| Un-register/logout|
-
-
+| Method | Action                                      | Description        |
+| ------ | ------------------------------------------- | ------------------ |
+| GET    | [register](#futures-websocket-regsiter)     | Register/authorize |
+| GET    | [unregister](#futures-websocket-unregister) | Un-register/logout |
 
 ## Open Websocket Topics
 Unprotected endpoints do not require `Authorization`.
@@ -243,7 +260,7 @@ Unprotected endpoints do not require `Authorization`.
 | Method | Topic                                     | Description      |
 | ------ | ----------------------------------------- | ---------------- |
 | GET    | [orderbook](#futures-websocket-orderbook) | Fetch order book |
-| GET    | [index](#futures-websocket-index) | Fetch indices |
+| GET    | [index](#futures-websocket-index)         | Fetch indices    |
 
 ## Protected Websocket Endpoints
 All user specific endpoints require `Authorization` and `Nonce` information. These are included in the payload as headers.
