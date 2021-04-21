@@ -591,6 +591,113 @@ on_index data: {'date': 1618952195, 'price': 56847.6, 'topic': 'index_BTCUSD', '
 on_index data: {'date': 1618952196, 'price': 451.1, 'topic': 'index_DEFI', 'stale': False}
 ```
 
+<a name="futures-websocket-connect"></a>
+## Connect via websocket
+### Connect to Leverj socket.io endpoint
+
+Connect using one of the socket.io language bindings. 
+An example in Python is included.
+
+As a first step instantiate a socket.io client. Register an event listener for the "connect" event. This would allow you to be alerted on a successful connection to the websocket endpoint.
+
+Use the Leverj host and path to connect to the websocket endpoint.
+
+For kovan testnet the host value is `https://kovan.leverj.io` and path is `/futures/socket.io`. For livenet the path is the same but the host changes to `https://live.leverj.io`.
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("connect", on_connect)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_connect(data):
+    print('connected!)
+
+```
+
+### Response
+
+If connected successfully,
+
+```
+connected!
+```
+
+<a name="futures-websocket-disconnect"></a>
+## Disconnect from a websocket
+### Disconnect from a connected Leverj socket.io endpoint
+
+Disconnect using one of the socket.io language bindings. 
+An example in Python is included.
+
+As a first step instantiate a socket.io client. Register an event listener for the "disconnect" event. This would allow you to be alerted when you successfully disconnect from an existing websocket connection.
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("disconnect", on_disconnect)
+sio.disconnect()
+
+def on_disconnect(data):
+    print('disconnected!)
+
+```
+
+### Response
+
+If the socket connection is disconnected successfully,
+
+```
+disconnected!
+```
+
+<a name="futures-websocket-register"></a>
+## Register
+### Register on a connected Leverj socket.io endpoint
+
+Registration allows you to authenticate and listen to your own personal events from a protected endpoints.
+
+As a first step instantiate a socket.io client. Connect and then register.
+
+<aside class="notice">
+Make sure to register on Leverj and download your Gluon API Key. You will need it to register and to make calls to all protected endpoints.
+</aside>
+
+
+```python
+TODO
+
+```
+
+### Response
+
+TODO
+
+```
+TODO
+```
+
+<a name="futures-websocket-unregister"></a>
+## Unregister
+### Stop listening for events from Leverj socket.io protected endpoint
+
+Unregister is analogous to logout.
+
+Once you successfully unregister, you will stop listening to data from events for protected endpoints that need authorization.
+
+
+```python
+TODO
+```
+
+### Response
+
+TODO
+
+```
+TODO
+```
+
 
 <aside class="notice">
 TODO

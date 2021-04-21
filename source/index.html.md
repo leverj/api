@@ -215,7 +215,28 @@ Here are a few language binding to consider:
 * Python: [python-socketio](https://python-socketio.readthedocs.io/en/latest/)
 * Javascript [socket.io](https://socket.io/)
 
-## Unprotected Websocket Topics
+## Connect & Register
+
+As a first step, make sure to connect. You will need to connect to receive all and any data from websocket, including data from open endpoints. For protected endpoints, register in addition to connecting. You could think of registration as a login or authorization step.
+
+Disconnect and unregister are actions that help cleanup and close the websocket connection.
+
+### Connect & Disconnect
+| Method | Action                                     | Description      |
+| ------ | -------------------------------------------| ---------------- |
+| GET    | [connect](#futures-websocket-connect)      | Connect to websocket |
+| GET    | [disconnect](#futures-websocket-disconnect)| Disconnect           |
+
+
+### Register & Un-Register
+| Method | Action                                     | Description      |
+| ------ | -------------------------------------------| ---------------- |
+| GET    | [register](#futures-websocket-regsiter)    | Register/authorize|
+| GET    | [unregister](#futures-websocket-unregister)| Un-register/logout|
+
+
+
+## Open Websocket Topics
 Unprotected endpoints do not require `Authorization`.
 
 ### Market Data
@@ -223,6 +244,16 @@ Unprotected endpoints do not require `Authorization`.
 | ------ | ----------------------------------------- | ---------------- |
 | GET    | [orderbook](#futures-websocket-orderbook) | Fetch order book |
 | GET    | [index](#futures-websocket-index) | Fetch indices |
+
+## Protected Websocket Endpoints
+All user specific endpoints require `Authorization` and `Nonce` information. These are included in the payload as headers.
+
+| Method | Endpoint                            | Description             |
+| ------ | ----------------------------------- | ----------------------- |
+| GET    | [/order](#open-order-all)           | Get all open orders     |
+| POST   | [/order](#open-create-order)        | Create orders           |
+| PUT    | [/order](#open-update-order)        | Update Orders           |
+| DELETE | [/order/:uuids](#open-cancel-order) | Delete specified orders |
 
 
 # Spot REST API
