@@ -616,10 +616,28 @@ Nonce: &lt;unix_time&gt;
 <li>Python: <a href="https://python-socketio.readthedocs.io/en/latest/">python-socketio</a></li>
 <li>Javascript <a href="https://socket.io/">socket.io</a></li>
 </ul>
+
+<p>When using websocket remember that the conversation occurs by means of emitting events and messages and listening to topics for data. When a client needs to communicate to the server it will emit an event with some data pertaining to the event. To receive data from the server the client listens on topics it is interested in and attaches callback functions to these listeners. When new data is published on such a topic, the client receives it and the client callback function is invoked. Client programs on receiving data could then proceed to use that data.</p>
 <h2 id='connect-amp-register'>Connect &amp; Register</h2>
 <p>As a first step, make sure to connect. You will need to connect to receive all and any data from websocket, including data from open endpoints. For protected endpoints, register in addition to connecting. You could think of registration as a login or authorization step.</p>
 
 <p>Disconnect and unregister are actions that help cleanup and close the websocket connection.</p>
+<h3 id='format-amp-helper-methods-for-protected-endpoints'>Format &amp; Helper Methods for Protected Endpoints</h3>
+<p>We will discuss details about each of the open and protected endpoints in the next few sections. In this section we touch upon an important pre-requisite for fetching protected data, i.e. the data that needs authentication.</p>
+
+<p>Start by registering and downloading an APIKey. You will need an APIKey for each environment. You will have separate keys for testnet and the live environments. It&#39;s not the same. The APIKey is a JSON formatted text file that contains information on the following:</p>
+
+<ul>
+<li>accountId -- the Ethereum mainnet address</li>
+<li>apiKey -- identifier used to authorize and sign requests</li>
+<li>secret -- private or secret key for the apiKey</li>
+</ul>
+
+<p>Collectively, this triplet are the credentials. Sometimes, it&#39;s also referred to in this documentation and in the example code as originator credentials. These credentials are available only to the user or caller of the API. Leverj has no access to the apiKey secret and cannot help in recovering it if you lose it. However, you are able to generate a new APIKey if you lose one.</p>
+
+<p>When emitting a message to a server to fetch data from a protected endpoint you need to send <code>event</code>  and <code>data</code>. <code>event</code> is a concatenation of the corrsponding <code>method</code> and <code>uri</code>. As an example to create an order you use the event <code>POST /order</code>. The <code>data</code> part of the message that is emitted needs adherering to certain requirements in terms of format and signatures. There is a helper method that provides a utility method to generate <code>event</code> and <code>data</code> by passing in the request payload and the credentials.</p>
+
+<p>Look at the <code>protected_endpoint_request</code> function in <a href="https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py">leverj.websocket.util.py</a> for an example implementation. You are welcome to use this method as is in your code or rewrite it in a a way that suits you.</p>
 <h3 id='connect-amp-disconnect'>Connect &amp; Disconnect</h3>
 <table><thead>
 <tr>
@@ -1374,15 +1392,16 @@ An example in Python is included.</p>
     <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
 
 </span></code></pre></div><h3 id='response-10'>Response</h3>
-<p>If connected successfully,</p>
-<div class="highlight"><pre class="highlight plaintext"><code>connected!
+<p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+connected!
 </code></pre></div>
 <p><a name="futures-websocket-disconnect"></a></p>
 <h2 id='disconnect-from-a-websocket'>Disconnect from a websocket</h2><h3 id='disconnect-from-a-connected-leverj-socket-io-endpoint'>Disconnect from a connected Leverj socket.io endpoint</h3>
 <p>Disconnect using one of the socket.io language bindings. 
 An example in Python is included.</p>
 
-<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;disconnect&quot; event. This would allow you to be alerted when you successfully disconnect from an existing websocket connection.</p>
+<p>Register an event listener for the &quot;disconnect&quot; event. This would allow you to be alerted when you successfully disconnect from an existing websocket connection.</p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"disconnect"</span><span class="p">,</span> <span class="n">on_disconnect</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
@@ -1391,34 +1410,66 @@ An example in Python is included.</p>
     <span class="k">print</span><span class="p">(</span><span class="s">'disconnected!)
 
 </span></code></pre></div><h3 id='response-11'>Response</h3>
-<p>If the socket connection is disconnected successfully,</p>
-<div class="highlight"><pre class="highlight plaintext"><code>disconnected!
+<p>If the socket connection is disconnected successfully, you should see the message &quot;disconnected!&quot;.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+disconnected!
 </code></pre></div>
 <p><a name="futures-websocket-register"></a></p>
 <h2 id='register'>Register</h2><h3 id='register-on-a-connected-leverj-socket-io-endpoint'>Register on a connected Leverj socket.io endpoint</h3>
-<p>Registration allows you to authenticate and listen to your own personal events from a protected endpoints.</p>
+<p>Registration allows you to authenticate and listen to your own personal events from protected endpoints.</p>
 
 <p>As a first step instantiate a socket.io client. Connect and then register.</p>
 
-<aside class="notice">
-Make sure to register on Leverj and download your Gluon API Key. You will need it to register and to make calls to all protected endpoints.
+<aside class="warning">
+Make sure to register at the <a href="https://kovan.leverj.io">Leverj Kovan Testnet</a> and at <a href="https://live.leverj.io">Leverj Live</a>. Download your Gluon API Key, which is accessible from your Gluon wallet. You will need the Gluon API Key to make calls to all protected endpoints.
 </aside>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">TODO</span>
+
+<p>Please look at the <a href="&quot;https://github.com/leverj/leverj-pyclient/blob/develop/websocket_client_example.py&quot;">websocket client example</a> and the utility functions in <a href="&quot;https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py&quot;">leverj.websocket.util.py</a>.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">register</span><span class="p">(</span><span class="n">originator_credentials</span><span class="p">):</span>
+    <span class="n">request_body</span> <span class="o">=</span> <span class="p">{</span><span class="s">"accountId"</span><span class="p">:</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s">'accountId'</span><span class="p">),</span> <span class="s">"apiKey"</span><span class="p">:</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'apiKey'</span><span class="p">)}</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="s">"GET"</span><span class="p">,</span>
+        <span class="s">"uri"</span><span class="p">:</span> <span class="s">"/register"</span><span class="p">,</span>
+        <span class="s">"headers"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s">"body"</span><span class="p">:</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request_body</span><span class="p">),</span>
+        <span class="s">"params"</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">request</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">register</span><span class="p">(</span><span class="n">originator_credentials</span><span class="p">)</span>
+
+<span class="c1"># protected_endpoint_request util method adds required signature headers and formats the request
+</span><span class="n">protected_request_payload</span> <span class="o">=</span> <span class="n">protected_endpoint_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">)</span>
 
 </code></pre></div><h3 id='response-12'>Response</h3>
-<p>TODO</p>
-<div class="highlight"><pre class="highlight plaintext"><code>TODO
-</code></pre></div>
+<p>You will not receive an explicit response on successful registration. If the registration fails you will not receive data from protected endpoints.</p>
+
 <p><a name="futures-websocket-unregister"></a></p>
 <h2 id='unregister'>Unregister</h2><h3 id='stop-listening-for-events-from-leverj-socket-io-protected-endpoint'>Stop listening for events from Leverj socket.io protected endpoint</h3>
 <p>Unregister is analogous to logout.</p>
 
 <p>Once you successfully unregister, you will stop listening to data from events for protected endpoints that need authorization.</p>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">TODO</span>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">unregister</span><span class="p">(</span><span class="n">originator_credentials</span><span class="p">):</span>
+    <span class="n">request_body</span> <span class="o">=</span> <span class="p">{</span><span class="s">"accountId"</span><span class="p">:</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s">'accountId'</span><span class="p">),</span> <span class="s">"apiKey"</span><span class="p">:</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'apiKey'</span><span class="p">)}</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="s">"GET"</span><span class="p">,</span>
+        <span class="s">"uri"</span><span class="p">:</span> <span class="s">"/unregister"</span><span class="p">,</span>
+        <span class="s">"headers"</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="s">"body"</span><span class="p">:</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request_body</span><span class="p">),</span>
+        <span class="s">"params"</span><span class="p">:</span> <span class="p">{}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">request</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">unregister</span><span class="p">(</span><span class="n">originator_credentials</span><span class="p">)</span>
+
+<span class="c1"># protected_endpoint_request util method adds required signature headers and formats the request
+</span><span class="n">protected_request_payload</span> <span class="o">=</span> <span class="n">protected_endpoint_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">)</span>
+
 </code></pre></div><h3 id='response-13'>Response</h3>
-<p>TODO</p>
-<div class="highlight"><pre class="highlight plaintext"><code>TODO
-</code></pre></div>
+<p>You will not receive an explicit response on unregistration.</p>
+
 <aside class="notice">
 TODO
 </aside>
