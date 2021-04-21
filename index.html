@@ -343,7 +343,13 @@
             <a href="#futures-websocket-api" class="toc-h1 toc-link" data-title="Futures WebSocket API">Futures WebSocket API</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#unprotected-websocket-topics" class="toc-h2 toc-link" data-title="Unprotected Websocket Topics">Unprotected Websocket Topics</a>
+                    <a href="#connect-amp-register" class="toc-h2 toc-link" data-title="Connect &amp; Register">Connect &amp; Register</a>
+                  </li>
+                  <li>
+                    <a href="#open-websocket-topics" class="toc-h2 toc-link" data-title="Open Websocket Topics">Open Websocket Topics</a>
+                  </li>
+                  <li>
+                    <a href="#protected-websocket-endpoints" class="toc-h2 toc-link" data-title="Protected Websocket Endpoints">Protected Websocket Endpoints</a>
                   </li>
               </ul>
           </li>
@@ -384,6 +390,18 @@
                   </li>
                   <li>
                     <a href="#fetch-indices" class="toc-h2 toc-link" data-title="Fetch indices">Fetch indices</a>
+                  </li>
+                  <li>
+                    <a href="#connect-via-websocket" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
+                  </li>
+                  <li>
+                    <a href="#disconnect-from-a-websocket" class="toc-h2 toc-link" data-title="Disconnect from a websocket">Disconnect from a websocket</a>
+                  </li>
+                  <li>
+                    <a href="#register" class="toc-h2 toc-link" data-title="Register">Register</a>
+                  </li>
+                  <li>
+                    <a href="#unregister" class="toc-h2 toc-link" data-title="Unregister">Unregister</a>
                   </li>
               </ul>
           </li>
@@ -598,7 +616,49 @@ Nonce: &lt;unix_time&gt;
 <li>Python: <a href="https://python-socketio.readthedocs.io/en/latest/">python-socketio</a></li>
 <li>Javascript <a href="https://socket.io/">socket.io</a></li>
 </ul>
-<h2 id='unprotected-websocket-topics'>Unprotected Websocket Topics</h2>
+<h2 id='connect-amp-register'>Connect &amp; Register</h2>
+<p>As a first step, make sure to connect. You will need to connect to receive all and any data from websocket, including data from open endpoints. For protected endpoints, register in addition to connecting. You could think of registration as a login or authorization step.</p>
+
+<p>Disconnect and unregister are actions that help cleanup and close the websocket connection.</p>
+<h3 id='connect-amp-disconnect'>Connect &amp; Disconnect</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Action</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-connect">connect</a></td>
+<td>Connect to websocket</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-disconnect">disconnect</a></td>
+<td>Disconnect</td>
+</tr>
+</tbody></table>
+<h3 id='register-amp-un-register'>Register &amp; Un-Register</h3>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Action</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-regsiter">register</a></td>
+<td>Register/authorize</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-unregister">unregister</a></td>
+<td>Un-register/logout</td>
+</tr>
+</tbody></table>
+<h2 id='open-websocket-topics'>Open Websocket Topics</h2>
 <p>Unprotected endpoints do not require <code>Authorization</code>.</p>
 <h3 id='market-data-2'>Market Data</h3>
 <table><thead>
@@ -617,6 +677,37 @@ Nonce: &lt;unix_time&gt;
 <td>GET</td>
 <td><a href="#futures-websocket-index">index</a></td>
 <td>Fetch indices</td>
+</tr>
+</tbody></table>
+<h2 id='protected-websocket-endpoints'>Protected Websocket Endpoints</h2>
+<p>All user specific endpoints require <code>Authorization</code> and <code>Nonce</code> information. These are included in the payload as headers.</p>
+
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>GET</td>
+<td><a href="#open-order-all">/order</a></td>
+<td>Get all open orders</td>
+</tr>
+<tr>
+<td>POST</td>
+<td><a href="#open-create-order">/order</a></td>
+<td>Create orders</td>
+</tr>
+<tr>
+<td>PUT</td>
+<td><a href="#open-update-order">/order</a></td>
+<td>Update Orders</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td><a href="#open-cancel-order">/order/:uuids</a></td>
+<td>Delete specified orders</td>
 </tr>
 </tbody></table>
 <h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
@@ -1264,6 +1355,69 @@ on_index data: {'date': 1618952194, 'price': 56852.6, 'topic': 'index_BTCUSD', '
 on_index data: {'date': 1618952195, 'price': 2309.2, 'topic': 'index_ETHUSD', 'stale': False}
 on_index data: {'date': 1618952195, 'price': 56847.6, 'topic': 'index_BTCUSD', 'stale': False}
 on_index data: {'date': 1618952196, 'price': 451.1, 'topic': 'index_DEFI', 'stale': False}
+</code></pre></div>
+<p><a name="futures-websocket-connect"></a></p>
+<h2 id='connect-via-websocket'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint'>Connect to Leverj socket.io endpoint</h3>
+<p>Connect using one of the socket.io language bindings. 
+An example in Python is included.</p>
+
+<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;connect&quot; event. This would allow you to be alerted on a successful connection to the websocket endpoint.</p>
+
+<p>Use the Leverj host and path to connect to the websocket endpoint.</p>
+
+<p>For kovan testnet the host value is <code>https://kovan.leverj.io</code> and path is <code>/futures/socket.io</code>. For livenet the path is the same but the host changes to <code>https://live.leverj.io</code>.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"connect"</span><span class="p">,</span> <span class="n">on_connect</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
+
+</span></code></pre></div><h3 id='response-10'>Response</h3>
+<p>If connected successfully,</p>
+<div class="highlight"><pre class="highlight plaintext"><code>connected!
+</code></pre></div>
+<p><a name="futures-websocket-disconnect"></a></p>
+<h2 id='disconnect-from-a-websocket'>Disconnect from a websocket</h2><h3 id='disconnect-from-a-connected-leverj-socket-io-endpoint'>Disconnect from a connected Leverj socket.io endpoint</h3>
+<p>Disconnect using one of the socket.io language bindings. 
+An example in Python is included.</p>
+
+<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;disconnect&quot; event. This would allow you to be alerted when you successfully disconnect from an existing websocket connection.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"disconnect"</span><span class="p">,</span> <span class="n">on_disconnect</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">disconnect</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">on_disconnect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'disconnected!)
+
+</span></code></pre></div><h3 id='response-11'>Response</h3>
+<p>If the socket connection is disconnected successfully,</p>
+<div class="highlight"><pre class="highlight plaintext"><code>disconnected!
+</code></pre></div>
+<p><a name="futures-websocket-register"></a></p>
+<h2 id='register'>Register</h2><h3 id='register-on-a-connected-leverj-socket-io-endpoint'>Register on a connected Leverj socket.io endpoint</h3>
+<p>Registration allows you to authenticate and listen to your own personal events from a protected endpoints.</p>
+
+<p>As a first step instantiate a socket.io client. Connect and then register.</p>
+
+<aside class="notice">
+Make sure to register on Leverj and download your Gluon API Key. You will need it to register and to make calls to all protected endpoints.
+</aside>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">TODO</span>
+
+</code></pre></div><h3 id='response-12'>Response</h3>
+<p>TODO</p>
+<div class="highlight"><pre class="highlight plaintext"><code>TODO
+</code></pre></div>
+<p><a name="futures-websocket-unregister"></a></p>
+<h2 id='unregister'>Unregister</h2><h3 id='stop-listening-for-events-from-leverj-socket-io-protected-endpoint'>Stop listening for events from Leverj socket.io protected endpoint</h3>
+<p>Unregister is analogous to logout.</p>
+
+<p>Once you successfully unregister, you will stop listening to data from events for protected endpoints that need authorization.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">TODO</span>
+</code></pre></div><h3 id='response-13'>Response</h3>
+<p>TODO</p>
+<div class="highlight"><pre class="highlight plaintext"><code>TODO
 </code></pre></div>
 <aside class="notice">
 TODO
