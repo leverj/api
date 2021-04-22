@@ -415,6 +415,9 @@
                   <li>
                     <a href="#connect-via-websocket-3" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
                   </li>
+                  <li>
+                    <a href="#account-balance" class="toc-h2 toc-link" data-title="Account Balance">Account Balance</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -711,7 +714,7 @@ Nonce: &lt;unix_time&gt;
 </tbody></table>
 <h2 id='protected-websocket-endpoints'>Protected Websocket Endpoints</h2>
 <p>All user specific endpoints require <code>Authorization</code> and <code>Nonce</code> information. These are included in the payload as headers.</p>
-
+<h4 id='order'>Order</h4>
 <table><thead>
 <tr>
 <th>Method</th>
@@ -738,6 +741,20 @@ Nonce: &lt;unix_time&gt;
 <td>GET</td>
 <td><a href="#futures-websocket-order-execution">order_execution</a></td>
 <td>Order fills</td>
+</tr>
+</tbody></table>
+<h4 id='account'>Account</h4>
+<table><thead>
+<tr>
+<th>Method</th>
+<th>Endpoint</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td></td>
+<td><a href="#futures-websocket-account-balance">account_balance</a></td>
+<td>Receive data on account balance</td>
 </tr>
 </tbody></table>
 <h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
@@ -1734,6 +1751,21 @@ An example in Python is included.</p>
 <p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 connected!
+</code></pre></div>
+<p><a name="futures-websocket-account-balance"></a></p>
+<h2 id='account-balance'>Account Balance</h2><h3 id='listen-to-account_balance'>Listen to account_balance</h3>
+<p>Make sure you are listening to <code>account_balance</code> after coneecting and registering successfully. </p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"account_balance"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_account_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">f'on_account_balance: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+
+</code></pre></div><h3 id='response-18'>Response</h3>
+<p>If listening to <code>account_balance</code> you should see the entire set of balances when you receive data on this topic.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+on_account_balance: {'0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'symbol': 'DAI', 'plasma': '17558903955615588889151', 'available': '17558903955615588889151', 'pending': '0'}, '0x6a4480B1c08A822Fed4b907AD09798ED79312a44': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44', 'symbol': 'USDT', 'plasma': '16507310354', 'available': '16507310354', 'pending': '0'}, '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6', 'symbol': 'L2', 'plasma': '5500000000000000000000', 'available': '5500000000000000000000', 'pending': '0'}}
 </code></pre></div><h1 id='examples-spot'>Examples (Spot)</h1>
 <p>Examples are structured as follows:</p>
 
