@@ -875,36 +875,68 @@ connected!
 ```
 
 <a name="futures-websocket-cancel-order"></a>
-## Connect via websocket
-### Connect to Leverj socket.io endpoint
+## Cancel Order
+### Create an order cancel request and send it via websocket
 
-Connect using one of the socket.io language bindings. 
-An example in Python is included.
+You will need the `uuid` for the orders you want to cancel. Once you have the `uuids` of the orders, create a request body with the following payload:
 
-As a first step instantiate a socket.io client. Register an event listener for the "connect" event. This would allow you to be alerted on a successful connection to the websocket endpoint.
+request_body = [{"op": "remove", "value": uuids}]
 
-Use the Leverj host and path to connect to the websocket endpoint.
+`uuids` are in a list. In the example python code there is only 1 element in this list.
 
-For kovan testnet the host value is `https://kovan.leverj.io` and path is `/futures/socket.io`. For livenet the path is the same but the host changes to `https://live.leverj.io`.
+Then generate a request dictionary or map as follows:
 
+request = {
+        "method": "PATCH",
+        "uri": "/order",
+        "headers": {"requestid": str(uuid.uuid4())},
+        "body": json.dumps(request_body),
+        "params": {"instrument": <instrument_symbol>}
+    }
+
+Format this request using the protected_endpoint_request function in [leverj.websocket.util.py](https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py#L14) and then emit the event and data to send an order cancellation request to the server.
 
 ```python
-sio = socketio.Client(logger=False, engineio_logger=False)
-sio.on("connect", on_connect)
-sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+def cancel_order(uuids, originator_credentials):
+    client = Client('./resources/config/kovan.leverj.io/c21b18-64bdd3.json')
+    client.set_api_url('https://kovan.leverj.io/futures/api/v1')
+    all_config = client.get_all_config()
+    instruments = all_config.get('instruments')
+    BTCDAI_instrument = instruments.get('1')
+    request_body = [{"op": "remove", "value": uuids}]
+    request = {
+        "method": "PATCH",
+        "uri": "/order",
+        "headers": {"requestid": str(uuid.uuid4())},
+        "body": json.dumps(request_body),
+        "params": {"instrument": BTCDAI_instrument.get('symbol')}
+    }
+    return request
 
-def on_connect(data):
-    print('connected!)
+
+
+uuids = ['9c8e9a00-a304-11eb-be7d-fc18fda03052']
+
+ 
+request = cancel_order(uuids, originator_credentials)
+
+# protected_endpoint_request util method adds required signature headers and formats the request
+protected_request_payload = protected_endpoint_request(request, originator_credentials)
+    print(protected_request_payload)
+
+# emit from client to the connected websocket
+websocket_client.sio.emit(protected_request_payload.get('event'), protected_request_payload.get('data'))
+
 
 ```
 
 ### Response
 
-If connected successfully, you should see the message "connected!".
+Once the order is cancelled, you will receive a confirmation if you are listening to `order_del`
 
 ```
 **** response ****
-connected!
+on_order_del: {'result': '9c8e9a00-a304-11eb-be7d-fc18fda03052'}
 ```
 
 <a name="futures-websocket-order-execution"></a>

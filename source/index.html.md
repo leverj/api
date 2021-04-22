@@ -269,7 +269,7 @@ All user specific endpoints require `Authorization` and `Nonce` information. The
 | ------ | --------------------------------------| ----------------------- |
 | POST   | [/order](#futures-websocket-create-order)          | Create orders           |
 | PUT    | [/order](#futures-websocket-update-order)          | Update Orders           |
-| DELETE | [/order/:uuids](#futures-websocket-cancel-order)   | Delete specified orders |
+| DELETE | [/order](#futures-websocket-cancel-order)   | Delete specified orders |
 | GET    | [order_execution](#futures-websocket-order-execution) | Order fills             |
 
 
