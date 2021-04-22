@@ -257,28 +257,40 @@ Look at the `protected_endpoint_request` function in <a href="https://github.com
 Unprotected endpoints do not require `Authorization`.
 
 ### Market Data
-| Method | Topic                                     | Description      |
-| ------ | ----------------------------------------- | ---------------- |
-| GET    | [orderbook](#futures-websocket-orderbook) | Fetch order book |
-| GET    | [index](#futures-websocket-index)         | Fetch indices    |
+| Method | Topic                                       | Description      |
+| ------ | ------------------------------------------- | ---------------- |
+| GET    | [orderbook](#futures-websocket-orderbook)   | Fetch order book |
+| GET    | [index](#futures-websocket-index)           | Fetch indices    |
+|        | [volume_24h](#futures-websocket-volume-24h) | Fetch indices    |
 
 ## Protected Websocket Endpoints
 All user specific endpoints require `Authorization` and `Nonce` information. These are included in the payload as headers.
 
-#### Order
+### Order
 
-| Method | Endpoint                              | Description             |
+| Method | Endpoint/Topic                        | Description             |
 | ------ | --------------------------------------| ----------------------- |
-| POST   | [/order](#futures-websocket-create-order)          | Create orders           |
-| PUT    | [/order](#futures-websocket-update-order)          | Update Orders           |
+| POST   | [/order](#futures-websocket-create-order)   | Create orders           |
+| PUT    | [/order](#futures-websocket-update-order)   | Update Orders           |
 | DELETE | [/order](#futures-websocket-cancel-order)   | Delete specified orders |
 | GET    | [order_execution](#futures-websocket-order-execution) | Order fills             |
 
-#### Account
+### Position
 
-| Method | Endpoint                                             | Description             |
+| Method | Endpoint/Topic                               | Description         |
+| ------ | ---------------------------------------------| ------------------- |
+|        | [position](#futures-websocket-position)      | Position updates    |
+|        | [liquidation](#futures-websocket-liquidation)| Liquidation updates |
+|        | [adl](#futures-websocket-adl)                | ADL updates         |
+
+
+
+### Account
+
+| Method | Endpoint/Topic                                       | Description             |
 | ------ | -----------------------------------------------------| ----------------------- |
 |        | [account_balance](#futures-websocket-account-balance)| Receive data on account balance           |
+|        | [funds_transfer](#futures-websocket-funds-transfer)| Receive data on funds transfer          |
 
 
 

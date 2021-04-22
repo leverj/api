@@ -939,40 +939,139 @@ Once the order is cancelled, you will receive a confirmation if you are listenin
 on_order_del: {'result': '9c8e9a00-a304-11eb-be7d-fc18fda03052'}
 ```
 
-<a name="futures-websocket-order-execution"></a>
-## Connect via websocket
-### Connect to Leverj socket.io endpoint
+<a name="futures-websocket-position"></a>
+## Position
+### Listen to position creation and any updates to an existing position
 
-Connect using one of the socket.io language bindings. 
-An example in Python is included.
-
-As a first step instantiate a socket.io client. Register an event listener for the "connect" event. This would allow you to be alerted on a successful connection to the websocket endpoint.
-
-Use the Leverj host and path to connect to the websocket endpoint.
-
-For kovan testnet the host value is `https://kovan.leverj.io` and path is `/futures/socket.io`. For livenet the path is the same but the host changes to `https://live.leverj.io`.
+Make sure you are listening to `position` after coneecting and registering successfully. 
 
 
 ```python
 sio = socketio.Client(logger=False, engineio_logger=False)
-sio.on("connect", on_connect)
+sio.on("position", on_account_balance)
 sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
 
-def on_connect(data):
-    print('connected!)
+def on_position(self, data):
+    print(f'on_position: {data}')
 
 ```
 
 ### Response
 
-If connected successfully, you should see the message "connected!".
+If listening to `position` you should see information about your current positions when you receive data on this topic.
 
 ```
 **** response ****
-connected!
+on_position: {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'instrument': '1', 'notional': '538630000000000000000', 'margin': '269315000000000000000', 'size': '0.01', 'liquidationPrice': '27201', 'ranking': 269315000000, 'bankruptcyPrice': '26932', 'eventTime': 1619114054305, 'reservedFees': '215452000000000000'}
+```
+
+<a name="futures-websocket-liquidation"></a>
+## Liquidation
+### Listen to liquidation events
+
+Make sure you are listening to `liquidation` after coneecting and registering successfully. 
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("liquidation", on_account_balance)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_liquidation(self, data):
+    print(f'on_liquidation: {data}')
+
+```
+
+### Response
+
+If listening to `liquidation` you should see information when positions are liquidated.
+
+```
+**** response ****
+TODO
+```
+
+<a name="futures-websocket-adl"></a>
+## Auto Deleveraging (ADL)
+### Listen to ADL events
+
+Make sure you are listening to `adl` after coneecting and registering successfully. 
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("adl", on_account_balance)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_adl(self, data):
+    print(f'on_adl: {data}')
+
+```
+
+### Response
+
+If listening to `adl` you should see information when positions are auto-deleveraged.
+
+```
+**** response ****
+TODO
+```
+
+<a name="futures-websocket-order-execution"></a>
+## Order Execution
+### Listen for fills as orders are partially or fully matched
+
+Make sure you are listening to `order_execution` after coneecting and registering successfully.
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("order_execution", on_account_balance)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_order_execution(self, data):
+    print(f'on_order_execution: {data}')
+
+```
+
+### Response
+
+If listening to `order_execution` you should see a message or data point every time an existing order is partially or fully matched. You could track each and every fill by listening on this topic.
+
+Sample response shows data for a partial match. Order was for same price but for 0.04 as the quantity. 0.01 of that order was matched in this case. Use `orderId` to match against open orders and track fills.
+
+```
+**** response ****
+on_order_execution: {'instrument': '1', 'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'executionId': 'c0120ae0-a393-11eb-be58-92c3aa195f67', 'side': 'buy', 'orderType': 'LMT', 'orderId': '97ac02b0-a391-11eb-9afb-ab76d3b77c82', 'price': 53863, 'quantity': 0.01, 'commission': 0.107726, 'pnl': 0, 'eventTime': 1619114054286342}
 ```
 
 <a name="futures-websocket-account-balance"></a>
+## Account Balance
+### Listen to account_balance
+
+Make sure you are listening to `account_balance` after coneecting and registering successfully. 
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("account_balance", on_account_balance)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_account_balance(self, data):
+    print(f'on_account_balance: {data}')
+
+```
+
+### Response
+
+If listening to `account_balance` you should see the entire set of balances when you receive data on this topic.
+
+```
+**** response ****
+on_account_balance: {'0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'symbol': 'DAI', 'plasma': '17558903955615588889151', 'available': '17558903955615588889151', 'pending': '0'}, '0x6a4480B1c08A822Fed4b907AD09798ED79312a44': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44', 'symbol': 'USDT', 'plasma': '16507310354', 'available': '16507310354', 'pending': '0'}, '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6', 'symbol': 'L2', 'plasma': '5500000000000000000000', 'available': '5500000000000000000000', 'pending': '0'}}
+```
+
+<a name="futures-websocket-funds-transfer"></a>
 ## Account Balance
 ### Listen to account_balance
 
