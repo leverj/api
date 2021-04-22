@@ -243,8 +243,8 @@ Look at the `protected_endpoint_request` function in <a href="https://github.com
 ### Connect & Disconnect
 | Method | Action                                      | Description          |
 | ------ | ------------------------------------------- | -------------------- |
-| GET    | [connect](#futures-websocket-connect)       | Connect to websocket |
-| GET    | [disconnect](#futures-websocket-disconnect) | Disconnect           |
+|        | [connect](#futures-websocket-connect)       | Connect to websocket |
+|        | [disconnect](#futures-websocket-disconnect) | Disconnect           |
 
 
 ### Register & Un-Register
@@ -265,12 +265,12 @@ Unprotected endpoints do not require `Authorization`.
 ## Protected Websocket Endpoints
 All user specific endpoints require `Authorization` and `Nonce` information. These are included in the payload as headers.
 
-| Method | Endpoint                            | Description             |
-| ------ | ----------------------------------- | ----------------------- |
-| GET    | [/order](#open-order-all)           | Get all open orders     |
-| POST   | [/order](#open-create-order)        | Create orders           |
-| PUT    | [/order](#open-update-order)        | Update Orders           |
-| DELETE | [/order/:uuids](#open-cancel-order) | Delete specified orders |
+| Method | Endpoint                              | Description             |
+| ------ | --------------------------------------| ----------------------- |
+| POST   | [/order](#futures-websocket-create-order)          | Create orders           |
+| PUT    | [/order](#futures-websocket-update-order)          | Update Orders           |
+| DELETE | [/order/:uuids](#futures-websocket-cancel-order)   | Delete specified orders |
+| GET    | [order_execution](#futures-websocket-order-execution) | Order fills             |
 
 
 # Spot REST API

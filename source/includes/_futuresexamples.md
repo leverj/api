@@ -726,6 +726,216 @@ protected_request_payload = protected_endpoint_request(request, originator_crede
 You will not receive an explicit response on unregistration.
 
 
-<aside class="notice">
-TODO
-</aside>
+<a name="futures-websocket-create-order"></a>
+## Create Order
+### Create an order and send it via websocket
+
+Before you create an order, take a moment to look at the product specification at https://leverj.io/. Leverj Futures offers perpetual swap contracts. These are linear contracts, where margin and settelment is in stablecoins. Both DAI and USDT margined and settled contracts are available for BTCUSD and ETHUSD. The DEFIUSD contract is offered only with USDT as the margin and settlement currency.
+
+Leverj supports a number of advanced order types. Please read [Leverj Futures Order Types](https://blog.leverj.io/leverj-futures-order-types-204d903eb76f) for details.
+
+The following attributes are supported for an order:
+
+| Attribute/Property | Description                                                                                                                                                                                           |
+| ------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| accountId          | Account address of the trader. Credentials or APIKey has this information                                                                                                                             |
+| originator         | APIKey. Credentials or APIKey has this information                                                                                                                                                    |
+| instrument         | The instrument id                                                                                                                                                                                     |
+| price              | Price at which you want to buy or sell. Adjust price precision basis supported `quoteSignificantDigits` for the instrument                                                                            |
+| quantity           | Amount you want to buy or sell. Adjust quantity precision basis supported `baseSignificantDigits` for the instrument                                                                                  |
+| marginPerFraction  | Perpetual swaps are leveraged contracts so you could put down substantially less margin than the notional value you buy or sell. This is the margin in lowest denomination of base significant digits |
+| side               | Order side. Choices are "buy" or "sell"                                                                                                                                                               |
+| orderType          | Multiple order types are supported. LMT, MKT, SMKT, SLMT are supported                                                                                                                                |
+| timestamp          | Timestamp when order is created. Make sure to have this in milliseconds                                                                                                                               |
+| quote              | Address of the quote currency                                                                                                                                                                         |
+| isPostOnly         | Boolean value to flag is it's a post only order                                                                                                                                                       |
+| reduceOnly         | Boolean value to flag is it's a reduce only order                                                                                                                                                     |
+| clientOrderId      | User generated order id that could be used to query the status of an order                                                                                                                            |
+| triggerPrice       | Trigger price when an order is activated. For example, a stop-limit orders gets activated only when the stop order trigger price is reached                                                           |
+| indexSanity        | A sanity check to define what variance from the index should be allowed                                                                                                                               |
+
+Once you create an order. You need to sign it. A signed order becomes the body of a request that needs to be transformed for a protected websocket request.
+
+Once you have a protected request ready, you emit it from the websocket client to the Leverj endpoint for creating orders. Multiple orders can be created in a single call.
+
+Example code for Python is included.
+
+Start by looking at the [order creation and signing functions](https://github.com/leverj/leverj-pyclient/blob/develop/leverj/client.py#L166). Then look at the method for created [a protected request](https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py#L14) order creation payload. A working example is available in [websocket_client_example.py](https://github.com/leverj/leverj-pyclient/blob/develop/websocket_client_example.py).
+
+
+```python
+def get_margin_per_fraction(self, orderInstrument, price, leverage):
+    estimated_entry_price = price
+    max_leverage = orderInstrument['maxLeverage']
+    if leverage > max_leverage:
+        self.logger.info(
+            f'You have specified a leverage of {leverage} but the max leverage allowed on this instrument is {max_leverage}.')
+    base_significant_digits = orderInstrument['baseSignificantDigits']
+    decimals = orderInstrument['quote']['decimals']
+    multiplier = Decimal(
+        pow(Decimal(10), Decimal(decimals - base_significant_digits)))
+    intermediate_value = Decimal((Decimal(
+        estimated_entry_price) * multiplier) / Decimal(leverage)).to_integral_exact()
+    return int(Decimal(intermediate_value) * Decimal(pow(Decimal(10), Decimal(base_significant_digits))))
+
+def create_futures_order(self, side, price, triggerPrice, quantity, orderInstrument, orderType, leverage, orderAccountId, originatorApiKey, secret, reduceOnly=False):
+    price_precision = orderInstrument.get('quoteSignificantDigits')
+    quantity_precision = orderInstrument.get('baseSignificantDigits')
+    # default leverage is set to 1.0 which means you aren't using any leverage. If you want 5K DAI position to control 10K DAI worth of BTC, use leverage of 2
+    order = {
+        'accountId': orderAccountId,
+        'originator': originatorApiKey,
+        'instrument': orderInstrument['id'],
+        'price': round_with_precision(price, price_precision),
+        'quantity': round_with_precision(quantity, quantity_precision),
+        'marginPerFraction': str(self.get_margin_per_fraction(orderInstrument, price, leverage)),
+        'side': side,
+        'orderType': orderType,
+        'timestamp': int(time.time()*1000000),
+        'quote': orderInstrument['quote']['address'],
+        'isPostOnly': False,
+        'reduceOnly': reduceOnly,
+        'clientOrderId': 1,
+        'triggerPrice': round_with_precision(triggerPrice, price_precision),
+        'indexSanity': MAX_INDEX_VARIANCE
+    }
+    order['signature'] = futures.sign_order(
+        order, orderInstrument, secret)
+    return order
+
+def create_order(originator_credentials):
+    client = Client('./resources/config/kovan.leverj.io/c21b18-64bdd3.json')
+    client.set_api_url('https://kovan.leverj.io/futures/api/v1')
+    all_config = client.get_all_config()
+    logging.debug(f'all info: {all_config}')
+    instruments = all_config.get('instruments')
+    BTCDAI_instrument = instruments.get('1')
+    print(f'BTCDAI_instrument: {BTCDAI_instrument}')
+    futures_order = client.create_futures_order('buy', 55394, 55394, 0.02, BTCDAI_instrument, 'LMT', 2.0, originator_credentials.get(
+        'accountId'), originator_credentials.get('apiKey'), originator_credentials.get('secret'))
+    print(f'futures_order: {futures_order}')
+    body = json.dumps([futures_order], separators=(',', ':'))
+    request = {
+        "method": "POST",
+        "uri": "/order",
+        "headers": {"requestid": str(uuid.uuid4())},
+        "body": body,
+        "params": {"instrument": BTCDAI_instrument.get('id')}
+    }
+    return request
+
+request = create_order(originator_credentials)
+
+# protected_endpoint_request util method adds required signature headers and formats the request
+protected_request_payload = protected_endpoint_request(request, originator_credentials)
+
+
+```
+
+### Response
+
+On successful order creation you should receive the newly created order as data on the `order_add` topic.
+
+```
+**** response ****
+on_order_add: {'result': [{'uuid': '9c8e9a00-a304-11eb-be7d-fc18fda03052', 'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'side': 'buy', 'quantity': 0.02, 'filled': 0, 'averagePrice': 0, 'cancelled': 0, 'price': 53863, 'triggerPrice': 53863, 'marginPerFraction': '26931500000000000000000', 'entryTime': 1619052576672616, 'eventTime': 1619052576672616, 'status': 'open', 'orderType': 'LMT', 'instrument': '1', 'timestamp': 1619052575006805, 'signature': '0x015f2a9a3841cefc6d49e41d82f0f31fee1d6bea8bc77a14aebed36c834040ca70ebd4f94c4f50ca3bd2c93efda5bd36194924be978701d76742f84635bea4221c', 'clientOrderId': 1, 'originator': '0x64bdd35077Ce078aC7B87Cfb381d7F50059BDb16', 'isPostOnly': False, 'quote': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'triggered': False, 'reduceOnly': False}]}
+```
+
+<a name="futures-websocket-update-order"></a>
+## Connect via websocket
+### Connect to Leverj socket.io endpoint
+
+Connect using one of the socket.io language bindings. 
+An example in Python is included.
+
+As a first step instantiate a socket.io client. Register an event listener for the "connect" event. This would allow you to be alerted on a successful connection to the websocket endpoint.
+
+Use the Leverj host and path to connect to the websocket endpoint.
+
+For kovan testnet the host value is `https://kovan.leverj.io` and path is `/futures/socket.io`. For livenet the path is the same but the host changes to `https://live.leverj.io`.
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("connect", on_connect)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_connect(data):
+    print('connected!)
+
+```
+
+### Response
+
+If connected successfully, you should see the message "connected!".
+
+```
+**** response ****
+connected!
+```
+
+<a name="futures-websocket-cancel-order"></a>
+## Connect via websocket
+### Connect to Leverj socket.io endpoint
+
+Connect using one of the socket.io language bindings. 
+An example in Python is included.
+
+As a first step instantiate a socket.io client. Register an event listener for the "connect" event. This would allow you to be alerted on a successful connection to the websocket endpoint.
+
+Use the Leverj host and path to connect to the websocket endpoint.
+
+For kovan testnet the host value is `https://kovan.leverj.io` and path is `/futures/socket.io`. For livenet the path is the same but the host changes to `https://live.leverj.io`.
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("connect", on_connect)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_connect(data):
+    print('connected!)
+
+```
+
+### Response
+
+If connected successfully, you should see the message "connected!".
+
+```
+**** response ****
+connected!
+```
+
+<a name="futures-websocket-order-execution"></a>
+## Connect via websocket
+### Connect to Leverj socket.io endpoint
+
+Connect using one of the socket.io language bindings. 
+An example in Python is included.
+
+As a first step instantiate a socket.io client. Register an event listener for the "connect" event. This would allow you to be alerted on a successful connection to the websocket endpoint.
+
+Use the Leverj host and path to connect to the websocket endpoint.
+
+For kovan testnet the host value is `https://kovan.leverj.io` and path is `/futures/socket.io`. For livenet the path is the same but the host changes to `https://live.leverj.io`.
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("connect", on_connect)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_connect(data):
+    print('connected!)
+
+```
+
+### Response
+
+If connected successfully, you should see the message "connected!".
+
+```
+**** response ****
+connected!
+```
