@@ -407,9 +407,6 @@
                     <a href="#create-order" class="toc-h2 toc-link" data-title="Create Order">Create Order</a>
                   </li>
                   <li>
-                    <a href="#connect-via-websocket-2" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
-                  </li>
-                  <li>
                     <a href="#cancel-order" class="toc-h2 toc-link" data-title="Cancel Order">Cancel Order</a>
                   </li>
                   <li>
@@ -426,9 +423,6 @@
                   </li>
                   <li>
                     <a href="#account-balance" class="toc-h2 toc-link" data-title="Account Balance">Account Balance</a>
-                  </li>
-                  <li>
-                    <a href="#account-balance-2" class="toc-h2 toc-link" data-title="Account Balance">Account Balance</a>
                   </li>
               </ul>
           </li>
@@ -745,19 +739,40 @@ Nonce: &lt;unix_time&gt;
 <td>Create orders</td>
 </tr>
 <tr>
-<td>PUT</td>
-<td><a href="#futures-websocket-update-order">/order</a></td>
-<td>Update Orders</td>
-</tr>
-<tr>
 <td>DELETE</td>
 <td><a href="#futures-websocket-cancel-order">/order</a></td>
 <td>Delete specified orders</td>
 </tr>
 <tr>
-<td>GET</td>
+<td></td>
 <td><a href="#futures-websocket-order-execution">order_execution</a></td>
 <td>Order fills</td>
+</tr>
+</tbody></table>
+
+<p>Listen to these topics to be notified as you add, update, and delete orders. Also, listen to <code>order_error</code>.</p>
+
+<table><thead>
+<tr>
+<th>Topic</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>order_add</td>
+<td>Create order</td>
+</tr>
+<tr>
+<td>order_update</td>
+<td>Update order</td>
+</tr>
+<tr>
+<td>order_del</td>
+<td>Cancel order</td>
+</tr>
+<tr>
+<td>order_error</td>
+<td>Order error</td>
 </tr>
 </tbody></table>
 <h3 id='position'>Position</h3>
@@ -796,11 +811,6 @@ Nonce: &lt;unix_time&gt;
 <td></td>
 <td><a href="#futures-websocket-account-balance">account_balance</a></td>
 <td>Receive data on account balance</td>
-</tr>
-<tr>
-<td></td>
-<td><a href="#futures-websocket-funds-transfer">funds_transfer</a></td>
-<td>Receive data on funds transfer</td>
 </tr>
 </tbody></table>
 <h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
@@ -1699,28 +1709,6 @@ Make sure to register at the <a href="https://kovan.leverj.io">Leverj Kovan Test
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 on_order_add: {'result': [{'uuid': '9c8e9a00-a304-11eb-be7d-fc18fda03052', 'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'side': 'buy', 'quantity': 0.02, 'filled': 0, 'averagePrice': 0, 'cancelled': 0, 'price': 53863, 'triggerPrice': 53863, 'marginPerFraction': '26931500000000000000000', 'entryTime': 1619052576672616, 'eventTime': 1619052576672616, 'status': 'open', 'orderType': 'LMT', 'instrument': '1', 'timestamp': 1619052575006805, 'signature': '0x015f2a9a3841cefc6d49e41d82f0f31fee1d6bea8bc77a14aebed36c834040ca70ebd4f94c4f50ca3bd2c93efda5bd36194924be978701d76742f84635bea4221c', 'clientOrderId': 1, 'originator': '0x64bdd35077Ce078aC7B87Cfb381d7F50059BDb16', 'isPostOnly': False, 'quote': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'triggered': False, 'reduceOnly': False}]}
 </code></pre></div>
-<p><a name="futures-websocket-update-order"></a></p>
-<h2 id='connect-via-websocket-2'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-2'>Connect to Leverj socket.io endpoint</h3>
-<p>Connect using one of the socket.io language bindings. 
-An example in Python is included.</p>
-
-<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;connect&quot; event. This would allow you to be alerted on a successful connection to the websocket endpoint.</p>
-
-<p>Use the Leverj host and path to connect to the websocket endpoint.</p>
-
-<p>For kovan testnet the host value is <code>https://kovan.leverj.io</code> and path is <code>/futures/socket.io</code>. For livenet the path is the same but the host changes to <code>https://live.leverj.io</code>.</p>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"connect"</span><span class="p">,</span> <span class="n">on_connect</span><span class="p">)</span>
-<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
-
-</span></code></pre></div><h3 id='response-15'>Response</h3>
-<p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
-connected!
-</code></pre></div>
 <p><a name="futures-websocket-cancel-order"></a></p>
 <h2 id='cancel-order'>Cancel Order</h2><h3 id='create-an-order-cancel-request-and-send-it-via-websocket'>Create an order cancel request and send it via websocket</h3>
 <p>You will need the <code>uuid</code> for the orders you want to cancel. Once you have the <code>uuids</code> of the orders, create a request body with the following payload:</p>
@@ -1771,14 +1759,14 @@ connected!
 </span><span class="n">websocket_client</span><span class="p">.</span><span class="n">sio</span><span class="p">.</span><span class="n">emit</span><span class="p">(</span><span class="n">protected_request_payload</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'event'</span><span class="p">),</span> <span class="n">protected_request_payload</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'data'</span><span class="p">))</span>
 
 
-</code></pre></div><h3 id='response-16'>Response</h3>
+</code></pre></div><h3 id='response-15'>Response</h3>
 <p>Once the order is cancelled, you will receive a confirmation if you are listening to <code>order_del</code></p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 on_order_del: {'result': '9c8e9a00-a304-11eb-be7d-fc18fda03052'}
 </code></pre></div>
 <p><a name="futures-websocket-position"></a></p>
 <h2 id='position'>Position</h2><h3 id='listen-to-position-creation-and-any-updates-to-an-existing-position'>Listen to position creation and any updates to an existing position</h3>
-<p>Make sure you are listening to <code>position</code> after coneecting and registering successfully. </p>
+<p>Make sure you are listening to <code>position</code> after connecting and registering successfully. You will be notified when a new position is created or any of your position parameters is modified. For example, you will get a message when your margin or ranking changes. </p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"position"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
@@ -1786,14 +1774,14 @@ on_order_del: {'result': '9c8e9a00-a304-11eb-be7d-fc18fda03052'}
 <span class="k">def</span> <span class="nf">on_position</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="s">f'on_position: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-17'>Response</h3>
+</code></pre></div><h3 id='response-16'>Response</h3>
 <p>If listening to <code>position</code> you should see information about your current positions when you receive data on this topic.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 on_position: {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'instrument': '1', 'notional': '538630000000000000000', 'margin': '269315000000000000000', 'size': '0.01', 'liquidationPrice': '27201', 'ranking': 269315000000, 'bankruptcyPrice': '26932', 'eventTime': 1619114054305, 'reservedFees': '215452000000000000'}
 </code></pre></div>
 <p><a name="futures-websocket-liquidation"></a></p>
 <h2 id='liquidation'>Liquidation</h2><h3 id='listen-to-liquidation-events'>Listen to liquidation events</h3>
-<p>Make sure you are listening to <code>liquidation</code> after coneecting and registering successfully. </p>
+<p>Make sure you are listening to <code>liquidation</code> after connecting and registering successfully. You will be notified when any of your positions is liquidated. </p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"liquidation"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
@@ -1801,14 +1789,14 @@ on_position: {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'instru
 <span class="k">def</span> <span class="nf">on_liquidation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="s">f'on_liquidation: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-18'>Response</h3>
+</code></pre></div><h3 id='response-17'>Response</h3>
 <p>If listening to <code>liquidation</code> you should see information when positions are liquidated.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 TODO
 </code></pre></div>
 <p><a name="futures-websocket-adl"></a></p>
 <h2 id='auto-deleveraging-adl'>Auto Deleveraging (ADL)</h2><h3 id='listen-to-adl-events'>Listen to ADL events</h3>
-<p>Make sure you are listening to <code>adl</code> after coneecting and registering successfully. </p>
+<p>Make sure you are listening to <code>adl</code> after connecting and registering successfully. You will be notified when any of your positions is auto-deleveraged. </p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"adl"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
@@ -1816,14 +1804,14 @@ TODO
 <span class="k">def</span> <span class="nf">on_adl</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="s">f'on_adl: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-19'>Response</h3>
+</code></pre></div><h3 id='response-18'>Response</h3>
 <p>If listening to <code>adl</code> you should see information when positions are auto-deleveraged.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 TODO
 </code></pre></div>
 <p><a name="futures-websocket-order-execution"></a></p>
 <h2 id='order-execution'>Order Execution</h2><h3 id='listen-for-fills-as-orders-are-partially-or-fully-matched'>Listen for fills as orders are partially or fully matched</h3>
-<p>Make sure you are listening to <code>order_execution</code> after coneecting and registering successfully.</p>
+<p>Make sure you are listening to <code>order_execution</code> after connecting and registering successfully.</p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"order_execution"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
@@ -1831,7 +1819,7 @@ TODO
 <span class="k">def</span> <span class="nf">on_order_execution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="s">f'on_order_execution: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-20'>Response</h3>
+</code></pre></div><h3 id='response-19'>Response</h3>
 <p>If listening to <code>order_execution</code> you should see a message or data point every time an existing order is partially or fully matched. You could track each and every fill by listening on this topic.</p>
 
 <p>Sample response shows data for a partial match. Order was for same price but for 0.04 as the quantity. 0.01 of that order was matched in this case. Use <code>orderId</code> to match against open orders and track fills.</p>
@@ -1840,7 +1828,7 @@ on_order_execution: {'instrument': '1', 'accountId': '0xc21b183A8050D1988117B864
 </code></pre></div>
 <p><a name="futures-websocket-account-balance"></a></p>
 <h2 id='account-balance'>Account Balance</h2><h3 id='listen-to-account_balance'>Listen to account_balance</h3>
-<p>Make sure you are listening to <code>account_balance</code> after coneecting and registering successfully. </p>
+<p>Make sure you are listening to <code>account_balance</code> after connecting and registering successfully. You will receive an update on this topic whenever any of the balances changes. This happenes whenever funds are transferred in or out or deposits and withdrawals are made between the Gluon wallet and the mainnet account. It also happens when you lock funds to open orders. </p>
 <div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"account_balance"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
 <span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
@@ -1848,22 +1836,7 @@ on_order_execution: {'instrument': '1', 'accountId': '0xc21b183A8050D1988117B864
 <span class="k">def</span> <span class="nf">on_account_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="k">print</span><span class="p">(</span><span class="s">f'on_account_balance: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
 
-</code></pre></div><h3 id='response-21'>Response</h3>
-<p>If listening to <code>account_balance</code> you should see the entire set of balances when you receive data on this topic.</p>
-<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
-on_account_balance: {'0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'symbol': 'DAI', 'plasma': '17558903955615588889151', 'available': '17558903955615588889151', 'pending': '0'}, '0x6a4480B1c08A822Fed4b907AD09798ED79312a44': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44', 'symbol': 'USDT', 'plasma': '16507310354', 'available': '16507310354', 'pending': '0'}, '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6', 'symbol': 'L2', 'plasma': '5500000000000000000000', 'available': '5500000000000000000000', 'pending': '0'}}
-</code></pre></div>
-<p><a name="futures-websocket-funds-transfer"></a></p>
-<h2 id='account-balance-2'>Account Balance</h2><h3 id='listen-to-account_balance-2'>Listen to account_balance</h3>
-<p>Make sure you are listening to <code>account_balance</code> after coneecting and registering successfully. </p>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"account_balance"</span><span class="p">,</span> <span class="n">on_account_balance</span><span class="p">)</span>
-<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
-
-<span class="k">def</span> <span class="nf">on_account_balance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">f'on_account_balance: </span><span class="si">{</span><span class="n">data</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
-
-</code></pre></div><h3 id='response-22'>Response</h3>
+</code></pre></div><h3 id='response-20'>Response</h3>
 <p>If listening to <code>account_balance</code> you should see the entire set of balances when you receive data on this topic.</p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
 on_account_balance: {'0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'symbol': 'DAI', 'plasma': '17558903955615588889151', 'available': '17558903955615588889151', 'pending': '0'}, '0x6a4480B1c08A822Fed4b907AD09798ED79312a44': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44', 'symbol': 'USDT', 'plasma': '16507310354', 'available': '16507310354', 'pending': '0'}, '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6', 'symbol': 'L2', 'plasma': '5500000000000000000000', 'available': '5500000000000000000000', 'pending': '0'}}
