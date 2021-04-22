@@ -261,7 +261,7 @@ Unprotected endpoints do not require `Authorization`.
 | ------ | ------------------------------------------- | ---------------- |
 | GET    | [orderbook](#futures-websocket-orderbook)   | Fetch order book |
 | GET    | [index](#futures-websocket-index)           | Fetch indices    |
-|        | [volume_24h](#futures-websocket-volume-24h) | Fetch indices    |
+
 
 ## Protected Websocket Endpoints
 All user specific endpoints require `Authorization` and `Nonce` information. These are included in the payload as headers.
