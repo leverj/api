@@ -403,6 +403,18 @@
                   <li>
                     <a href="#unregister" class="toc-h2 toc-link" data-title="Unregister">Unregister</a>
                   </li>
+                  <li>
+                    <a href="#create-order" class="toc-h2 toc-link" data-title="Create Order">Create Order</a>
+                  </li>
+                  <li>
+                    <a href="#connect-via-websocket-2" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
+                  </li>
+                  <li>
+                    <a href="#connect-via-websocket-3" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
+                  </li>
+                  <li>
+                    <a href="#connect-via-websocket-4" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
+                  </li>
               </ul>
           </li>
           <li>
@@ -647,12 +659,12 @@ Nonce: &lt;unix_time&gt;
 </tr>
 </thead><tbody>
 <tr>
-<td>GET</td>
+<td></td>
 <td><a href="#futures-websocket-connect">connect</a></td>
 <td>Connect to websocket</td>
 </tr>
 <tr>
-<td>GET</td>
+<td></td>
 <td><a href="#futures-websocket-disconnect">disconnect</a></td>
 <td>Disconnect</td>
 </tr>
@@ -708,24 +720,24 @@ Nonce: &lt;unix_time&gt;
 </tr>
 </thead><tbody>
 <tr>
-<td>GET</td>
-<td><a href="#open-order-all">/order</a></td>
-<td>Get all open orders</td>
-</tr>
-<tr>
 <td>POST</td>
-<td><a href="#open-create-order">/order</a></td>
+<td><a href="#futures-websocket-create-order">/order</a></td>
 <td>Create orders</td>
 </tr>
 <tr>
 <td>PUT</td>
-<td><a href="#open-update-order">/order</a></td>
+<td><a href="#futures-websocket-update-order">/order</a></td>
 <td>Update Orders</td>
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="#open-cancel-order">/order/:uuids</a></td>
+<td><a href="#futures-websocket-cancel-order">/order/:uuids</a></td>
 <td>Delete specified orders</td>
+</tr>
+<tr>
+<td>GET</td>
+<td><a href="#futures-websocket-order-execution">order_execution</a></td>
+<td>Order fills</td>
 </tr>
 </tbody></table>
 <h1 id='spot-rest-api'>Spot REST API</h1><h2 id='unprotected-rest-api-endpoints-2'>Unprotected REST API Endpoints</h2>
@@ -1470,10 +1482,226 @@ Make sure to register at the <a href="https://kovan.leverj.io">Leverj Kovan Test
 </code></pre></div><h3 id='response-13'>Response</h3>
 <p>You will not receive an explicit response on unregistration.</p>
 
-<aside class="notice">
-TODO
-</aside>
-<h1 id='examples-spot'>Examples (Spot)</h1>
+<p><a name="futures-websocket-create-order"></a></p>
+<h2 id='create-order'>Create Order</h2><h3 id='create-an-order-and-send-it-via-websocket'>Create an order and send it via websocket</h3>
+<p>Before you create an order, take a moment to look at the product specification at https://leverj.io/. Leverj Futures offers perpetual swap contracts. These are linear contracts, where margin and settelment is in stablecoins. Both DAI and USDT margined and settled contracts are available for BTCUSD and ETHUSD. The DEFIUSD contract is offered only with USDT as the margin and settlement currency.</p>
+
+<p>Leverj supports a number of advanced order types. Please read <a href="https://blog.leverj.io/leverj-futures-order-types-204d903eb76f">Leverj Futures Order Types</a> for details.</p>
+
+<p>The following attributes are supported for an order:</p>
+
+<table><thead>
+<tr>
+<th>Attribute/Property</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>accountId</td>
+<td>Account address of the trader. Credentials or APIKey has this information</td>
+</tr>
+<tr>
+<td>originator</td>
+<td>APIKey. Credentials or APIKey has this information</td>
+</tr>
+<tr>
+<td>instrument</td>
+<td>The instrument id</td>
+</tr>
+<tr>
+<td>price</td>
+<td>Price at which you want to buy or sell. Adjust price precision basis supported <code>quoteSignificantDigits</code> for the instrument</td>
+</tr>
+<tr>
+<td>quantity</td>
+<td>Amount you want to buy or sell. Adjust quantity precision basis supported <code>baseSignificantDigits</code> for the instrument</td>
+</tr>
+<tr>
+<td>marginPerFraction</td>
+<td>Perpetual swaps are leveraged contracts so you could put down substantially less margin than the notional value you buy or sell. This is the margin in lowest denomination of base significant digits</td>
+</tr>
+<tr>
+<td>side</td>
+<td>Order side. Choices are &quot;buy&quot; or &quot;sell&quot;</td>
+</tr>
+<tr>
+<td>orderType</td>
+<td>Multiple order types are supported. LMT, MKT, SMKT, SLMT are supported</td>
+</tr>
+<tr>
+<td>timestamp</td>
+<td>Timestamp when order is created. Make sure to have this in milliseconds</td>
+</tr>
+<tr>
+<td>quote</td>
+<td>Address of the quote currency</td>
+</tr>
+<tr>
+<td>isPostOnly</td>
+<td>Boolean value to flag is it&#39;s a post only order</td>
+</tr>
+<tr>
+<td>reduceOnly</td>
+<td>Boolean value to flag is it&#39;s a reduce only order</td>
+</tr>
+<tr>
+<td>clientOrderId</td>
+<td>User generated order id that could be used to query the status of an order</td>
+</tr>
+<tr>
+<td>triggerPrice</td>
+<td>Trigger price when an order is activated. For example, a stop-limit orders gets activated only when the stop order trigger price is reached</td>
+</tr>
+<tr>
+<td>indexSanity</td>
+<td>A sanity check to define what variance from the index should be allowed</td>
+</tr>
+</tbody></table>
+
+<p>Once you create an order. You need to sign it. A signed order becomes the body of a request that needs to be transformed for a protected websocket request.</p>
+
+<p>Once you have a protected request ready, you emit it from the websocket client to the Leverj endpoint for creating orders. Multiple orders can be created in a single call.</p>
+
+<p>Example code for Python is included.</p>
+
+<p>Start by looking at the <a href="https://github.com/leverj/leverj-pyclient/blob/develop/leverj/client.py#L166">order creation and signing functions</a>. Then look at the method for created <a href="https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py#L14">a protected request</a> order creation payload. A working example is available in <a href="https://github.com/leverj/leverj-pyclient/blob/develop/websocket_client_example.py">websocket_client_example.py</a>.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">get_margin_per_fraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">orderInstrument</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">leverage</span><span class="p">):</span>
+    <span class="n">estimated_entry_price</span> <span class="o">=</span> <span class="n">price</span>
+    <span class="n">max_leverage</span> <span class="o">=</span> <span class="n">orderInstrument</span><span class="p">[</span><span class="s">'maxLeverage'</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">leverage</span> <span class="o">&gt;</span> <span class="n">max_leverage</span><span class="p">:</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">logger</span><span class="p">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s">f'You have specified a leverage of </span><span class="si">{</span><span class="n">leverage</span><span class="si">}</span><span class="s"> but the max leverage allowed on this instrument is </span><span class="si">{</span><span class="n">max_leverage</span><span class="si">}</span><span class="s">.'</span><span class="p">)</span>
+    <span class="n">base_significant_digits</span> <span class="o">=</span> <span class="n">orderInstrument</span><span class="p">[</span><span class="s">'baseSignificantDigits'</span><span class="p">]</span>
+    <span class="n">decimals</span> <span class="o">=</span> <span class="n">orderInstrument</span><span class="p">[</span><span class="s">'quote'</span><span class="p">][</span><span class="s">'decimals'</span><span class="p">]</span>
+    <span class="n">multiplier</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span>
+        <span class="nb">pow</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">decimals</span> <span class="o">-</span> <span class="n">base_significant_digits</span><span class="p">)))</span>
+    <span class="n">intermediate_value</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">((</span><span class="n">Decimal</span><span class="p">(</span>
+        <span class="n">estimated_entry_price</span><span class="p">)</span> <span class="o">*</span> <span class="n">multiplier</span><span class="p">)</span> <span class="o">/</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">leverage</span><span class="p">)).</span><span class="n">to_integral_exact</span><span class="p">()</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="n">intermediate_value</span><span class="p">)</span> <span class="o">*</span> <span class="n">Decimal</span><span class="p">(</span><span class="nb">pow</span><span class="p">(</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">Decimal</span><span class="p">(</span><span class="n">base_significant_digits</span><span class="p">))))</span>
+
+<span class="k">def</span> <span class="nf">create_futures_order</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">side</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">triggerPrice</span><span class="p">,</span> <span class="n">quantity</span><span class="p">,</span> <span class="n">orderInstrument</span><span class="p">,</span> <span class="n">orderType</span><span class="p">,</span> <span class="n">leverage</span><span class="p">,</span> <span class="n">orderAccountId</span><span class="p">,</span> <span class="n">originatorApiKey</span><span class="p">,</span> <span class="n">secret</span><span class="p">,</span> <span class="n">reduceOnly</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">price_precision</span> <span class="o">=</span> <span class="n">orderInstrument</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'quoteSignificantDigits'</span><span class="p">)</span>
+    <span class="n">quantity_precision</span> <span class="o">=</span> <span class="n">orderInstrument</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'baseSignificantDigits'</span><span class="p">)</span>
+    <span class="c1"># default leverage is set to 1.0 which means you aren't using any leverage. If you want 5K DAI position to control 10K DAI worth of BTC, use leverage of 2
+</span>    <span class="n">order</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">'accountId'</span><span class="p">:</span> <span class="n">orderAccountId</span><span class="p">,</span>
+        <span class="s">'originator'</span><span class="p">:</span> <span class="n">originatorApiKey</span><span class="p">,</span>
+        <span class="s">'instrument'</span><span class="p">:</span> <span class="n">orderInstrument</span><span class="p">[</span><span class="s">'id'</span><span class="p">],</span>
+        <span class="s">'price'</span><span class="p">:</span> <span class="n">round_with_precision</span><span class="p">(</span><span class="n">price</span><span class="p">,</span> <span class="n">price_precision</span><span class="p">),</span>
+        <span class="s">'quantity'</span><span class="p">:</span> <span class="n">round_with_precision</span><span class="p">(</span><span class="n">quantity</span><span class="p">,</span> <span class="n">quantity_precision</span><span class="p">),</span>
+        <span class="s">'marginPerFraction'</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">get_margin_per_fraction</span><span class="p">(</span><span class="n">orderInstrument</span><span class="p">,</span> <span class="n">price</span><span class="p">,</span> <span class="n">leverage</span><span class="p">)),</span>
+        <span class="s">'side'</span><span class="p">:</span> <span class="n">side</span><span class="p">,</span>
+        <span class="s">'orderType'</span><span class="p">:</span> <span class="n">orderType</span><span class="p">,</span>
+        <span class="s">'timestamp'</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span><span class="o">*</span><span class="mi">1000000</span><span class="p">),</span>
+        <span class="s">'quote'</span><span class="p">:</span> <span class="n">orderInstrument</span><span class="p">[</span><span class="s">'quote'</span><span class="p">][</span><span class="s">'address'</span><span class="p">],</span>
+        <span class="s">'isPostOnly'</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+        <span class="s">'reduceOnly'</span><span class="p">:</span> <span class="n">reduceOnly</span><span class="p">,</span>
+        <span class="s">'clientOrderId'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s">'triggerPrice'</span><span class="p">:</span> <span class="n">round_with_precision</span><span class="p">(</span><span class="n">triggerPrice</span><span class="p">,</span> <span class="n">price_precision</span><span class="p">),</span>
+        <span class="s">'indexSanity'</span><span class="p">:</span> <span class="n">MAX_INDEX_VARIANCE</span>
+    <span class="p">}</span>
+    <span class="n">order</span><span class="p">[</span><span class="s">'signature'</span><span class="p">]</span> <span class="o">=</span> <span class="n">futures</span><span class="p">.</span><span class="n">sign_order</span><span class="p">(</span>
+        <span class="n">order</span><span class="p">,</span> <span class="n">orderInstrument</span><span class="p">,</span> <span class="n">secret</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">order</span>
+
+<span class="k">def</span> <span class="nf">create_order</span><span class="p">(</span><span class="n">originator_credentials</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">'./resources/config/kovan.leverj.io/c21b18-64bdd3.json'</span><span class="p">)</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">set_api_url</span><span class="p">(</span><span class="s">'https://kovan.leverj.io/futures/api/v1'</span><span class="p">)</span>
+    <span class="n">all_config</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_all_config</span><span class="p">()</span>
+    <span class="n">logging</span><span class="p">.</span><span class="n">debug</span><span class="p">(</span><span class="s">f'all info: </span><span class="si">{</span><span class="n">all_config</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+    <span class="n">instruments</span> <span class="o">=</span> <span class="n">all_config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'instruments'</span><span class="p">)</span>
+    <span class="n">BTCDAI_instrument</span> <span class="o">=</span> <span class="n">instruments</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'1'</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">f'BTCDAI_instrument: </span><span class="si">{</span><span class="n">BTCDAI_instrument</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+    <span class="n">futures_order</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">create_futures_order</span><span class="p">(</span><span class="s">'buy'</span><span class="p">,</span> <span class="mi">55394</span><span class="p">,</span> <span class="mi">55394</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">,</span> <span class="n">BTCDAI_instrument</span><span class="p">,</span> <span class="s">'LMT'</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s">'accountId'</span><span class="p">),</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'apiKey'</span><span class="p">),</span> <span class="n">originator_credentials</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'secret'</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">f'futures_order: </span><span class="si">{</span><span class="n">futures_order</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+    <span class="n">body</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">([</span><span class="n">futures_order</span><span class="p">],</span> <span class="n">separators</span><span class="o">=</span><span class="p">(</span><span class="s">','</span><span class="p">,</span> <span class="s">':'</span><span class="p">))</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="s">"POST"</span><span class="p">,</span>
+        <span class="s">"uri"</span><span class="p">:</span> <span class="s">"/order"</span><span class="p">,</span>
+        <span class="s">"headers"</span><span class="p">:</span> <span class="p">{</span><span class="s">"requestid"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">())},</span>
+        <span class="s">"body"</span><span class="p">:</span> <span class="n">body</span><span class="p">,</span>
+        <span class="s">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s">"instrument"</span><span class="p">:</span> <span class="n">BTCDAI_instrument</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'id'</span><span class="p">)}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">request</span>
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">create_order</span><span class="p">(</span><span class="n">originator_credentials</span><span class="p">)</span>
+
+<span class="c1"># protected_endpoint_request util method adds required signature headers and formats the request
+</span><span class="n">protected_request_payload</span> <span class="o">=</span> <span class="n">protected_endpoint_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">)</span>
+
+
+</code></pre></div><h3 id='response-14'>Response</h3>
+<p>On successful order creation you should receive the newly created order as data on the <code>order_add</code> topic.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+on_order_add: {'result': [{'uuid': '9c8e9a00-a304-11eb-be7d-fc18fda03052', 'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'side': 'buy', 'quantity': 0.02, 'filled': 0, 'averagePrice': 0, 'cancelled': 0, 'price': 53863, 'triggerPrice': 53863, 'marginPerFraction': '26931500000000000000000', 'entryTime': 1619052576672616, 'eventTime': 1619052576672616, 'status': 'open', 'orderType': 'LMT', 'instrument': '1', 'timestamp': 1619052575006805, 'signature': '0x015f2a9a3841cefc6d49e41d82f0f31fee1d6bea8bc77a14aebed36c834040ca70ebd4f94c4f50ca3bd2c93efda5bd36194924be978701d76742f84635bea4221c', 'clientOrderId': 1, 'originator': '0x64bdd35077Ce078aC7B87Cfb381d7F50059BDb16', 'isPostOnly': False, 'quote': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'triggered': False, 'reduceOnly': False}]}
+</code></pre></div>
+<p><a name="futures-websocket-update-order"></a></p>
+<h2 id='connect-via-websocket-2'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-2'>Connect to Leverj socket.io endpoint</h3>
+<p>Connect using one of the socket.io language bindings. 
+An example in Python is included.</p>
+
+<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;connect&quot; event. This would allow you to be alerted on a successful connection to the websocket endpoint.</p>
+
+<p>Use the Leverj host and path to connect to the websocket endpoint.</p>
+
+<p>For kovan testnet the host value is <code>https://kovan.leverj.io</code> and path is <code>/futures/socket.io</code>. For livenet the path is the same but the host changes to <code>https://live.leverj.io</code>.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"connect"</span><span class="p">,</span> <span class="n">on_connect</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
+
+</span></code></pre></div><h3 id='response-15'>Response</h3>
+<p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+connected!
+</code></pre></div>
+<p><a name="futures-websocket-cancel-order"></a></p>
+<h2 id='connect-via-websocket-3'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-3'>Connect to Leverj socket.io endpoint</h3>
+<p>Connect using one of the socket.io language bindings. 
+An example in Python is included.</p>
+
+<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;connect&quot; event. This would allow you to be alerted on a successful connection to the websocket endpoint.</p>
+
+<p>Use the Leverj host and path to connect to the websocket endpoint.</p>
+
+<p>For kovan testnet the host value is <code>https://kovan.leverj.io</code> and path is <code>/futures/socket.io</code>. For livenet the path is the same but the host changes to <code>https://live.leverj.io</code>.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"connect"</span><span class="p">,</span> <span class="n">on_connect</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
+
+</span></code></pre></div><h3 id='response-16'>Response</h3>
+<p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+connected!
+</code></pre></div>
+<p><a name="futures-websocket-order-execution"></a></p>
+<h2 id='connect-via-websocket-4'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-4'>Connect to Leverj socket.io endpoint</h3>
+<p>Connect using one of the socket.io language bindings. 
+An example in Python is included.</p>
+
+<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;connect&quot; event. This would allow you to be alerted on a successful connection to the websocket endpoint.</p>
+
+<p>Use the Leverj host and path to connect to the websocket endpoint.</p>
+
+<p>For kovan testnet the host value is <code>https://kovan.leverj.io</code> and path is <code>/futures/socket.io</code>. For livenet the path is the same but the host changes to <code>https://live.leverj.io</code>.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"connect"</span><span class="p">,</span> <span class="n">on_connect</span><span class="p">)</span>
+<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
+
+</span></code></pre></div><h3 id='response-17'>Response</h3>
+<p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
+<div class="highlight"><pre class="highlight plaintext"><code>**** response ****
+connected!
+</code></pre></div><h1 id='examples-spot'>Examples (Spot)</h1>
 <p>Examples are structured as follows:</p>
 
 <table><thead>
