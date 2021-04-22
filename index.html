@@ -410,10 +410,10 @@
                     <a href="#connect-via-websocket-2" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
                   </li>
                   <li>
-                    <a href="#connect-via-websocket-3" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
+                    <a href="#cancel-order" class="toc-h2 toc-link" data-title="Cancel Order">Cancel Order</a>
                   </li>
                   <li>
-                    <a href="#connect-via-websocket-4" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
+                    <a href="#connect-via-websocket-3" class="toc-h2 toc-link" data-title="Connect via websocket">Connect via websocket</a>
                   </li>
               </ul>
           </li>
@@ -731,7 +731,7 @@ Nonce: &lt;unix_time&gt;
 </tr>
 <tr>
 <td>DELETE</td>
-<td><a href="#futures-websocket-cancel-order">/order/:uuids</a></td>
+<td><a href="#futures-websocket-cancel-order">/order</a></td>
 <td>Delete specified orders</td>
 </tr>
 <tr>
@@ -1659,29 +1659,62 @@ An example in Python is included.</p>
 connected!
 </code></pre></div>
 <p><a name="futures-websocket-cancel-order"></a></p>
-<h2 id='connect-via-websocket-3'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-3'>Connect to Leverj socket.io endpoint</h3>
-<p>Connect using one of the socket.io language bindings. 
-An example in Python is included.</p>
+<h2 id='cancel-order'>Cancel Order</h2><h3 id='create-an-order-cancel-request-and-send-it-via-websocket'>Create an order cancel request and send it via websocket</h3>
+<p>You will need the <code>uuid</code> for the orders you want to cancel. Once you have the <code>uuids</code> of the orders, create a request body with the following payload:</p>
 
-<p>As a first step instantiate a socket.io client. Register an event listener for the &quot;connect&quot; event. This would allow you to be alerted on a successful connection to the websocket endpoint.</p>
+<p>request_body = [{&quot;op&quot;: &quot;remove&quot;, &quot;value&quot;: uuids}]</p>
 
-<p>Use the Leverj host and path to connect to the websocket endpoint.</p>
+<p><code>uuids</code> are in a list. In the example python code there is only 1 element in this list.</p>
 
-<p>For kovan testnet the host value is <code>https://kovan.leverj.io</code> and path is <code>/futures/socket.io</code>. For livenet the path is the same but the host changes to <code>https://live.leverj.io</code>.</p>
-<div class="highlight"><pre class="highlight python tab-python"><code><span class="n">sio</span> <span class="o">=</span> <span class="n">socketio</span><span class="p">.</span><span class="n">Client</span><span class="p">(</span><span class="n">logger</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">engineio_logger</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">sio</span><span class="p">.</span><span class="n">on</span><span class="p">(</span><span class="s">"connect"</span><span class="p">,</span> <span class="n">on_connect</span><span class="p">)</span>
-<span class="n">sio</span><span class="p">.</span><span class="n">connect</span><span class="p">(</span><span class="s">'https://kovan.leverj.io'</span><span class="p">,</span> <span class="n">socketio_path</span><span class="o">=</span><span class="s">'/futures/socket.io'</span><span class="p">)</span>
+<p>Then generate a request dictionary or map as follows:</p>
 
-<span class="k">def</span> <span class="nf">on_connect</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-    <span class="k">print</span><span class="p">(</span><span class="s">'connected!)
+<p>request = {
+        &quot;method&quot;: &quot;PATCH&quot;,
+        &quot;uri&quot;: &quot;/order&quot;,
+        &quot;headers&quot;: {&quot;requestid&quot;: str(uuid.uuid4())},
+        &quot;body&quot;: json.dumps(request_body),
+        &quot;params&quot;: {&quot;instrument&quot;: <instrument_symbol>}
+    }</p>
 
-</span></code></pre></div><h3 id='response-16'>Response</h3>
-<p>If connected successfully, you should see the message &quot;connected!&quot;.</p>
+<p>Format this request using the protected_endpoint_request function in <a href="https://github.com/leverj/leverj-pyclient/blob/develop/leverj/websocket/util.py#L14">leverj.websocket.util.py</a> and then emit the event and data to send an order cancellation request to the server.</p>
+<div class="highlight"><pre class="highlight python tab-python"><code><span class="k">def</span> <span class="nf">cancel_order</span><span class="p">(</span><span class="n">uuids</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">):</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="s">'./resources/config/kovan.leverj.io/c21b18-64bdd3.json'</span><span class="p">)</span>
+    <span class="n">client</span><span class="p">.</span><span class="n">set_api_url</span><span class="p">(</span><span class="s">'https://kovan.leverj.io/futures/api/v1'</span><span class="p">)</span>
+    <span class="n">all_config</span> <span class="o">=</span> <span class="n">client</span><span class="p">.</span><span class="n">get_all_config</span><span class="p">()</span>
+    <span class="n">instruments</span> <span class="o">=</span> <span class="n">all_config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'instruments'</span><span class="p">)</span>
+    <span class="n">BTCDAI_instrument</span> <span class="o">=</span> <span class="n">instruments</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'1'</span><span class="p">)</span>
+    <span class="n">request_body</span> <span class="o">=</span> <span class="p">[{</span><span class="s">"op"</span><span class="p">:</span> <span class="s">"remove"</span><span class="p">,</span> <span class="s">"value"</span><span class="p">:</span> <span class="n">uuids</span><span class="p">}]</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"method"</span><span class="p">:</span> <span class="s">"PATCH"</span><span class="p">,</span>
+        <span class="s">"uri"</span><span class="p">:</span> <span class="s">"/order"</span><span class="p">,</span>
+        <span class="s">"headers"</span><span class="p">:</span> <span class="p">{</span><span class="s">"requestid"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">uuid</span><span class="p">.</span><span class="n">uuid4</span><span class="p">())},</span>
+        <span class="s">"body"</span><span class="p">:</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">request_body</span><span class="p">),</span>
+        <span class="s">"params"</span><span class="p">:</span> <span class="p">{</span><span class="s">"instrument"</span><span class="p">:</span> <span class="n">BTCDAI_instrument</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'symbol'</span><span class="p">)}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">request</span>
+
+
+
+<span class="n">uuids</span> <span class="o">=</span> <span class="p">[</span><span class="s">'9c8e9a00-a304-11eb-be7d-fc18fda03052'</span><span class="p">]</span>
+
+
+<span class="n">request</span> <span class="o">=</span> <span class="n">cancel_order</span><span class="p">(</span><span class="n">uuids</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">)</span>
+
+<span class="c1"># protected_endpoint_request util method adds required signature headers and formats the request
+</span><span class="n">protected_request_payload</span> <span class="o">=</span> <span class="n">protected_endpoint_request</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">originator_credentials</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">protected_request_payload</span><span class="p">)</span>
+
+<span class="c1"># emit from client to the connected websocket
+</span><span class="n">websocket_client</span><span class="p">.</span><span class="n">sio</span><span class="p">.</span><span class="n">emit</span><span class="p">(</span><span class="n">protected_request_payload</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'event'</span><span class="p">),</span> <span class="n">protected_request_payload</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">'data'</span><span class="p">))</span>
+
+
+</code></pre></div><h3 id='response-16'>Response</h3>
+<p>Once the order is cancelled, you will receive a confirmation if you are listening to <code>order_del</code></p>
 <div class="highlight"><pre class="highlight plaintext"><code>**** response ****
-connected!
+on_order_del: {'result': '9c8e9a00-a304-11eb-be7d-fc18fda03052'}
 </code></pre></div>
 <p><a name="futures-websocket-order-execution"></a></p>
-<h2 id='connect-via-websocket-4'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-4'>Connect to Leverj socket.io endpoint</h3>
+<h2 id='connect-via-websocket-3'>Connect via websocket</h2><h3 id='connect-to-leverj-socket-io-endpoint-3'>Connect to Leverj socket.io endpoint</h3>
 <p>Connect using one of the socket.io language bindings. 
 An example in Python is included.</p>
 
