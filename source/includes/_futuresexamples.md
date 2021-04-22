@@ -971,3 +971,29 @@ If connected successfully, you should see the message "connected!".
 **** response ****
 connected!
 ```
+
+<a name="futures-websocket-account-balance"></a>
+## Account Balance
+### Listen to account_balance
+
+Make sure you are listening to `account_balance` after coneecting and registering successfully. 
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.on("account_balance", on_account_balance)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+
+def on_account_balance(self, data):
+    print(f'on_account_balance: {data}')
+
+```
+
+### Response
+
+If listening to `account_balance` you should see the entire set of balances when you receive data on this topic.
+
+```
+**** response ****
+on_account_balance: {'0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x4F96Fe3b7A6Cf9725f59d353F723c1bDb64CA6Aa', 'symbol': 'DAI', 'plasma': '17558903955615588889151', 'available': '17558903955615588889151', 'pending': '0'}, '0x6a4480B1c08A822Fed4b907AD09798ED79312a44': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44', 'symbol': 'USDT', 'plasma': '16507310354', 'available': '16507310354', 'pending': '0'}, '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6': {'accountId': '0xc21b183A8050D1988117B86408655ff974d021A0', 'assetAddress': '0xF9990Bf4FFbc423b8a492771658eAade8A1E72D6', 'symbol': 'L2', 'plasma': '5500000000000000000000', 'available': '5500000000000000000000', 'pending': '0'}}
+```
