@@ -271,9 +271,19 @@ All user specific endpoints require `Authorization` and `Nonce` information. The
 | Method | Endpoint/Topic                        | Description             |
 | ------ | --------------------------------------| ----------------------- |
 | POST   | [/order](#futures-websocket-create-order)   | Create orders           |
-| PUT    | [/order](#futures-websocket-update-order)   | Update Orders           |
 | DELETE | [/order](#futures-websocket-cancel-order)   | Delete specified orders |
-| GET    | [order_execution](#futures-websocket-order-execution) | Order fills             |
+|        | [order_execution](#futures-websocket-order-execution) | Order fills             |
+
+
+Listen to these topics to be notified as you add, update, and delete orders. Also, listen to `order_error`.
+
+|Topic| Description     |
+|-----|-----------------|
+|order_add| Create order|
+|order_update| Update order|
+|order_del| Cancel order|
+|order_error| Order error|
+
 
 ### Position
 
@@ -290,7 +300,6 @@ All user specific endpoints require `Authorization` and `Nonce` information. The
 | Method | Endpoint/Topic                                       | Description             |
 | ------ | -----------------------------------------------------| ----------------------- |
 |        | [account_balance](#futures-websocket-account-balance)| Receive data on account balance           |
-|        | [funds_transfer](#futures-websocket-funds-transfer)| Receive data on funds transfer          |
 
 
 
