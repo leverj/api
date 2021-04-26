@@ -413,7 +413,7 @@ zka.rest.get('/order').then(function(result) {console.log(result)})
 Connect to the socket endpoint and listen on "orderbook".
 A simple code illustration in python and a sample response is provided.
 
-The entire orderbook is returned when listening on this topic. Filter down to the specific instrument as required.
+The entire orderbook is returned when listening on this topic. Filter down to the specific instrument as required. <em>Remember that this feed updates every minute</em> and gives you the entire order book. If you want to fetch this and also listen to order books as soon as there is any chance then listen to `difforderbook` in addition to this topic.
 
 The instruments currently supported are:
 
@@ -547,6 +547,241 @@ def on_orderbook(data):
             'instrument': '4'
         }]
     }
+}
+```
+
+<a name="futures-websocket-difforderbook"></a>
+## Fetch all updates to order book
+### Listen on the topic: 'difforderbook'
+
+Connect to the socket endpoint and listen on "difforderbook".
+A simple code illustration in python and a sample response is provided.
+
+Updates to orderbook are emitted as soon as it occurs. You could use the `orderbook` feed to get snapshots of order books every minute and then use `difforderbook` to listen to every update in the book between updates from the order book feed. Remember, you will only receive the delta. Filter down to the specific instrument as required.
+
+The instruments currently supported are:
+
+* 1 - BTCUSD (DAI)
+* 2 - ETHUSD (DAI)
+* 3 - BTCUSD (USDT)
+* 4 - ETHUSD (USDT)
+* 5 - DEFIUSD (USDT)
+
+
+```python
+sio = socketio.Client(logger=False, engineio_logger=False)
+sio.connect('https://kovan.leverj.io', socketio_path='/futures/socket.io')
+sio.on("difforderbook", on_difforderbook)
+
+def on_difforderbook(data):
+        print(f'difforderbook data: {data}')
+
+```
+
+### Response
+On testnet only the DEFIUSD market maker was quoting so you get `difforderbook` updates as it adjusts the quotes.
+
+```
+{
+    'instrument': '5',
+    'buy': {
+        '490': {
+            'price': 490,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 0,
+            'totalQuantity': 0
+        },
+        '490.5': {
+            'price': 490.5,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 0,
+            'totalQuantity': 0
+        },
+        '489.4': {
+            'price': 489.4,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 1,
+            'totalQuantity': 0.17
+        },
+        '489.5': {
+            'price': 489.5,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 0,
+            'totalQuantity': 0
+        },
+        '489.9': {
+            'price': 489.9,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 1,
+            'totalQuantity': 0.5
+        },
+        '490.4': {
+            'price': 490.4,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 1,
+            'totalQuantity': 1.5
+        }
+    },
+    'sell': {
+        '493': {
+            'price': 493,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 0,
+            'totalQuantity': 0
+        },
+        '492.4': {
+            'price': 492.4,
+            'instrument': {
+                'id': '5',
+                'symbol': 'DEFIUSDT',
+                'name': 'DEFI/USD (USDT)',
+                'status': 'active',
+                'tickSize': 0.1,
+                'quoteSignificantDigits': 1,
+                'baseSignificantDigits': 2,
+                'baseSymbol': 'DEFI',
+                'quoteSymbol': 'USDT',
+                'maxLeverage': 50,
+                'topic': 'index_DEFI',
+                'quote': {
+                    'name': 'USDT',
+                    'address': '0x6a4480B1c08A822Fed4b907AD09798ED79312a44',
+                    'symbol': 'USDT',
+                    'decimals': 6
+                }
+            },
+            'numberOfOrders': 1,
+            'totalQuantity': 1.5
+        }
+    },
+    'bid': 490.4,
+    'ask': 492.4
 }
 ```
 

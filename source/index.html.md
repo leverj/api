@@ -257,10 +257,11 @@ Look at the `protected_endpoint_request` function in <a href="https://github.com
 Unprotected endpoints do not require `Authorization`.
 
 ### Market Data
-| Method | Topic                                       | Description      |
-| ------ | ------------------------------------------- | ---------------- |
-| GET    | [orderbook](#futures-websocket-orderbook)   | Fetch order book |
-| GET    | [index](#futures-websocket-index)           | Fetch indices    |
+| Method | Action                                            | Description                           |
+| ------ | ------------------------------------------------- | ------------------------------------- |
+|        | [orderbook](#futures-websocket-orderbook)         | Order book data, updated every minute |
+|        | [difforderbook](#futures-websocket-difforderbook) | Get change in order book              |
+|        | [index](#futures-websocket-index)                 | Fetch indices                         |
 
 
 ## Protected Websocket Endpoints
@@ -268,38 +269,38 @@ All user specific endpoints require `Authorization` and `Nonce` information. The
 
 ### Order
 
-| Method | Endpoint/Topic                        | Description             |
-| ------ | --------------------------------------| ----------------------- |
-| POST   | [/order](#futures-websocket-create-order)   | Create orders           |
-| DELETE | [/order](#futures-websocket-cancel-order)   | Delete specified orders |
+| Method | Endpoint/Topic                                        | Description             |
+| ------ | ----------------------------------------------------- | ----------------------- |
+| POST   | [/order](#futures-websocket-create-order)             | Create orders           |
+| DELETE | [/order](#futures-websocket-cancel-order)             | Delete specified orders |
 |        | [order_execution](#futures-websocket-order-execution) | Order fills             |
 
 
 Listen to these topics to be notified as you add, update, and delete orders. Also, listen to `order_error`.
 
-|Topic| Description     |
-|-----|-----------------|
-|order_add| Create order|
-|order_update| Update order|
-|order_del| Cancel order|
-|order_error| Order error|
+| Topic        | Description  |
+| ------------ | ------------ |
+| order_add    | Create order |
+| order_update | Update order |
+| order_del    | Cancel order |
+| order_error  | Order error  |
 
 
 ### Position
 
-| Method | Endpoint/Topic                               | Description         |
-| ------ | ---------------------------------------------| ------------------- |
-|        | [position](#futures-websocket-position)      | Position updates    |
-|        | [liquidation](#futures-websocket-liquidation)| Liquidation updates |
-|        | [adl](#futures-websocket-adl)                | ADL updates         |
+| Method | Endpoint/Topic                                | Description         |
+| ------ | --------------------------------------------- | ------------------- |
+|        | [position](#futures-websocket-position)       | Position updates    |
+|        | [liquidation](#futures-websocket-liquidation) | Liquidation updates |
+|        | [adl](#futures-websocket-adl)                 | ADL updates         |
 
 
 
 ### Account
 
-| Method | Endpoint/Topic                                       | Description             |
-| ------ | -----------------------------------------------------| ----------------------- |
-|        | [account_balance](#futures-websocket-account-balance)| Receive data on account balance           |
+| Method | Endpoint/Topic                                        | Description                     |
+| ------ | ----------------------------------------------------- | ------------------------------- |
+|        | [account_balance](#futures-websocket-account-balance) | Receive data on account balance |
 
 
 
